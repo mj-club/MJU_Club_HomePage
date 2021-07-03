@@ -14,8 +14,8 @@ function LoginForm() {
       <form className="login-form">
         <div className="inputs">
           <span class="add-on"><FontAwesomeIcon id='user-icon' icon={faUser}/></span>
-          <input id="id" placeholder="아이디"></input>
-          <input id="pw" placeholder="비밀번호"></input>
+          <input id="id" type="text" placeholder="아이디"></input>
+          <input id="pw" type="password" placeholder="비밀번호"></input>
         </div>
         <button type="submit">로그인</button>
         <button>카카오 로그인</button>
