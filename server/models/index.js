@@ -7,6 +7,10 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.json")[env];
 const User = require("./user");
+const Comment = require("./comment");
+const Club_post = require("./club_post");
+const Club_info = require("./club_info");
+const Club_member = require("./club_member");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -51,7 +55,17 @@ db.sequelize = sequelize;
 // db.Sequelize = Sequelize;
 
 db.User = User;
+db.Comment = Comment;
+db.Club_post = Club_post;
+db.Club_info = Club_member;
+db.Club_member = Club_member;
+
 User.init(sequelize);
+Comment.init(sequelize);
+Club_post.init(sequelize);
+Club_info.init(sequelize);
+Club_member.init(sequelize);
 // User.associate(db);
+
 
 module.exports = db;
