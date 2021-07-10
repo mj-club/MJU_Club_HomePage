@@ -1,0 +1,18 @@
+.Footer{
+  width: 100%;
+  background-color: rgb(221, 225, 226);
+  height: 100px;
+  margin:0 auto; 
+  text-align:center;
+  font-size: 10px;
+  line-height: 33px;
+  color: black;
+  font-size: large;
+}
+
+.spanstyle{
+  color: coral;
+  width: 300px;
+  display: inline-block;
+}
+
