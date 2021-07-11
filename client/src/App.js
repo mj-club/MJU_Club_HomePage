@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import './main.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Navigationbar from './components/Navbar/Navbar';
 import Routes from "./components/Router";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {
   BrowserView,

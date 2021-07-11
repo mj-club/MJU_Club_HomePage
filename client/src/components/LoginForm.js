@@ -1,5 +1,5 @@
 import React from "react";
-import "./LoginForm.css";
+import "../style/LoginForm.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faCircle, faUnlockAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 

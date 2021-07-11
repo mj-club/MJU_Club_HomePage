@@ -1,7 +1,7 @@
 import React from "react";
 import {isMobile} from "react-device-detect";
 import LoginForm from '../components/LoginForm'
-import './Login.css'
+import '../style/Login.css'
 
 function Login() {
   // AppBar

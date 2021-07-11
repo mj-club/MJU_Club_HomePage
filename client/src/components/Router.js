@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Navigationbar from './Navbar/Navbar';
-import About from '../pages/about';
+import Navigationbar from './Navbar';
+import About from '../routes/About';
 import Login from '../routes/Login';
 import Home from '../routes/Home';
 
@@ -11,6 +11,7 @@ export default () => (
         <Navigationbar />
         <Switch>
             <Route path="/" exact={true} component={Home} />
+            <Route path="/about" component={About} />
             <Route path="/login" component={Login} />
         </Switch>
     </Router>
