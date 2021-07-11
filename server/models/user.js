@@ -5,33 +5,53 @@ module.exports = class User extends Sequelize.Model {
     return super.init(
       {
         email: {
-          type: Sequelize.STRING(40),
+          type: Sequelize.STRING(45),
           allowNull: true,
           unique: true,
         },
-        nick: {
-          type: Sequelize.STRING(15),
+        name: {
+          type: Sequelize.STRING(45),
           allowNull: false,
         },
         password: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        ph_number: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        sex: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        department: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        school_year: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        school_id: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        auth_lv: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        major: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
         },
         provider: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(45),
           allowNull: false,
           defaultValue: "local",
         },
-        snsId: {
-          type: Sequelize.STRING(30),
-          allowNull: true,
-        },
         profile_img: {
-          type: Sequelize.STRING(200),
-          allowNull: true,
-        },
-        introduction: {
-          type: Sequelize.STRING(140),
+          type: Sequelize.STRING(45),
           allowNull: true,
         },
       },
@@ -49,16 +69,14 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    // db.User.hasMany(db.Post);
-    // db.User.belongsToMany(db.User, {
-    //   foreignKey: "followingId",
-    //   as: "Followers",
-    //   through: "Follow",
-    // });
-    // db.User.belongsToMany(db.User, {
-    //   foreignKey: "followerId",
-    //   as: "Followings",
-    //   through: "Follow",
-    // });
+    db.User.hasMany(db.Club_post);
+    db.User.hasMany(db.Club_member);
+    db.User.hasMany(db.Club_post_comment);
+    db.User.hasMany(db.Thumb);
+    db.User.hasMany(db.Club_union_post);
+    db.User.hasMany(db.Club_union_post_comment);
+    db.User.hasMany(db.Event_info);
+    db.User.hasMany(db.Rental_apply);
+    db.User.hasMany(db.Petition_Post);
   }
 };

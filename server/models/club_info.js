@@ -6,7 +6,7 @@ module.exports = class Comment extends Sequelize.Model {
       {
         name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         introdution: {
           type: Sequelize.TEXT,
@@ -17,7 +17,7 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         contact_number: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING(45),
           allowNull: false,
         },
         sns: {
@@ -25,7 +25,7 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         infomation: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(45),
           allowNull: false,
         },
       }, {
