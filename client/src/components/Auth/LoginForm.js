@@ -41,8 +41,8 @@ function LoginForm() {
           <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
               <div className="fa-layers">
-                <FontAwesomeIcon icon={faCircle} color="#F1C40F" size="5x" transform="up-8 left-5" />
-                <FontAwesomeIcon icon={faUnlockAlt} inverse size="5x" transform="shrink-6 up-8 left-4" />
+                <FontAwesomeIcon icon={faCircle} color="#F1C40F" size="4x" transform="up-8 left-5" />
+                <FontAwesomeIcon icon={faUnlockAlt} inverse size="4x" transform="shrink-6 up-8 left-4" />
               </div>
               <div className="form-title">로그인</div>
               {/* 이메일로바꾸기 */}
@@ -51,7 +51,7 @@ function LoginForm() {
                   <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                       <InputGroup.Text className="addon">
-                        <FontAwesomeIcon icon={faUser} color="gray" fixedWidth size="2x" transform="shrink-4" />
+                        <FontAwesomeIcon icon={faUser} color="gray" fixedWidth  />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
@@ -64,7 +64,7 @@ function LoginForm() {
                   <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                       <InputGroup.Text className="addon">
-                        <FontAwesomeIcon icon={faKey} color="gray" fixedWidth size="2x" transform="shrink-4" />
+                        <FontAwesomeIcon icon={faKey} color="gray" fixedWidth  />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl
@@ -74,10 +74,10 @@ function LoginForm() {
                 </Form.Group>
 
                 <div className="d-grid gap-2">
-                  <Button variant="warning" type="submit" size="lg">
+                  <Button variant="warning" type="submit" >
                     로그인
                   </Button>
-                  <Button variant="warning" size="lg">
+                  <Button variant="warning" >
                     카카오 로그인
                   </Button>
                 </div>
