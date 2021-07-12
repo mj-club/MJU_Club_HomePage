@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+import React from "react";
+import "../style/LoginForm.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faCircle, faUnlockAlt, faUser} from "@fortawesome/free-solid-svg-icons";
+=======
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./LoginForm.css";
@@ -7,6 +13,7 @@ import {
   faUnlockAlt,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+>>>>>>> 3499e76df2451bf416d3847f13e85289e43f91c5
 
 function LoginForm() {
   return (

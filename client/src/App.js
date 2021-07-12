@@ -1,13 +1,10 @@
-import React from "react";
+import React from 'react';
+import './main.scss';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Routes from "./components/Router";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-// import Home from './pages';
-import About from "./pages/about";
-// import logo from "./logo.svg";
-import Login from "./routes/Login";
-import Home from "./routes/Home";
-import Footer from "./components/Footer/Footer";
+
 
 import {
   BrowserView,
@@ -15,18 +12,11 @@ import {
   // isBrowser,
   // isMobile
 } from "react-device-detect";
+import { Fragment } from 'react';
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/about" exact component={About} />
-        <Route path="/login" component={Login} />
-      </Switch>
-      <Footer />
-    </Router>
+    <Routes />
   );
 }
 
