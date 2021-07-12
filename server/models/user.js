@@ -6,21 +6,47 @@ module.exports = class User extends Sequelize.Model {
       {
         email: {
           type: Sequelize.STRING(40),
-          allowNull: true,
-          unique: true,
-        },
-        nick: {
-          type: Sequelize.STRING(15),
           allowNull: false,
+          unique: true,
         },
         password: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
+        name: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+        },
         provider: {
           type: Sequelize.STRING(10),
           allowNull: false,
           defaultValue: "local",
+        },
+        ph_number: {
+          type: Sequelize.STRING(11),
+          allowNull: false,
+        },
+        sex: {
+          type: Sequelize.STRING(5),
+          allowNull: false,
+        },
+        department: {
+          type: Sequelize.STRING(20),
+          allowNull: true,
+        },
+        major: {
+          type: Sequelize.STRING(20),
+          allowNull: true,
+        },
+        school_year: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+        },
+        student_id: {
+          type: Sequelize.STRING(10),
+        },
+        permission: {
+          type: Sequelize.INTEGER,
         },
         snsId: {
           type: Sequelize.STRING(30),
@@ -49,16 +75,13 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    // db.User.hasMany(db.Post);
-    // db.User.belongsToMany(db.User, {
-    //   foreignKey: "followingId",
-    //   as: "Followers",
-    //   through: "Follow",
-    // });
-    // db.User.belongsToMany(db.User, {
-    //   foreignKey: "followerId",
-    //   as: "Followings",
-    //   through: "Follow",
-    // });
+    // User - ClubInfo (m:n)
+    db.User.belongsToMany(db.ClubInfo, { through: db.ClubMember });
+
+    // User - ClubPostComment (1:n)
+    db.User.hasMany(db.ClubPostComment, {
+      foreignKey: "writer_id",
+      sourceKey: "id",
+    });
   }
 };

@@ -1,18 +1,22 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubMember extends Sequelize.Model {
+module.exports = class AffiliateMap extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        position: {
+        map_name: {
           type: Sequelize.STRING(45),
+          allowNull: true,
+        },
+        map_content: {
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
       },
       {
         sequelize,
-        modelName: "ClubMember",
-        tableName: "club_members",
+        modelName: "AffiliateMap",
+        tableName: "affiliate_map",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -21,4 +25,6 @@ module.exports = class ClubMember extends Sequelize.Model {
       }
     );
   }
+
+  static associate(db) {}
 };

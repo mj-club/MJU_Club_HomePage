@@ -7,6 +7,7 @@ import About from "./pages/about";
 // import logo from "./logo.svg";
 import Login from "./routes/Login";
 import Home from "./routes/Home";
+import Footer from "./components/Footer/Footer";
 
 import {
   BrowserView,
@@ -24,6 +25,7 @@ function App() {
         <Route path="/about" exact component={About} />
         <Route path="/login" component={Login} />
       </Switch>
+      <Footer />
     </Router>
   );
 }

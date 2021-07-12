@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class ClubInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -17,7 +17,7 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         contact_number: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING(45),
           allowNull: false,
         },
         sns: {
@@ -25,20 +25,31 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         infomation: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.TEXT,
           allowNull: false,
         },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Club_info",
+        modelName: "ClubInfo",
         tableName: "club_info",
-        paranoid: true,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        timestamp: true,
+        underscored: true,
+        paranoid: false,
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // ClubInfo - User (n:m)
+    db.ClubInfo.belongsToMany(db.User, { through: db.ClubMember });
+
+    // ClubInfo - ClubPost (1:n)
+    db.ClubInfo.hasMany(db.ClubPost, {
+      foreignKey: "writer_id",
+      sourceKey: "id",
+    });
+  }
 };

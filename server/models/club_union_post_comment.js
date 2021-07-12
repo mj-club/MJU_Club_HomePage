@@ -1,18 +1,18 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubMember extends Sequelize.Model {
+module.exports = class ClubUnionPostComment extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        position: {
-          type: Sequelize.STRING(45),
+        content: {
+          type: Sequelize.TEXT,
           allowNull: true,
         },
       },
       {
         sequelize,
-        modelName: "ClubMember",
-        tableName: "club_members",
+        modelName: "ClubUnionPostComment",
+        tableName: "club_union_post_comment",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -21,4 +21,6 @@ module.exports = class ClubMember extends Sequelize.Model {
       }
     );
   }
+
+  static associate(db) {}
 };
