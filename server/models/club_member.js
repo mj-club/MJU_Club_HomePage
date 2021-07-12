@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class ClubMember extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -8,17 +8,17 @@ module.exports = class Comment extends Sequelize.Model {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Club_member",
+        modelName: "ClubMember",
         tableName: "club_members",
-        paranoid: true,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        timestamp: true,
+        underscored: true,
+        paranoid: false,
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
-
-  static associate(db) {}
 };

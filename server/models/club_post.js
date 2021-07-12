@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class ClubPost extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -17,36 +17,41 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         content: {
-          type: Sequelize.STRING('long'),
+          type: Sequelize.TEXT,
           allowNull: true,
         },
         set_top: {
           type: Sequelize.BOOLEAN,
-          allowNull: false,
-        },
+          allowNull: true,
         visit_count: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        created_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-        edited_at: {
-          type: Sequelize.DATE,
-          allowNull: true,
-        },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Club_post",
+        modelName: "ClubPost",
         tableName: "club_posts",
+        timestamp: true,
+        underscored: true,
         paranoid: false,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // ClubPost - ClubInfo (n:1)
+    db.ClubPost.belongsTo(db.ClubInfo, {
+      foreignKey: "writer_id",
+      targetKey: "id",
+    });
+
+    // ClubPost - ClubPostComment (1:n)
+    db.ClubPost.hasMany(db.ClubPostComment, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
+  }
 };

@@ -1,34 +1,38 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class ClubPostComment extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
         content: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
+          type: Sequelize.TEXT,
+          allowNull: true,
         },
-        created_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-        edited_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Club_post_comment",
-        tableName: "club_post_comments",
+        modelName: "ClubPostComment",
+        tableName: "club_post_comment",
+        timestamp: true,
+        underscored: true,
         paranoid: false,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
   static associate(db) {
-    
+    // ClubPostComment - User (n:1)
+    db.ClubPostComment.belongsTo(db.User, {
+      foreignKey: "writer_id",
+      targetKey: "id",
+    });
+
+    // ClubPostComment - ClubPost (n:1)
+    db.ClubPostComment.belongsTo(db.ClubPost, {
+      foreignKey: "post_id",
+      targetKey: "id",
+    });
   }
 };

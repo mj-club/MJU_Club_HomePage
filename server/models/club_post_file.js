@@ -1,40 +1,36 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubUnionInfo extends Sequelize.Model {
+module.exports = class ClubPostFile extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        name: {
+        origin_name: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        slogan: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        representative: {
+        file_name: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        deputy_representative: {
+        file_dir: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        organization_chart: {
-          type: Sequelize.STRING(200),
+        content_type: {
+          type: Sequelize.STRING(45),
           allowNull: true,
         },
-        logo: {
-          type: Sequelize.STRING(200),
+        file_size: {
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
       },
       {
         sequelize,
+        modelName: "ClubPostFile",
+        tableName: "club_post_file",
         timestamp: true,
         underscored: true,
-        modelName: "Club_post",
-        tableName: "club_posts",
         paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_unicode_ci",

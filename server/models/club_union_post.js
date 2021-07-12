@@ -1,54 +1,46 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class ClubUnionPost extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        category_no: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
         title: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
+          type: Sequelize.STRING(100),
+          allowNull: true,
         },
-        content: {
-          type: Sequelize.TEXT('long'),
-          allowNull: false,
+        category: {
+          type: Sequelize.STRING(45),
+          allowNull: true,
         },
         limited_content: {
           type: Sequelize.STRING(45),
-          allowNull: false,
+          allowNull: true,
+        },
+        content: {
+          type: Sequelize.TEXT,
+          allowNull: true,
         },
         set_top: {
           type: Sequelize.BOOLEAN,
-          allowNull: false,
-        },
-        created_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-        edited_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
+          allowNull: true,
         },
         visit_count: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Club_union_post",
-        tableName: "club_union_posts",
+        modelName: "ClubUnionPost",
+        tableName: "club_union_post",
+        timestamp: true,
+        underscored: true,
         paranoid: false,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
-  static associate(db) {
-    // db.Comment.belongsTo(db.User, {foreignKey: "commenter", targetkey: "id"});
-  }
+  static associate(db) {}
 };
