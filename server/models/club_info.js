@@ -6,7 +6,7 @@ module.exports = class ClubInfo extends Sequelize.Model {
       {
         name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         introdution: {
           type: Sequelize.TEXT,
