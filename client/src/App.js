@@ -2,9 +2,10 @@ import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 // import Home from './pages';
 import About from './pages/about';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import Login from './routes/Login';
 import Home from './routes/Home';
 
@@ -17,10 +18,11 @@ import {
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Route path="/" exact={true} component={Home} />
       <Route path="/login" component={Login} />
-    </BrowserRouter>
+    </Router>
+    
 //     <Router>
 //       <Navbar />
 //       <Switch>
