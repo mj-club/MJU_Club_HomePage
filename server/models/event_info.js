@@ -1,31 +1,43 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubUnionPost extends Sequelize.Model {
+module.exports = class EventInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        title: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        category: {
+        event_name: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        limited_content: {
+        event_target: {
+          type: Sequelize.STRING(45),
+          allowNull: true,
+        },
+        title: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
         content: {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        event_term: {
+          type: Sequelize.STRING(45),
+          allowNull: true,
+        },
+        event_start: {
           type: Sequelize.DATE,
           allowNull: true,
         },
-        set_top: {
-          type: Sequelize.BOOLEAN,
+        event_end: {
+          type: Sequelize.DATE,
           allowNull: true,
         },
-        visit_count: {
-          type: Sequelize.INTEGER,
+        event_link: {
+          type: Sequelize.STRING(45),
+          allowNull: true,
+        },
+        event_img: {
+          type: Sequelize.STRING(45),
           allowNull: true,
         },
       },

@@ -1,15 +1,11 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class RentalApply extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        rental_name: {
+        room_name: {
           type: Sequelize.STRING(45),
-          allowNull: false,
-        },
-        rental_state: {
-          type: Sequelize.INTEGER,
           allowNull: false,
         },
         rental_date: {
@@ -17,7 +13,7 @@ module.exports = class Comment extends Sequelize.Model {
           allowNull: false,
         },
         rental_time: {
-          type: Sequelize.DATE,
+          type: Sequelize.TIME,
           allowNull: false,
         },
         rep_member_name: {
@@ -28,19 +24,29 @@ module.exports = class Comment extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-      }, {
+        apply_state: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Rental_apply",
-        tableName: "rental_applies",
+        modelName: "RentalApply",
+        tableName: "rental_apply",
+        timestamp: true,
+        underscored: true,
         paranoid: false,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
   static associate(db) {
-    db.Comment.belongsTo(db.Rental_info, {foreignKey: "userId"});
+    // RentalApply - RentalInfo (n:1)
+    db.RentalApply.belongsTo(db.RentalInfo, {
+      foreignKey: "room_id",
+      targetKey: "id",
+    });
   }
 };

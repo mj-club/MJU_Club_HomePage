@@ -1,52 +1,40 @@
 const Sequelize = require("sequelize");
 
-module.exports = class Comment extends Sequelize.Model {
+module.exports = class PetitionPost extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
         title: {
-          type: Sequelize.STRING(255),
-          allowNull: false,
-        },
-        limited_content: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
         content: {
-          type: Sequelize.STRING('long'),
-          allowNull: true,
-        },
-        set_top: {
-          type: Sequelize.BOOLEAN,
-          allowNull: true,
-        },
-        visit_count: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-        },
-        created_at: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-        edited_at: {
-          type: Sequelize.DATE,
+          type: Sequelize.TEXT,
           allowNull: true,
         },
         password: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
+          type: Sequelize.STRING(45),
+          allowNull: true,
         },
-      }, {
+      },
+      {
         sequelize,
-        timestamp: false,
-        modelName: "Petition_post",
-        tableName: "petition_posts",
+        modelName: "PetitionPost",
+        tableName: "petition_post",
+        timestamp: true,
+        underscored: true,
         paranoid: false,
-        charset: "utf8",
-        collate: "utf8_general_ci",
+        charset: "utf8mb4",
+        collate: "utf8mb4_unicode_ci",
       }
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // PetitionPost - User (n:1)
+    db.PetitionPost.belongsTo(db.User, {
+      foreignKey: "user_id",
+      targetKey: "id",
+    });
+  }
 };

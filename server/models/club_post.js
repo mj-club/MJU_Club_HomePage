@@ -23,6 +23,7 @@ module.exports = class ClubPost extends Sequelize.Model {
         set_top: {
           type: Sequelize.BOOLEAN,
           allowNull: true,
+        },
         visit_count: {
           type: Sequelize.INTEGER,
           allowNull: false,
@@ -42,14 +43,29 @@ module.exports = class ClubPost extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubPost - ClubInfo (n:1)
-    db.ClubPost.belongsTo(db.ClubInfo, {
+    // ClubPost - User (n:1)
+    db.ClubPost.belongsTo(db.User, {
       foreignKey: "writer_id",
       targetKey: "id",
     });
 
+    // ClubPost - ClubInfo (n:1)
+    db.ClubPost.belongsTo(db.ClubInfo, {
+      foreignKey: "club_id",
+      targetKey: "id",
+    });
+
+    // ClubPost - thumb - User (n:m)
+    db.ClubPost.belongsToMany(db.User, { through: db.Thumb });
+
     // ClubPost - ClubPostComment (1:n)
     db.ClubPost.hasMany(db.ClubPostComment, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
+
+    // ClubPost - ClubPostFile (1:n)
+    db.ClubPost.hasMany(db.ClubPostFile, {
       foreignKey: "post_id",
       sourceKey: "id",
     });
