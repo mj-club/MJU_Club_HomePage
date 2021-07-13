@@ -1,0 +1,26 @@
+.Footer{
+  width: 100%;
+  background-color: rgb(221, 225, 226);
+  height: auto;
+  margin:0 auto; 
+  text-align:center;
+  font-size: auto;
+  color: black;
+  font-size: large;
+
+}
+
+.spanstyle{
+  color: coral;
+  width: 300px;
+  display: inline-block;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex_item {
+  margin-top: auto;
+}
