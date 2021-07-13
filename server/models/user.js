@@ -5,59 +5,59 @@ module.exports = class User extends Sequelize.Model {
     return super.init(
       {
         email: {
-          type: Sequelize.STRING(40),
+          type: Sequelize.STRING(45),
+          allowNull: true,
+          unique: true,
+        },
+        name: {
+          type: Sequelize.STRING(45),
+
           allowNull: false,
           unique: true,
         },
         password: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        ph_number: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        sex: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        department: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        school_year: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        school_id: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
+        auth_lv: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        major: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
         },
         name: {
           type: Sequelize.STRING(15),
           allowNull: false,
         },
         provider: {
-          type: Sequelize.STRING(10),
+          type: Sequelize.STRING(45),
           allowNull: false,
           defaultValue: "local",
         },
-        ph_number: {
-          type: Sequelize.STRING(11),
-          allowNull: false,
-        },
-        sex: {
-          type: Sequelize.STRING(5),
-          allowNull: false,
-        },
-        department: {
-          type: Sequelize.STRING(20),
-          allowNull: true,
-        },
-        major: {
-          type: Sequelize.STRING(20),
-          allowNull: true,
-        },
-        school_year: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-        },
-        student_id: {
-          type: Sequelize.STRING(10),
-        },
-        permission: {
-          type: Sequelize.INTEGER,
-        },
-        snsId: {
-          type: Sequelize.STRING(30),
-          allowNull: true,
-        },
         profile_img: {
-          type: Sequelize.STRING(200),
-          allowNull: true,
-        },
-        introduction: {
-          type: Sequelize.STRING(140),
+          type: Sequelize.STRING(45),
           allowNull: true,
         },
       },
@@ -92,11 +92,23 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: "writer_id",
       sourceKey: "id",
     });
+<<<<<<< HEAD
 
     // User - PetitionPost (1:n)
     db.User.hasMany(db.PetitionPost, {
       foreignKey: "user_id",
       sourceKey: "id",
     });
+=======
+//     db.User.hasMany(db.Club_post);
+//     db.User.hasMany(db.Club_member);
+//     db.User.hasMany(db.Club_post_comment);
+//     db.User.hasMany(db.Thumb);
+//     db.User.hasMany(db.Club_union_post);
+//     db.User.hasMany(db.Club_union_post_comment);
+//     db.User.hasMany(db.Event_info);
+//     db.User.hasMany(db.Rental_apply);
+//     db.User.hasMany(db.Petition_Post);
+>>>>>>> 110f9366e249d843481114fcb8cf24c767da31c0
   }
 };

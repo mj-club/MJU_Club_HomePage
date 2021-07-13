@@ -5,16 +5,16 @@ module.exports = class ClubPost extends Sequelize.Model {
     return super.init(
       {
         title: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
+          type: Sequelize.STRING(255),
+          allowNull: false,
         },
-        category: {
-          type: Sequelize.STRING(45),
-          allowNull: true,
+        category_no: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
         },
         limited_content: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         content: {
           type: Sequelize.TEXT,
@@ -26,7 +26,7 @@ module.exports = class ClubPost extends Sequelize.Model {
         },
         visit_count: {
           type: Sequelize.INTEGER,
-          allowNull: true,
+          allowNull: false,
         },
       },
       {
