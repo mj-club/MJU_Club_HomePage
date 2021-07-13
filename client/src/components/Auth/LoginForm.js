@@ -54,9 +54,7 @@ function LoginForm() {
                         <FontAwesomeIcon icon={faUser} color="gray" fixedWidth  />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl
-                      placeholder="이메일"
-                    />
+                    <FormControl type="email" placeholder="이메일"/>
                   </InputGroup>
                 </Form.Group>
 
@@ -67,9 +65,7 @@ function LoginForm() {
                         <FontAwesomeIcon icon={faKey} color="gray" fixedWidth  />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl
-                      placeholder="비밀번호"
-                    />
+                    <FormControl type="password" placeholder="비밀번호"/>
                   </InputGroup>
                 </Form.Group>
 
@@ -84,10 +80,10 @@ function LoginForm() {
               </Form>
               <Row>
                 <Col>
-                  <Card.Link href="#" id="join" >회원가입</Card.Link>
+                  <Card.Link href="/join" id="join" >회원가입</Card.Link>
                 </Col>
                 <Col>
-                  <Card.Link href="#" id="find">ID/PW찾기</Card.Link>
+                  <Card.Link href="/findIdPw" id="find">ID/PW찾기</Card.Link>
                 </Col>
               </Row>
             </Col>
