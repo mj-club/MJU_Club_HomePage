@@ -1,26 +1,26 @@
 const Sequelize = require("sequelize");
 
-module.exports = class RentalInfo extends Sequelize.Model {
+module.exports = class ClubUnionMember extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        room_name: {
+        member_name: {
           type: Sequelize.STRING(45),
-          allowNull: false,
+          allowNull: true,
         },
-        rental_state: {
+        member_position: {
           type: Sequelize.STRING(45),
-          allowNull: false,
+          allowNull: true,
         },
-        room_img: {
+        member_division: {
           type: Sequelize.STRING(45),
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
         sequelize,
-        modelName: "RentalInfo",
-        tableName: "rental_info",
+        modelName: "ClubUnionMember",
+        tableName: "club_union_member",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -31,10 +31,10 @@ module.exports = class RentalInfo extends Sequelize.Model {
   }
 
   static associate(db) {
-    // RentalInfo - RentalApply (1:n)
-    db.RentalInfo.hasMany(db.RentalApply, {
-      foreignKey: "room_id",
-      sourceKey: "id",
+    // ClubUnionMember - ClubUnionInfo (n:1)
+    db.ClubUnionMember.belongsTo(db.ClubUnionInfo, {
+      foreignKey: "club_union_id",
+      targetKey: "id",
     });
   }
 };

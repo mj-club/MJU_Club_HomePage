@@ -42,5 +42,11 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // ClubUnionInfo - ClubUnionMember (1:n)
+    db.ClubUnionInfo.hasMany(db.ClubUnionMember, {
+      foreignKey: "club_union_id",
+      sourceKey: "id",
+    });
+  }
 };

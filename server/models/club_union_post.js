@@ -42,5 +42,23 @@ module.exports = class ClubUnionPost extends Sequelize.Model {
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // ClubUnionPost - User (n:1)
+    db.ClubUnionPost.belongsTo(db.User, {
+      foreignKey: "writer_id",
+      targetKey: "id",
+    });
+
+    // ClubUnionPost - ClubUnionPostComment (1:n)
+    db.ClubUnionPost.hasMany(db.ClubUnionPostComment, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
+
+    // ClubUnionPost - ClubUnionPostFile (1:n)
+    db.ClubUnionPost.hasMany(db.ClubUnionPostFile, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
+  }
 };
