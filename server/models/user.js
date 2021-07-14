@@ -92,23 +92,20 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: "writer_id",
       sourceKey: "id",
     });
-<<<<<<< HEAD
 
     // User - PetitionPost (1:n)
     db.User.hasMany(db.PetitionPost, {
       foreignKey: "user_id",
       sourceKey: "id",
     });
-=======
-//     db.User.hasMany(db.Club_post);
-//     db.User.hasMany(db.Club_member);
-//     db.User.hasMany(db.Club_post_comment);
-//     db.User.hasMany(db.Thumb);
-//     db.User.hasMany(db.Club_union_post);
-//     db.User.hasMany(db.Club_union_post_comment);
-//     db.User.hasMany(db.Event_info);
-//     db.User.hasMany(db.Rental_apply);
-//     db.User.hasMany(db.Petition_Post);
->>>>>>> 110f9366e249d843481114fcb8cf24c767da31c0
+    //     db.User.hasMany(db.Club_post);
+    //     db.User.hasMany(db.Club_member);
+    //     db.User.hasMany(db.Club_post_comment);
+    //     db.User.hasMany(db.Thumb);
+    //     db.User.hasMany(db.Club_union_post);
+    //     db.User.hasMany(db.Club_union_post_comment);
+    //     db.User.hasMany(db.Event_info);
+    //     db.User.hasMany(db.Rental_apply);
+    //     db.User.hasMany(db.Petition_Post);
   }
 };
