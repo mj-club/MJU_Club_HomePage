@@ -22,9 +22,10 @@ module.exports = () => {
             const newUser = await User.create({
               email: profile._json && profile._json.kakao_account.email,
               name: profile.displayName,
+              snsId: profile.id,
               profile_img:
                 profile._json.kakao_account.profile.profile_image_url,
-              permission: 0,
+              auth_lv: 0,
               provider: "kakao",
             });
             done(null, newUser);
