@@ -6,7 +6,7 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
       {
         name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         slogan: {
           type: Sequelize.STRING(100),
@@ -26,6 +26,10 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
         },
         logo: {
           type: Sequelize.STRING(200),
+          allowNull: true,
+        },
+        th: {
+          type: Sequelize.INTEGER,
           allowNull: true,
         },
       },
