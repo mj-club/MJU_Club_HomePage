@@ -6,27 +6,31 @@ module.exports = class ClubUnionPost extends Sequelize.Model {
       {
         title: {
           type: Sequelize.STRING(100),
-          allowNull: true,
+          allowNull: false,
         },
         category: {
-          type: Sequelize.STRING(45),
-          allowNull: true,
+          type: Sequelize.STRING(45), // 공지사항, 문의게시판, 동아리제출서류게시판
+          allowNull: false,
         },
-        limited_content: {
-          type: Sequelize.STRING(45),
+        thumbnail: {
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
         content: {
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        set_top: {
+        set_top: { // 상단 고정 여부
           type: Sequelize.BOOLEAN,
           allowNull: true,
         },
         visit_count: {
           type: Sequelize.INTEGER,
           allowNull: true,
+        },
+        comment_count: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
         },
       },
       {

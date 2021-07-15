@@ -6,15 +6,15 @@ module.exports = class EventInfo extends Sequelize.Model {
       {
         event_name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         event_target: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         title: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         content: {
           type: Sequelize.TEXT,
