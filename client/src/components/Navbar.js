@@ -17,8 +17,11 @@ import {
   NavbarText
 } from 'reactstrap';
 
+import { useHistory } from "react-router-dom";
+
 const Navigationbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const history = useHistory();
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -70,7 +73,7 @@ const Navigationbar = (props) => {
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <Button color="warning">Sign up</Button>{' '}
+          <Button color="warning" onClick={()=>{history.push("/login")}}>Sign up</Button>{' '}
         </Collapse>
       </Navbar>
     </div>
