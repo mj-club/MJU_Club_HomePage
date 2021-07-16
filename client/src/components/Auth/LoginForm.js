@@ -1,9 +1,9 @@
-import React from "react";
+import Reac from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';
 
-function LoginForm() {
+function LoginForm() { 
   return (
     <>
       <style type="text/css">
@@ -45,16 +45,15 @@ function LoginForm() {
                 <FontAwesomeIcon icon={faUnlockAlt} inverse size="4x" transform="shrink-6 up-8 left-4" />
               </div>
               <div className="form-title">로그인</div>
-              {/* 이메일로바꾸기 */}
               <Form className="login-form mb-3" >
                 <Form.Group controlId="email">
                   <InputGroup className="mb-3">
-                    <InputGroup.Prepend>
+                    <InputGroup.Prepend>  
                       <InputGroup.Text className="addon">
                         <FontAwesomeIcon icon={faUser} color="gray" fixedWidth  />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl type="email" placeholder="이메일"/>
+                    <FormControl type="email" placeholder="이메일" />
                   </InputGroup>
                 </Form.Group>
 
