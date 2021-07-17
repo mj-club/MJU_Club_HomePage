@@ -2,7 +2,7 @@
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const logger = require("morgan");
+const morgan = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
 const passport = require("passport");
@@ -34,27 +34,37 @@ sequelize
     console.error(err);
   });
 
-// init middleware
+// middleware
+if (process.env.NODE_ENV === "production") {
+  // set morgan
+  app.use(morgan("combined"));
+} else {
+  app.use(morgan("dev"));
+}
 app.use(cors());
-app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public"))); // default folder location
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: true,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-      maxAge: 5000000,
-    },
-    name: "session-cookie",
-  })
-);
-app.use(bodyParser.urlencoded({ extended: false })); // body parser
+app.use("/img", express.static(path.join(__dirname, "uploads")));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+const sessionOption = {
+  resave: false,
+  saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+  },
+};
+if (process.env.NODE_ENV === "production") {
+  sessionOption.proxy = true;
+  sessionOption.cookie.secure = true;
+} else {
+  app.use(morgan("dev"));
+}
+// set express-session
+app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -62,8 +72,6 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
-app.use("/club_post", clubPostRouter);
-app.use("/club_comment", require("./routes/club_comment"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
