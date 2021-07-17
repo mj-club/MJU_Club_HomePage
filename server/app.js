@@ -18,6 +18,7 @@ const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
+const logger = require("./logger");
 
 // init express app
 const app = express();
@@ -75,7 +76,11 @@ app.use("/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
+  error.status = 404;
+  logger.info("hello");
+  logger.error(error.message);
+  next(error);
 });
 
 // error handler
