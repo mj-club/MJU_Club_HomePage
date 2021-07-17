@@ -1,4 +1,4 @@
-import Reac from "react";
+import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';

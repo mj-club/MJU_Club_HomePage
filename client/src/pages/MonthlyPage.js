@@ -4,12 +4,12 @@ import { Container } from 'reactstrap';
 import Navbar from '../components/Navbar';
 import Ipsum from '../components/Ipsum';
 
-export default function ClubsPage() {
+export default function MonthlyPage() {
   return(
     <>
       <Navbar/>
       <Container>
-        <Ipsum title={"Clubs"}></Ipsum>
+        <Ipsum title={"Monthly Key:um"}></Ipsum>
       </Container>
     </>
   );
