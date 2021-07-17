@@ -8,11 +8,12 @@ import Home from '../routes/Home';
 // Components/Routes.js 로 이동
 export default () => (
     <>
-    <Navigationbar />
+    {/* <Navigationbar /> */}
     <Router>
         <Route path="/" exact={true} component={Home} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
+
     </Router>
     </>
 )

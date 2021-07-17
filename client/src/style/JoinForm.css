@@ -1,0 +1,40 @@
+.body{
+  border :3px solid #F1C40F;
+  margin : 30px;
+}
+
+.top-icon{
+  text-align : center;
+}
+
+.content{
+  text-align : center;
+}
+
+.form-title{
+  font-size: 2rem;
+}
+
+.form-sub-title{
+  text-align: left;
+}
+
+.table {
+  border-top : 2px solid rgba(0,0,0,.125);
+  border-bottom : 2px solid rgba(0,0,0,.125);
+}
+
+h5 {
+  margin-top: 45px;
+}
+
+
+#valid-btn{
+  background-color: #ffc107;
+  font-size: 0.5rem;
+}
+
+
+#isStudent{
+  text-align: right;
+}
