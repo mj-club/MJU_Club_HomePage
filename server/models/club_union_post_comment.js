@@ -6,7 +6,7 @@ module.exports = class ClubUnionPostComment extends Sequelize.Model {
       {
         content: {
           type: Sequelize.TEXT,
-          allowNull: true,
+          allowNull: false,
         },
       },
       {

@@ -1,22 +1,15 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircle,
-  faUnlockAlt,
-  faUser,
-  faKey,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  Button,
-  InputGroup,
-  FormControl,
-  Form,
-  Container,
-  Col,
-  Row,
-  Card,
-} from "react-bootstrap";
+import Reac from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
+import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';
 
+import axios from "axios";
+
+const callApi = async () => {
+  const response = await axios.get("/auth/kakao");
+  const body = await response.json();
+  console.log(body);
+};
 function LoginForm() {
   return (
     <>
@@ -69,11 +62,10 @@ function LoginForm() {
                 />
               </div>
               <div className="form-title">로그인</div>
-              {/* 이메일로바꾸기 */}
-              <Form className="login-form mb-3">
+              <Form className="login-form mb-3" >
                 <Form.Group controlId="email">
                   <InputGroup className="mb-3">
-                    <InputGroup.Prepend>
+                    <InputGroup.Prepend>  
                       <InputGroup.Text className="addon">
                         <FontAwesomeIcon
                           icon={faUser}
@@ -101,7 +93,14 @@ function LoginForm() {
                   <Button variant="warning" type="submit">
                     로그인
                   </Button>
-                  <Button variant="warning">
+                  <Button
+                    variant="warning"
+                    // onClick={() => {
+                    //   try {
+                    //     callApi();
+                    //   } catch (error) {}
+                    // }}
+                  >
                     <a href="http://localhost:3001/auth/kakao">카카오 로그인</a>
                   </Button>
                 </div>

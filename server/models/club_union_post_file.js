@@ -4,19 +4,15 @@ module.exports = class ClubUnionPostFile extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        origin_name: {
-          type: Sequelize.STRING(45),
-          allowNull: true,
-        },
         file_name: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
         file_dir: {
-          type: Sequelize.STRING(200),
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
-        content_type: {
+        file_extension: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
