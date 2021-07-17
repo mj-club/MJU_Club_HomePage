@@ -7,6 +7,8 @@ const createError = require("http-errors");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
+const hpp = require("hpp");
+const helmet = require("helmet");
 
 // dotenv
 const dotenv = require("dotenv");
@@ -39,6 +41,8 @@ sequelize
 if (process.env.NODE_ENV === "production") {
   // set morgan
   app.use(morgan("combined"));
+  app.use(helmet({ contentSecurityPolicy: false }));
+  app.use(hpp());
 } else {
   app.use(morgan("dev"));
 }

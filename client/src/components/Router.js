@@ -28,7 +28,7 @@ export default function Routers() {
           <Route path="/join" component={JoinPage}/>
           <Route path="/find_id_pw" component={FindIdPwPage}/>
 
-          <Route path="/">
+          <Route path="/" exact={true}>
             <MainPage />
           </Route>
         </Switch>
