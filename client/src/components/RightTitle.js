@@ -1,7 +1,7 @@
 import React from "react"
 import { Container, Col, Row} from 'react-bootstrap';
-import "../style/Pagenation.css";
-const Pagenation = ({title, menu1, menu2, menu3}) => {
+import "../style/RightTitle.css";
+const RightTitle = ({title, menu1, menu2, menu3}) => {
   return (
     <>
     <Container className="pagenation">
@@ -14,4 +14,4 @@ const Pagenation = ({title, menu1, menu2, menu3}) => {
   );
 }
 
-export default Pagenation;
+export default RightTitle;
