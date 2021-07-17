@@ -1,7 +1,21 @@
 import Reac from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
-import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircle,
+  faUnlockAlt,
+  faUser,
+  faKey,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  Button,
+  InputGroup,
+  FormControl,
+  Form,
+  Container,
+  Col,
+  Row,
+  Card,
+} from "react-bootstrap";
 
 import axios from "axios";
 
@@ -62,10 +76,10 @@ function LoginForm() {
                 />
               </div>
               <div className="form-title">로그인</div>
-              <Form className="login-form mb-3" >
+              <Form className="login-form mb-3">
                 <Form.Group controlId="email">
                   <InputGroup className="mb-3">
-                    <InputGroup.Prepend>  
+                    <InputGroup.Prepend>
                       <InputGroup.Text className="addon">
                         <FontAwesomeIcon
                           icon={faUser}

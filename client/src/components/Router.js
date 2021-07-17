@@ -8,10 +8,9 @@ import Home from '../routes/Home';
 export default () => (
     <>
     <Router>
-        <Route path="/" exact={true} component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/login" component={Login} />
-
+      <Route path="/" exact={true} component={Home} />
+      <Route path="/about" component={About} />
+      <Route path="/login" component={Login} />
     </Router>
-    </>
-)
+  </>
+);
