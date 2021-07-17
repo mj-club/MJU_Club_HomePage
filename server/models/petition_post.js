@@ -6,11 +6,11 @@ module.exports = class PetitionPost extends Sequelize.Model {
       {
         title: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         content: {
           type: Sequelize.TEXT,
-          allowNull: true,
+          allowNull: false,
         },
         password: {
           type: Sequelize.STRING(45),

@@ -6,7 +6,7 @@ module.exports = class ClubUnionMember extends Sequelize.Model {
       {
         member_name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         member_position: {
           type: Sequelize.STRING(45),

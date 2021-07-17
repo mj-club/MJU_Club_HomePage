@@ -40,7 +40,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // default folder location
 app.use(
   session({
     resave: false,
@@ -54,6 +54,7 @@ app.use(
     name: "session-cookie",
   })
 );
+app.use(bodyParser.urlencoded({ extended: false })); // body parser
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -61,6 +62,8 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/club_post", clubPostRouter);
+app.use("/club_comment", require("./routes/club_comment"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
