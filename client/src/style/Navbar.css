@@ -1,0 +1,46 @@
+:root{
+    
+}
+
+#navbar {
+    background-color: #1F67BF;
+    color: #000;
+    opacity: 46%;
+}
+
+#navbar-brand{
+    color: #0C0047;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.mr-auto{
+    margin: 0 auto;
+}
+
+#nav-link{
+    font-weight: bold;
+    color: #000;
+    margin-right: 100px;
+    font-size: 18px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#nav-link:hover{
+    color : #0C0047;
+    border-radius: 4px;
+}
+
+#signup-btn{
+    background-color: #6e9ffa;
+    color: #000;
+    justify-self: center;
+    border: none;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#signup-btn:hover{
+    background-color:  #ffe372;
+}

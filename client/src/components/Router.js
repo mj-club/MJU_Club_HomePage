@@ -10,6 +10,7 @@ export default () => (
     <>
     {/* <Navigationbar /> */}
     <Router>
+        <Navigationbar />
         <Route path="/" exact={true} component={Home} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
