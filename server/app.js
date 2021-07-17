@@ -65,6 +65,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/club_post", clubPostRouter);
+app.use("/club_comment", require('./routes/club_comment'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
