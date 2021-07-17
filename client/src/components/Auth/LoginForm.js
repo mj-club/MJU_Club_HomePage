@@ -1,4 +1,4 @@
-import Reac from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircle,
@@ -16,6 +16,7 @@ import {
   Row,
   Card,
 } from "react-bootstrap";
+
 
 import axios from "axios";
 
