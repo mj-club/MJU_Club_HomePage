@@ -1,16 +1,15 @@
-.Footer{
+.Footer {
   width: 100%;
   background-color: rgb(221, 225, 226);
   height: auto;
-  margin:0 auto; 
-  text-align:center;
+  margin: 0 auto;
+  text-align: center;
   font-size: auto;
   color: black;
   font-size: large;
-
 }
 
-.spanstyle{
+.spanstyle {
   color: coral;
   width: 300px;
   display: inline-block;

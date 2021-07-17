@@ -17,6 +17,13 @@ import {
   Card,
 } from "react-bootstrap";
 
+import axios from "axios";
+
+const callApi = async () => {
+  const response = await axios.get("/auth/kakao");
+  const body = await response.json();
+  console.log(body);
+};
 function LoginForm() {
   return (
     <>
@@ -101,7 +108,14 @@ function LoginForm() {
                   <Button variant="warning" type="submit">
                     로그인
                   </Button>
-                  <Button variant="warning">
+                  <Button
+                    variant="warning"
+                    // onClick={() => {
+                    //   try {
+                    //     callApi();
+                    //   } catch (error) {}
+                    // }}
+                  >
                     <a href="http://localhost:3001/auth/kakao">카카오 로그인</a>
                   </Button>
                 </div>

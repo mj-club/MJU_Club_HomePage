@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../style/custom.scss';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../style/custom.scss";
 import {
   Button,
   Collapse,
@@ -14,8 +14,8 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
-} from 'reactstrap';
+  NavbarText,
+} from "reactstrap";
 
 const Navigationbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,18 +31,18 @@ const Navigationbar = (props) => {
           <Nav className="mr-auto" navbar>
             <NavItem className="dropdown">
               <NavLink href="#">총동연 소개</NavLink>
-              <div className="dropdown-submenu1">         
-                  <a href="#none">ALL</a>
-                  <a href="#none">OTHER</a>
-                  <a href="#none">HIGHLIGHT</a>
+              <div className="dropdown-submenu1">
+                <a href="#none">ALL</a>
+                <a href="#none">OTHER</a>
+                <a href="#none">HIGHLIGHT</a>
               </div>
             </NavItem>
             <NavItem className="dropdown">
               <NavLink href="#">동아리 소개</NavLink>
-              <div className="dropdown-submenu1">         
-                  <a href="#none">ALL</a>
-                  <a href="#none">OTHER</a>
-                  <a href="#none">HIGHLIGHT</a>
+              <div className="dropdown-submenu1">
+                <a href="#none">ALL</a>
+                <a href="#none">OTHER</a>
+                <a href="#none">HIGHLIGHT</a>
               </div>
             </NavItem>
             <NavItem>
@@ -51,30 +51,22 @@ const Navigationbar = (props) => {
             <NavItem>
               <NavLink href="#">시설대관</NavLink>
             </NavItem>
-            
+
             <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle>
-                문의사항
-              </DropdownToggle>
+              <DropdownToggle>문의사항</DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
+                <DropdownItem>Option 1</DropdownItem>
+                <DropdownItem>Option 2</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
-                  Reset
-                </DropdownItem>
+                <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <Button color="warning">Sign up</Button>{' '}
+          <Button color="warning">Sign up</Button>{" "}
         </Collapse>
       </Navbar>
     </div>
   );
-}
+};
 
 export default Navigationbar;

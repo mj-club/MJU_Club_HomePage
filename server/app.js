@@ -6,6 +6,7 @@ const logger = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
 const passport = require("passport");
+const cors = require("cors");
 
 // dotenv
 const dotenv = require("dotenv");
@@ -34,6 +35,7 @@ sequelize
   });
 
 // init middleware
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
