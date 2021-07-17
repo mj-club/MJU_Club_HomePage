@@ -1,80 +1,43 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../style/custom.scss';
-import {
-  Button,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText
-} from 'reactstrap';
+import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Nav, Navbar, Button } from 'react-bootstrap';
+import '../style/Navbar.css';
 
-const Navigationbar = (props) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggle = () => setIsOpen(!isOpen);
-
-  return (
-    <div>
-      <Navbar color="yellow" light expand="md">
-        <NavbarBrand href="/">명지대 총동아리연합회</NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            <NavItem className="dropdown">
-              <NavLink href="#">총동연 소개</NavLink>
-              <div className="dropdown-submenu1">         
-                  <a href="#none">ALL</a>
-                  <a href="#none">OTHER</a>
-                  <a href="#none">HIGHLIGHT</a>
-              </div>
-            </NavItem>
-            <NavItem className="dropdown">
-              <NavLink href="#">동아리 소개</NavLink>
-              <div className="dropdown-submenu1">         
-                  <a href="#none">ALL</a>
-                  <a href="#none">OTHER</a>
-                  <a href="#none">HIGHLIGHT</a>
-              </div>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">동아리 홍보</NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink href="#">시설대관</NavLink>
-            </NavItem>
-            
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle>
-                문의사항
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>
-                  Option 1
-                </DropdownItem>
-                <DropdownItem>
-                  Option 2
-                </DropdownItem>
-                <DropdownItem divider />
-                <DropdownItem>
-                  Reset
-                </DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-          </Nav>
-          <Button color="warning">Sign up</Button>{' '}
-        </Collapse>
-      </Navbar>
-    </div>
-  );
+function Navigationbar() {
+    return (
+      <div className="Navbar">
+        <Navbar id="navbar" sticky="top"
+        expand="lg">
+          <Navbar.Brand id="navbar-brand">
+            명지대 총동아리연합회
+          </Navbar.Brand>
+          <Navbar.Toggle />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="mr-auto"
+              style={{ maxHeight: '100px' }}
+              navbarScroll
+            > 
+              <Nav.Link id="nav-link" href="about">총동연 소개</Nav.Link>
+              <Nav.Link id="nav-link" href="clubs">동아리 소개</Nav.Link>
+              <Nav.Link id="nav-link" href="promotion">청원게시판</Nav.Link>
+              <Nav.Link id="nav-link" href="promotion">키움 이모저모</Nav.Link>
+              <Nav.Link id="nav-link" href="place">Montly-KeyUm</Nav.Link>
+            </Nav>
+            <Button 
+              id="signup-btn"
+              as="input" 
+              type="button" 
+              value="로그인" />
+            <Button 
+              id="signup-btn"
+              as="input" 
+              type="button" 
+              value="회원가입" />
+          </Navbar.Collapse>
+        </Navbar>
+      </div>
+    )
 }
 
 export default Navigationbar;
