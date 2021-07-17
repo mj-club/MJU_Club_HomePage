@@ -6,6 +6,9 @@ const logger = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
 const passport = require("passport");
+const mysql = require('mysql');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 // dotenv
 const dotenv = require("dotenv");
@@ -25,7 +28,7 @@ app.set("port", process.env.PORT || 3001);
 
 // init sequelize
 sequelize
-  .sync({ force: false })
+  .sync({ force: true })
   .then(() => {
     console.log("데이터베이스 연결 성공");
   })
@@ -34,11 +37,12 @@ sequelize
   });
 
 // init middleware
+app.use(morgan('short')); // log middleware
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // default folder location
 app.use(
   session({
     resave: false,
@@ -52,6 +56,7 @@ app.use(
     name: "session-cookie",
   })
 );
+app.use(bodyParser.urlencoded({extended:false})); // body parser
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -59,6 +64,8 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
+app.use("/club_post", clubPostRouter);
+app.use("/club_comment", require('./routes/club_comment'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

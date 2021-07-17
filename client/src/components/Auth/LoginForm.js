@@ -37,12 +37,22 @@ function LoginForm() {
       </style>
 
       <Card className="body">
-        <Container >
+        <Container>
           <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
               <div className="fa-layers">
-                <FontAwesomeIcon icon={faCircle} color="#F1C40F" size="4x" transform="up-8 left-5" />
-                <FontAwesomeIcon icon={faUnlockAlt} inverse size="4x" transform="shrink-6 up-8 left-4" />
+                <FontAwesomeIcon
+                  icon={faCircle}
+                  color="#F1C40F"
+                  size="4x"
+                  transform="up-8 left-5"
+                />
+                <FontAwesomeIcon
+                  icon={faUnlockAlt}
+                  inverse
+                  size="4x"
+                  transform="shrink-6 up-8 left-4"
+                />
               </div>
               <div className="form-title">로그인</div>
               <Form className="login-form mb-3" >
@@ -50,7 +60,11 @@ function LoginForm() {
                   <InputGroup className="mb-3">
                     <InputGroup.Prepend>  
                       <InputGroup.Text className="addon">
-                        <FontAwesomeIcon icon={faUser} color="gray" fixedWidth  />
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          color="gray"
+                          fixedWidth
+                        />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
                     <FormControl type="email" placeholder="이메일" />
@@ -61,34 +75,38 @@ function LoginForm() {
                   <InputGroup className="mb-3">
                     <InputGroup.Prepend>
                       <InputGroup.Text className="addon">
-                        <FontAwesomeIcon icon={faKey} color="gray" fixedWidth  />
+                        <FontAwesomeIcon icon={faKey} color="gray" fixedWidth />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl type="password" placeholder="비밀번호"/>
+                    <FormControl type="password" placeholder="비밀번호" />
                   </InputGroup>
                 </Form.Group>
 
                 <div className="d-grid gap-2">
-                  <Button variant="warning" type="submit" >
+                  <Button variant="warning" type="submit">
                     로그인
                   </Button>
-                  <Button variant="warning" >
-                    카카오 로그인
+                  <Button variant="warning">
+                    <a href="http://localhost:3001/auth/kakao">카카오 로그인</a>
                   </Button>
                 </div>
               </Form>
               <Row>
                 <Col>
-                  <Card.Link href="/join" id="join" >회원가입</Card.Link>
+                  <Card.Link href="/join" id="join">
+                    회원가입
+                  </Card.Link>
                 </Col>
                 <Col>
-                  <Card.Link href="/findIdPw" id="find">ID/PW찾기</Card.Link>
+                  <Card.Link href="/findIdPw" id="find">
+                    ID/PW찾기
+                  </Card.Link>
                 </Col>
               </Row>
             </Col>
           </Row>
         </Container>
-      </Card >
+      </Card>
     </>
   );
 }

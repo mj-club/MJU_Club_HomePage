@@ -6,7 +6,7 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
       {
         name: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         slogan: {
           type: Sequelize.STRING(100),
@@ -28,6 +28,10 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
           type: Sequelize.STRING(200),
           allowNull: true,
         },
+        th: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+        },
       },
       {
         sequelize,
@@ -42,7 +46,6 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
     );
   }
 
-<<<<<<< HEAD
   static associate(db) {
     // ClubUnionInfo - ClubUnionMember (1:n)
     db.ClubUnionInfo.hasMany(db.ClubUnionMember, {
@@ -51,7 +54,3 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
     });
   }
 };
-=======
-  static associate(db) {}
-};
->>>>>>> 110f9366e249d843481114fcb8cf24c767da31c0

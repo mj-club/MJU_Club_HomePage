@@ -5,16 +5,16 @@ module.exports = class ClubPost extends Sequelize.Model {
     return super.init(
       {
         title: {
-          type: Sequelize.STRING(255),
+          type: Sequelize.STRING(100),
           allowNull: false,
         },
-        category_no: {
-          type: Sequelize.INTEGER,
+        category: {
+          type: Sequelize.STRING(45), // 공지사항, 문의게시판, 자유게시판, 월별활동게시판
           allowNull: false,
         },
-        limited_content: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
+        thumbnail: {
+          type: Sequelize.STRING(100),
+          allowNull: true,
         },
         content: {
           type: Sequelize.TEXT,
@@ -22,9 +22,17 @@ module.exports = class ClubPost extends Sequelize.Model {
         },
         set_top: {
           type: Sequelize.BOOLEAN,
-          allowNull: true,
+          allowNull: false,
         },
         visit_count: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        comment_count: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        thumb_count: {
           type: Sequelize.INTEGER,
           allowNull: false,
         },

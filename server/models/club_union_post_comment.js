@@ -1,13 +1,12 @@
 const Sequelize = require("sequelize");
 
 module.exports = class ClubUnionPostComment extends Sequelize.Model {
-
   static init(sequelize) {
     return super.init(
       {
         content: {
           type: Sequelize.TEXT,
-          allowNull: true,
+          allowNull: false,
         },
       },
       {
@@ -23,7 +22,6 @@ module.exports = class ClubUnionPostComment extends Sequelize.Model {
     );
   }
 
-<<<<<<< HEAD
   static associate(db) {
     // ClubUnionPostComment - User (n:1)
     db.ClubUnionPostComment.belongsTo(db.User, {
@@ -38,7 +36,3 @@ module.exports = class ClubUnionPostComment extends Sequelize.Model {
     });
   }
 };
-=======
-  static associate(db) {}
-};
->>>>>>> 110f9366e249d843481114fcb8cf24c767da31c0
