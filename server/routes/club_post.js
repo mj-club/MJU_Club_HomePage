@@ -5,7 +5,8 @@ const mysql = require('mysql');
 const fs = require('fs');
 // const bodyParser = require('body-parser');
 
-const { ClubPost, ClubPostFile } = require("../models");
+const { ClubPost } = require("../models/club_post");
+const { ClubPostFile } = require("../models/club_post_file");
 const { isLoggedIn } = require("./middlewares");
 
 try {
@@ -35,6 +36,7 @@ router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
 });
 
 const upload2 = multer();
+// new
 router.post("/create", isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
     const post = await ClubPost.create({
@@ -64,6 +66,7 @@ router.post("/create", isLoggedIn, upload2.none(), async (req, res, next) => {
   }
 });
 
+// edit(update)
 router.post(
   "/update/:id",
   isLoggedIn,
@@ -95,6 +98,16 @@ router.post(
   }
 );
 
+// index
+// router.get('/', function(req, res){
+//   ClubPost.find({}).sort('-createAt')
+//   .exec(function(err, club_posts){
+//     if (err) return res.json(err);
+//     res.render('posts/index', {posts:posts})
+//   })
+// })
+
+// index
 router.get(
   "/:id",
   isLoggedIn,
@@ -185,32 +198,5 @@ router.get("/paising/:cur", function (req, res) {
     
   })
 })
-
-// router.get("/clubPost", (req, res) => {
-//   res.redirect('paising/' + 1)
-// });
-
-// router.get("/clubPost/insert/:id", (req, res) => {
-//   const title = req.body.title;
-//   const content = req.body.content;
-//   const sqlQuery = "INSERT INTO clubPost (title, content) VALUES (?,?)";
-//   db.query(sqlQuery, [title, content], (err, result) => {
-//     res.send('success!'); 
-//   });
-// });
-
-// router.get("/clubPost/delete/:id", (req, res) => {
-//   getConnection().query('delete from products where id = ?', [req.params.id], function () {
-//     res.redirect('/clubPost')
-//   });
-// });
-
-// router.get("/clubPost/edit/:id", (req, res) => {
-
-// })
-
-// router.get("/clubPost/detail/:id", (req, res) => {
-  
-// })
 
 module.exports = router
