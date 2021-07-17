@@ -3,7 +3,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';
 
+<<<<<<< HEAD
+import axios from "axios";
+
+const callApi = async () => {
+  const response = await axios.get("/auth/kakao");
+  const body = await response.json();
+  console.log(body);
+};
+function LoginForm() {
+=======
 function LoginForm() { 
+>>>>>>> 5588025b9c450ce549b124241d1aee4f0123b7af
   return (
     <>
       <style type="text/css">
@@ -86,7 +97,14 @@ function LoginForm() {
                   <Button variant="warning" type="submit">
                     로그인
                   </Button>
-                  <Button variant="warning">
+                  <Button
+                    variant="warning"
+                    // onClick={() => {
+                    //   try {
+                    //     callApi();
+                    //   } catch (error) {}
+                    // }}
+                  >
                     <a href="http://localhost:3001/auth/kakao">카카오 로그인</a>
                   </Button>
                 </div>

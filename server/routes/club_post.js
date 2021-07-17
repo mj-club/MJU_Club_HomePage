@@ -37,7 +37,7 @@ router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
 
 const upload2 = multer();
 // new
-router.post("/create", isLoggedIn, upload2.none(), async (req, res, next) => {
+router.post("/create:clubId", isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
     const post = await ClubPost.create({
       title: req.body.title,
@@ -47,6 +47,7 @@ router.post("/create", isLoggedIn, upload2.none(), async (req, res, next) => {
       set_top: false,
       link: req.body.link || null,
       visit_count: 0,
+      club_id: req.params.clubId,
       writer_id: req.user.id,
     });
 
@@ -59,7 +60,8 @@ router.post("/create", isLoggedIn, upload2.none(), async (req, res, next) => {
       })
     }
 
-    res.redirect("/create"); // 수정 필요
+    res.json(post);
+    // res.redirect("/create");
   } catch (error) {
     console.error(error);
     next(error);
@@ -89,8 +91,8 @@ router.post(
       // file update(수정 필요)
 
 
-
-      res.redirect("/"); // 수정 필요
+      res.json(post);
+      // res.redirect("/"); // 수정 필요
     } catch (error) {
       console.error(error);
       next(error);
@@ -98,21 +100,21 @@ router.post(
   }
 );
 
-// index
-// router.get('/', function(req, res){
-//   ClubPost.find({}).sort('-createAt')
-//   .exec(function(err, club_posts){
-//     if (err) return res.json(err);
-//     res.render('posts/index', {posts:posts})
-//   })
-// })
+// post list
+router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
+  try {
+    let result = await ClubPost.findAll({});
+    if (result) {
+      res.json(result);
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
 
-// index
-router.get(
-  "/:id",
-  isLoggedIn,
-  upload2.none(),
-  async (req, res, next) => {
+
+router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
     let post;
     try {
       post = await ClubPost.update(
@@ -122,7 +124,7 @@ router.get(
         { where: { id: req.params.id, UserId: req.user.id } }
       );
 
-      res.redirect("/");
+      // res.redirect("/");
     } catch (error) {
       console.error(error);
       next(error);
@@ -137,8 +139,9 @@ router.get(
         },
         { where: { id: req.params.id, UserId: req.user.id } }
       );
-
-      res.redirect("/");
+      
+      res.json(post);
+      // res.redirect("/");
     } catch (error) {
       console.error(error);
       next(error);
@@ -146,18 +149,60 @@ router.get(
   }
 );
 
+// delete
 router.get("/delete/:id", isLoggedIn, async (req, res, next) => {
   try {
     const post = await ClubPost.destroy({
-      where: { id: req.params.id, UserId: req.user.id },
+      where: { id: req.params.id, UserId: req.user.id }
     });
-    res.redirect("/");
+
+    res.json(post);
+    // res.redirect("/");
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
 
+// search
+router.get('/:id', function(req, res, next){
+
+  try {
+    const post = await ClubPost.findOne({
+      where: { id: req.params.title}
+    });
+
+    req.json(get);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+})
+
+// page count
+router.get('/', async function(req, res){
+  var page = Math.max(1, parseInt(req.query.page));
+  var limit = Math.max(1, parseInt(req.query.limit));
+  page = !isNaN(page)?page:1;
+  limit = !isNaN(limit)?limit:10;
+
+  var skip = (page-1) * limit;
+  var count = await ClubPost.countDocuments({});
+  var maxPage = Math.ceil(count/limit);
+  var posts = await ClubPost.find({})
+    .populate('writer_id')
+    .sort('-createdAt')
+    .skip(skip) 
+    .limit(limit)
+    .exec();
+
+  res.render('/index', {
+    posts: posts,
+    currentPage: page,
+    maxPage: maxPage,
+    limit: limit       
+  });
+});
 
 router.get("/paising/:cur", function (req, res) {
   var page_view_size = 15;

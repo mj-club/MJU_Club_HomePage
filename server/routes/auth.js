@@ -7,7 +7,7 @@ const User = require("../models/user");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { email, nick, password } = req.body;
+  // const { email, nick, password } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -15,9 +15,9 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
     }
     const hash = await bcrypt.hash(password, 12);
     await User.create({
-      email,
-      nick,
-      password: hash,
+      // email,
+      // nick,
+      // password: hash,
     });
     return res.redirect("/");
   } catch (error) {
@@ -43,7 +43,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
 
       return res.redirect("/");
     });
-  })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
+  })(req, res, next);
 });
 
 router.get("/logout", isLoggedIn, (req, res) => {
@@ -60,8 +60,9 @@ router.get(
     failureRedirect: "/",
   }),
   (req, res) => {
-    console.log("success");
-    res.redirect("/");
+    console.log(req.user);
+    res.json(req.user);
+    // res.redirect("http://localhost:3000/");
   }
 );
 
