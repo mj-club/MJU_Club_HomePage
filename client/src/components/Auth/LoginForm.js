@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircle, faUnlockAlt, faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { Button, InputGroup, FormControl, Form, Container, Col, Row, Card } from 'react-bootstrap';
 
-<<<<<<< HEAD
 import axios from "axios";
 
 const callApi = async () => {
@@ -12,9 +11,6 @@ const callApi = async () => {
   console.log(body);
 };
 function LoginForm() {
-=======
-function LoginForm() { 
->>>>>>> 5588025b9c450ce549b124241d1aee4f0123b7af
   return (
     <>
       <style type="text/css">
