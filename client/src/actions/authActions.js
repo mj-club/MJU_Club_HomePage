@@ -1,10 +1,11 @@
 import axios from 'axios';
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'https://localhost:3001/auth' : 'https://api.velog.io/';
+
+const URL = 'http://localhost:3001/auth';
 
 export function kakaoLogin(){
   return (dispatch) => {
     dispatch({type: 'LOADING'});
-    axios.get('/kakao').then(({data}) => {
+    axios.get(URL+'/kakao').then(({data}) => {
       dispatch({
         type: 'SET_USER',
         payload: data
@@ -14,7 +15,7 @@ export function kakaoLogin(){
     }).catch((error) => {
       dispatch({
         type: 'ERROR',
-        payload: error.message
+        payload: error
       });
     });
   };
