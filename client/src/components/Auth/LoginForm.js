@@ -61,7 +61,7 @@ function LoginForm() {
         <Container className='mt-3'>
           <Row>
             <Alert variant="danger" onClose={() => dispatch(clearError())} dismissible>
-              <p> {error} </p> 
+              <p> {error.message} </p> 
             </Alert>
           </Row>
         </Container>
