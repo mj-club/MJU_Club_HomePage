@@ -1,5 +1,6 @@
-import React from "react";
+import { React } from "react";
 import { Container, Row, Col } from 'react-bootstrap';
+
 import Navigationbar from '../components/Navbar';
 import LoginForm from '../components/Auth/LoginForm';
 import SubMenu from "../components/Submenu";
@@ -10,6 +11,7 @@ import RightTitle from "../components/RightTitle";
 //Navigation 양끝이 안맞는데 css?인지 좀 고쳐야할듯
 
 export default function LoginPage() {
+
   return(
     <>
       <Container>
