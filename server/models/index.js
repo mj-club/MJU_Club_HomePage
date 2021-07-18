@@ -60,7 +60,7 @@ db.User = User;
 // db.Club_member = Club_member;
 
 User.init(sequelize);
-// Comment.init(sequelize);
+// Comment.init(sequelized);
 // Club_post.init(sequelize);
 // Club_info.init(sequelize);
 // Club_member.init(sequelize);

@@ -5,14 +5,23 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
+const nunjucks = require("nunjucks");
 const passport = require("passport");
 const cors = require("cors");
-const hpp = require("hpp");
 const helmet = require("helmet");
+const hpp = require("hpp");
+const redis = require("redis");
+const RedisStore = require("connect-redis")(session);
 
 // dotenv
 const dotenv = require("dotenv");
 dotenv.config();
+
+// redis
+const redisClient = redis.createClient({
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+  password: process.env.REDIS_PW,
+});
 
 // set router
 const indexRouter = require("./routes/index");
@@ -26,6 +35,11 @@ const logger = require("./logger");
 const app = express();
 passportConfig();
 app.set("port", process.env.PORT || 3001);
+app.set("view engine", "html");
+nunjucks.configure("views", {
+  express: app,
+  watch: true,
+});
 
 // init sequelize
 sequelize
@@ -46,7 +60,12 @@ if (process.env.NODE_ENV === "production") {
 } else {
   app.use(morgan("dev"));
 }
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // 허용할 도메인
+    credentials: true, // 도메인 간 쿠키 공유
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public"))); // default folder location
@@ -61,7 +80,9 @@ const sessionOption = {
     httpOnly: true,
     secure: false,
   },
+  store: new RedisStore({ client: redisClient }),
 };
+
 if (process.env.NODE_ENV === "production") {
   sessionOption.proxy = true;
   sessionOption.cookie.secure = true;
