@@ -109,13 +109,13 @@ function LoginForm() {
                   </Button>
                   <Button
                     variant="warning"
-                    // onClick={() => {
-                    //   try {
-                    //     callApi();
-                    //   } catch (error) {}
-                    // }}
+                    onClick={() => {
+                      try {
+                        callApi();
+                      } catch (error) {}
+                    }}
                   >
-                    <a href="http://localhost:3001/auth/kakao">카카오 로그인</a>
+                    카카오 로그인
                   </Button>
                 </div>
               </Form>
