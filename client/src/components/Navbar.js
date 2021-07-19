@@ -12,7 +12,7 @@ function Navigationbar() {
     <div className="Navbar">
       <Navbar id="navbar" sticky="top"
       expand="lg">
-        <Navbar.Brand id="navbar-brand">
+        <Navbar.Brand id="navbar-brand" href="/">
           명지대 총동아리연합회
         </Navbar.Brand>
         <Navbar.Toggle />
