@@ -2,15 +2,13 @@ import React from 'react';
 import { Container } from 'reactstrap';
 
 import Navbar from '../components/Navbar';
-import Ipsum from '../components/Ipsum';
+import IntroSlider from '../containers/IntroSlider/IntroSlider';
 
 export default function MainPage() {
   return(
     <>
       <Navbar/>
-      <Container>
-        <Ipsum title={'Main'}/>
-      </Container>
+      <IntroSlider/>
     </>
   );
 }
