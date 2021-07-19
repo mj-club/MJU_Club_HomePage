@@ -59,8 +59,11 @@
       "last 1 safari version"
     ]
   },
+  "optionalDependencies": {
+    "fsevents": "*"
+  },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "index.js",
   "author": "dj-1087",
-  "license": "ISC"
+  "license": "MIT"
 }
