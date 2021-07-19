@@ -8,6 +8,7 @@ const fs = require("fs");
 const { ClubPost } = require("../models/club_post");
 const { ClubPostFile } = require("../models/club_post_file");
 const { isLoggedIn } = require("./middlewares");
+const { post } = require("./club_comment");
 
 try {
   fs.readdirSync("uploads");
@@ -37,8 +38,9 @@ router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
 const upload2 = multer();
 // new
 router.post(
-  "/create:clubId",
+  "/create/:clubId",
   isLoggedIn,
+  checkPermission, 
   upload2.none(),
   async (req, res, next) => {
     try {
@@ -76,6 +78,7 @@ router.post(
 router.post(
   "/update/:id",
   isLoggedIn,
+  checkPermission, 
   upload2.none(),
   async (req, res, next) => {
     try {
@@ -150,7 +153,7 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
 });
 
 // delete
-router.get("/delete/:id", isLoggedIn, async (req, res, next) => {
+router.get("/delete/:id", isLoggedIn, checkPermission, async (req, res, next) => {
   try {
     const post = await ClubPost.destroy({
       where: { id: req.params.id, UserId: req.user.id },
@@ -240,5 +243,13 @@ router.get("/paising/:cur", function (req, res) {
     };
   });
 });
+
+function checkPermission(req, res, next){
+  User.findOne({userid: req.params.id}, function(err, user){
+    if (err) return res.json(err);
+    if (club_posts.writer_id != req.user.id) return noPermission(req, res);
+    next();
+  });
+}
 
 module.exports = router;
