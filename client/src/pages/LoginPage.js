@@ -14,10 +14,8 @@ export default function LoginPage() {
 
   return(
     <>
+      <Navigationbar />
       <Container>
-        <Row>
-          <Navigationbar />
-        </Row>
         <Row>
           <ImageExampleFluid/>
         </Row>
