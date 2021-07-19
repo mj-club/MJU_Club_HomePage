@@ -16,15 +16,15 @@ import {
   Row,
   Card,
   Alert,
-  Spinner
+  Spinner,
 } from "react-bootstrap";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { kakaoLogin, clearError } from "../../actions";
 
 function LoginForm() {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.authReducer.error);
-  const loading = useSelector(state => state.authReducer.loading);
+  const loading = useSelector((state) => state.authReducer.loading);
 
   return (
     <>
@@ -33,12 +33,11 @@ function LoginForm() {
         .body{
           border : 3px solid #F1C40F;
           margin : 30px;
-          padding : 30px;
           text-align: center;
         }
         
         .form-title {
-          font: 2em bold;
+          font: 1.8rem bold;
           margin-bottom : 20px;
         }
         
@@ -57,16 +56,20 @@ function LoginForm() {
 
     `}
       </style>
-      {error !== null &&
-        <Container className='mt-3'>
+      {error !== null && (
+        <Container className="mt-3">
           <Row>
-            <Alert variant="danger" onClose={() => dispatch(clearError())} dismissible>
-              <p> {error.message} </p> 
+            <Alert
+              variant="danger"
+              onClose={() => dispatch(clearError())}
+              dismissible
+            >
+              <p> {error.message} </p>
             </Alert>
           </Row>
         </Container>
-      }
-      <Card className="body">
+      )}
+      <Card className="body pt-3 pb-3">
         <Container>
           <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
@@ -113,7 +116,7 @@ function LoginForm() {
                 </Form.Group>
 
                 <div className="d-grid gap-2">
-                  {!loading && 
+                  {!loading && (
                     <>
                       <Button variant="warning" type="submit">
                         로그인
@@ -127,12 +130,12 @@ function LoginForm() {
                         Kakao 로그인
                       </Button>
                     </>
-                  }
-                  {loading && 
+                  )}
+                  {loading && (
                     <Button variant="warning" type="submit">
                       <Spinner animation="grow" variant="light" />
                     </Button>
-                  }
+                  )}
                 </div>
               </Form>
               <Row>

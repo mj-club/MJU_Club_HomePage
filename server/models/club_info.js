@@ -8,6 +8,10 @@ module.exports = class ClubInfo extends Sequelize.Model {
           type: Sequelize.STRING(45),
           allowNull: false,
         },
+        division: {
+          type: Sequelize.STRING(45),
+          allowNull: false,
+        },
         introdution: {
           type: Sequelize.TEXT,
           allowNull: false,
