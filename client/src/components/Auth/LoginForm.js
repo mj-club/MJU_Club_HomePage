@@ -33,12 +33,11 @@ function LoginForm() {
         .body{
           border : 3px solid #F1C40F;
           margin : 30px;
-          padding : 30px;
           text-align: center;
         }
         
         .form-title {
-          font: 2em bold;
+          font: 1.8rem bold;
           margin-bottom : 20px;
         }
         
@@ -70,7 +69,7 @@ function LoginForm() {
           </Row>
         </Container>
       )}
-      <Card className="body">
+      <Card className="body pt-3 pb-3">
         <Container>
           <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
