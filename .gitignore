@@ -27,7 +27,6 @@ package-lock.json
 .env.test.local
 .env.production.local
 /server/.env
-/server/config
 
 # error log
 /server/combined.log
