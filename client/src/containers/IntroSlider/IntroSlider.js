@@ -33,9 +33,9 @@ const IntroSlider =  () => {
       <SwiperSlide key={IntroData.id}>
         <PhotoIntro data={IntroData} key={IntroData.id} />
       </SwiperSlide>
-      {/* <SwiperSlide key={2}>
+      <SwiperSlide key={2}>
         <YoutubeIntro />
-      </SwiperSlide> */}
+      </SwiperSlide>
       <div className="home-slider-next main-slider-nav swiper-button-next">
         <i className="fal fa-angle-right"></i>
       </div>
