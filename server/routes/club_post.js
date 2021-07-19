@@ -8,7 +8,6 @@ const fs = require("fs");
 const { ClubPost } = require("../models/club_post");
 const { ClubPostFile } = require("../models/club_post_file");
 const { isLoggedIn } = require("./middlewares");
-const { post } = require("./club_comment");
 
 try {
   fs.readdirSync("uploads");
