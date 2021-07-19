@@ -8,6 +8,7 @@ const fs = require("fs");
 const { ClubPost } = require("../models/club_post");
 const { ClubPostFile } = require("../models/club_post_file");
 const { isLoggedIn } = require("./middlewares");
+const { noPermission } = require("./middlewares");
 
 try {
   fs.readdirSync("uploads");
@@ -36,12 +37,7 @@ router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
 
 const upload2 = multer();
 // new
-router.post(
-  "/create/:clubId",
-  isLoggedIn,
-  checkPermission, 
-  upload2.none(),
-  async (req, res, next) => {
+router.post("/create/:clubId", isLoggedIn, pload2.none(), async (req, res, next) => {
     try {
       const post = await ClubPost.create({
         title: req.body.title,
@@ -65,7 +61,6 @@ router.post(
       // }
 
       res.json(post);
-      // res.redirect("/create");
     } catch (error) {
       console.error(error);
       next(error);
@@ -74,12 +69,7 @@ router.post(
 );
 
 // edit(update)
-router.post(
-  "/update/:id",
-  isLoggedIn,
-  checkPermission, 
-  upload2.none(),
-  async (req, res, next) => {
+router.post("/update/:postId", isLoggedIn, upload2.none(), async (req, res, next) => {
     try {
       const post = await ClubPost.update(
         {
@@ -97,7 +87,6 @@ router.post(
       // file update(수정 필요)
 
       res.json(post);
-      // res.redirect("/"); // 수정 필요
     } catch (error) {
       console.error(error);
       next(error);
@@ -108,10 +97,10 @@ router.post(
 // post list
 router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
   try {
-    let result = await ClubPost.findAll({});
-    if (result) {
+    let result = await ClubPost.findAll({}).sort('-createAt').exec(function(err, posts){
+      if (err) return res.json(err);
       res.json(result);
-    }
+    });
   } catch (error) {
     console.error(error);
     next(error);
@@ -128,7 +117,6 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
       { where: { id: req.params.id, UserId: req.user.id } }
     );
 
-    // res.redirect("/");
   } catch (error) {
     console.error(error);
     next(error);
@@ -144,7 +132,6 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
     );
 
     res.json(post);
-    // res.redirect("/");
   } catch (error) {
     console.error(error);
     next(error);
@@ -152,14 +139,13 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
 });
 
 // delete
-router.get("/delete/:id", isLoggedIn, checkPermission, async (req, res, next) => {
+router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next) => {
   try {
     const post = await ClubPost.destroy({
       where: { id: req.params.id, UserId: req.user.id },
     });
 
     res.json(post);
-    // res.redirect("/");
   } catch (err) {
     console.error(err);
     next(err);
@@ -244,7 +230,7 @@ router.get("/paising/:cur", function (req, res) {
 });
 
 function checkPermission(req, res, next){
-  User.findOne({userid: req.params.id}, function(err, user){
+  ClubPost.findOne({clubId: req.params.clubId}, function(err, user){
     if (err) return res.json(err);
     if (club_posts.writer_id != req.user.id) return noPermission(req, res);
     next();
