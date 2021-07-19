@@ -13,17 +13,21 @@
 
 .form-title{
   font-size: 2rem;
+  margin-top: 16px;
+  margin-bottom : 16px;
 }
 
 .form-sub-title{
   text-align: left;
 }
 
-.table {
-  border-top : 2px solid rgba(0,0,0,.125);
-  border-bottom : 2px solid rgba(0,0,0,.125);
+.form-table{
+text-align: start;
 }
 
+label.form-labels.form-label{
+  margin: 0;
+}
 h5 {
   margin-top: 45px;
 }
@@ -32,6 +36,7 @@ h5 {
 #valid-btn{
   background-color: #ffc107;
   font-size: 0.5rem;
+  float: right;
 }
 
 
