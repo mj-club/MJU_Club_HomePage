@@ -139,7 +139,7 @@ function LoginForm() {
               </Form>
               <Row>
                 <Col>
-                  <Card.Link href="/join" id="join">
+                  <Card.Link href="/join_term" id="join">
                     회원가입
                   </Card.Link>
                 </Col>

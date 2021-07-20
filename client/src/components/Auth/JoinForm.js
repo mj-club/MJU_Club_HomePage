@@ -11,11 +11,6 @@
   function JoinForm() {
     return (
       <>
-        <style type="text/css">
-          {`
-          `}
-        </style>
-
         <Card className="body pb-3 m-3 mt-5">
           <Container >
             <Row className="justify-content-md-center">
