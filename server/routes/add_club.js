@@ -8,6 +8,7 @@ const { ClubInfo } = require("../models/club_info");
 const { isLoggedIn } = require("./middlewares");
 const { noPermission } = require("./middlewares");
 
+
 try {
   fs.readdirSync("uploads");
 } catch (error) {
@@ -15,7 +16,7 @@ try {
   fs.mkdirSync("uploads");
 }
 
-const upload = multer({
+const storage = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       cb(null, "uploads/");
@@ -28,10 +29,20 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
-  console.log(req.file);
-  res.json({ url: `/img/${req.file.filename}` });
+var upload = multer({ storage: storage });
+
+router.get('/', function(req,res){
+  res.render('upload');
 });
+
+router.post('/uploadFile', upload.single('attachment'), function(req,res){
+  res.render('confirmation', { file: req.file, files: null });
+});
+
+router.post('/uploadFiles', upload.array('attachments'), function(req,res){
+  res.render('confirmation', { file: null, files: req.files });
+});
+
 
 const upload2 = multer();
 // new
