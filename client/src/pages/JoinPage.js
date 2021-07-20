@@ -1,7 +1,5 @@
 import React from 'react';
-import { Container } from 'reactstrap';
 
-import Navbar from '../components/Navbar';
 import JoinForm from '../components/Auth/JoinForm';
 import Page from "../components/Page";
 import RightTitle from '../components/RightTitle';
