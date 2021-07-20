@@ -17,7 +17,7 @@ try {
   fs.mkdirSync("uploads");
 }
 
-const upload = multer({
+const storage = multer({
   storage: multer.diskStorage({
     destination(req, file, cb) {
       cb(null, "uploads/");
@@ -30,14 +30,28 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
-  console.log(req.file);
-  res.json({ url: `/img/${req.file.filename}` });
+// router.post("/img", isLoggedIn, upload.single("img"), (req, res) => {
+//   console.log(req.file);
+//   res.json({ url: `/img/${req.file.filename}` });
+// });
+
+var upload = multer({ storage: storage });
+
+router.get('/', function(req,res){
+  res.render('upload');
+});
+
+router.post('/uploadFile', upload.single('attachment'), function(req,res){
+  res.render('confirmation', { file: req.file, files: null });
+});
+
+router.post('/uploadFiles', upload.array('attachments'), function(req,res){
+  res.render('confirmation', { file: null, files: req.files });
 });
 
 const upload2 = multer();
 // new
-router.post("/create/:clubId", isLoggedIn, pload2.none(), async (req, res, next) => {
+router.post("/create/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
     try {
       const post = await ClubPost.create({
         title: req.body.title,
@@ -69,7 +83,7 @@ router.post("/create/:clubId", isLoggedIn, pload2.none(), async (req, res, next)
 );
 
 // edit(update)
-router.post("/update/:postId", isLoggedIn, upload2.none(), async (req, res, next) => {
+router.post("/update/:postId", isLoggedIn, upload.none(), async (req, res, next) => {
     try {
       const post = await ClubPost.update(
         {
@@ -81,7 +95,7 @@ router.post("/update/:postId", isLoggedIn, upload2.none(), async (req, res, next
           link: req.body.link || null,
           visit_count: req.body.visit_count,
         },
-        { where: { id: req.params.id, writer_id: req.user.id } }
+        { where: { id: req.params.postId, writer_id: req.user.id } }
       );
 
       // file update(수정 필요)
@@ -95,7 +109,7 @@ router.post("/update/:postId", isLoggedIn, upload2.none(), async (req, res, next
 );
 
 // post list
-router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
+router.get("/:id", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
     let result = await ClubPost.findAll({}).sort('-createAt').exec(function(err, posts){
       if (err) return res.json(err);
@@ -107,7 +121,7 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
   }
 });
 
-router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
+router.get("/:id", isLoggedIn, upload.none(), async (req, res, next) => {
   let post;
   try {
     post = await ClubPost.update(
@@ -142,7 +156,7 @@ router.get("/:id", isLoggedIn, upload2.none(), async (req, res, next) => {
 router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next) => {
   try {
     const post = await ClubPost.destroy({
-      where: { id: req.params.id, UserId: req.user.id },
+      where: { id: req.params.postId, UserId: req.user.id },
     });
 
     res.json(post);
