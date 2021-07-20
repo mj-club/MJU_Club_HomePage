@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
-const nunjucks = require("nunjucks");
 const passport = require("passport");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -35,11 +34,6 @@ const logger = require("./logger");
 const app = express();
 passportConfig();
 app.set("port", process.env.PORT || 3001);
-app.set("view engine", "html");
-nunjucks.configure("views", {
-  express: app,
-  watch: true,
-});
 
 // init sequelize
 sequelize
@@ -68,7 +62,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public"))); // default folder location
+app.use(express.static(path.join(__dirname, "../client/build"))); // default folder location
 app.use("/img", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
