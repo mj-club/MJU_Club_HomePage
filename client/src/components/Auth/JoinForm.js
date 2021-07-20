@@ -16,7 +16,7 @@
           `}
         </style>
 
-        <Card className="body pb-3">
+        <Card className="body pb-3 m-3 mt-5">
           <Container >
             <Row className="justify-content-md-center">
               <Col xs={12} md={6}>
@@ -29,7 +29,7 @@
 
                 <div className="content">
                   <div className="form-title">회원가입</div>
-                  <Form>
+                  <Form action="/join" method="post">
                     {/* start of table1 */}
                     <div className="form-sub-title"><h5 className="fw-bold">아이디 정보</h5></div>
                     <Table className="form-table">
