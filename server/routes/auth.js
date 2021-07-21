@@ -7,7 +7,7 @@ const User = require("../models/user");
 const router = express.Router();
 
 router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  // const { email, nick, password } = req.body;
+  const { email, name, password, ph_number, sex, department, school_year, student_id, auth_lv, major, snsId } = req.body;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -15,12 +15,17 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
     }
     const hash = await bcrypt.hash(password, 12);
     const user = await User.create({
-      email: profile._json && profile._json.kakao_account.email,
-      name: profile.displayName,
-      snsId: profile.id,
-      profile_img: profile._json.kakao_account.profile.profile_image_url,
-      auth_lv: 0,
-      provider: "kakao",
+      email,
+      name,
+      password: hash,
+      ph_number,
+      sex,
+      department,
+      school_year,
+      student_id,
+      auth_lv,
+      major,
+      snsId
     });
     return res.json(user);
   } catch (error) {
@@ -65,7 +70,6 @@ router.get(
   (req, res) => {
     console.log(req.user);
     res.json(req.user);
-    // res.redirect("http://localhost:3000/");
   }
 );
 

@@ -34,7 +34,7 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
-        school_id: {
+        student_id: {
           type: Sequelize.STRING(45),
           allowNull: true,
         },
@@ -75,7 +75,7 @@ module.exports = class User extends Sequelize.Model {
 
   static associate(db) {
     // // User - ClubInfo (m:n)
-    // db.User.belongsToMany(db.ClubInfo, { through: db.ClubMember });
+    // db.User.c(db.ClubInfo, { through: db.ClubMember });
     // // User - ClubPost (1:n)
     // db.User.hasMany(db.ClubPost, {
     //   foreignKey: "writer_id",
