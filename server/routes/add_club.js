@@ -32,21 +32,21 @@ const storage = multer({
 var upload = multer({ storage: storage });
 
 router.get('/', function(req,res){
-  res.render('upload');
+  res.json(req)
 });
 
 router.post('/uploadFile', upload.single('attachment'), function(req,res){
-  res.render('confirmation', { file: req.file, files: null });
+  res.json(req)
 });
 
 router.post('/uploadFiles', upload.array('attachments'), function(req,res){
-  res.render('confirmation', { file: null, files: req.files });
+  res.json(req)
 });
 
 
 const upload2 = multer();
 // new
-router.post("/create/:clubId", isLoggedIn, checkPermission, upload2.none(), async (req, res, next) => {
+router.post("/create/:clubId", isLoggedIn, checkPermission, upload.none(), async (req, res, next) => {
     try {
       const addClub = await ClubInfo.create({
         name: req.body.name,
@@ -67,7 +67,7 @@ router.post("/create/:clubId", isLoggedIn, checkPermission, upload2.none(), asyn
 );
 
 // edit(update)
-router.post( "/update/:clubId:", isLoggedIn, checkPermission,  upload2.none(), async (req, res, next) => {
+router.post( "/update/:clubId:", isLoggedIn, checkPermission,  upload.none(), async (req, res, next) => {
     try {
       const addClub = await ClubInfo.create({
         name: req.body.name,

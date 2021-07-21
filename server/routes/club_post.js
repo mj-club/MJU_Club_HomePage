@@ -38,15 +38,15 @@ const storage = multer({
 var upload = multer({ storage: storage });
 
 router.get('/', function(req,res){
-  res.render('upload');
+  res.json(req)
 });
 
 router.post('/uploadFile', upload.single('attachment'), function(req,res){
-  res.render('confirmation', { file: req.file, files: null });
+  res.json(req)
 });
 
 router.post('/uploadFiles', upload.array('attachments'), function(req,res){
-  res.render('confirmation', { file: null, files: req.files });
+  res.json(req)
 });
 
 const upload2 = multer();
@@ -109,12 +109,13 @@ router.post("/update/:postId", isLoggedIn, upload.none(), async (req, res, next)
 );
 
 // post list
-router.get("/:id", isLoggedIn, upload.none(), async (req, res, next) => {
+router.get("/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
-    let result = await ClubPost.findAll({}).sort('-createAt').exec(function(err, posts){
-      if (err) return res.json(err);
-      res.json(result);
-    });
+    let result = await ClubPost.findAll({
+      where: { id: req.params.clubId},
+      order: [['createAt', 'DESC']]
+    })
+    res.json(result);
   } catch (error) {
     console.error(error);
     next(error);
@@ -158,7 +159,6 @@ router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next
     const post = await ClubPost.destroy({
       where: { id: req.params.postId, UserId: req.user.id },
     });
-
     res.json(post);
   } catch (err) {
     console.error(err);
@@ -171,9 +171,10 @@ router.get("/:id", function (req, res, next) {
   try {
     const post = await ClubPost.findOne({
       where: { id: req.params.title },
+      order: [['createAt', 'DESC']]
     });
 
-    req.json(get);
+    req.json(post);
   } catch (err) {
     console.error(err);
     next(err);
@@ -190,14 +191,12 @@ router.get("/", async function (req, res) {
   var skip = (page - 1) * limit;
   var count = await ClubPost.countDocuments({});
   var maxPage = Math.ceil(count / limit);
-  var posts = await ClubPost.find({})
-    .populate("writer_id")
-    .sort("-createdAt")
-    .skip(skip)
-    .limit(limit)
-    .exec();
+  var posts = await ClubPost.find({
+    offset: offset,
+    limit: 20
+  })
 
-  res.render("/index", {
+  res.send("/index", {
     posts: posts,
     currentPage: page,
     maxPage: maxPage,
