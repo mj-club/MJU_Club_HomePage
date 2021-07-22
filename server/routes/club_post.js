@@ -1,11 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const mysql = require("mysql");
 const fs = require("fs");
-// const bodyParser = require('body-parser');
 
-const { ClubPost } = require("../models/club_post");
+const { ClubPost } = require("../models");
 const { ClubPostFile } = require("../models/club_post_file");
 const { isLoggedIn } = require("./middlewares");
 const { noPermission } = require("./middlewares");
@@ -51,65 +49,123 @@ router.post('/uploadFiles', upload.array('attachments'), function(req,res){
 
 const upload2 = multer();
 // new
-router.post("/create/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
-    try {
-      const post = await ClubPost.create({
-        title: req.body.title,
-        category: req.body.category,
-        content: req.body.content || null,
-        thumnail: req.body.thumnail || null,
-        set_top: false,
-        link: req.body.link || null,
-        visit_count: 0,
-        club_id: req.params.clubId,
-        writer_id: req.user.id,
-      });
+// router.post("/create/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
+//     try {
+//       const post = await ClubPost.create({
+//         title: req.body.title,
+//         category: req.body.category,
+//         content: req.body.content || null,
+//         thumbnail: req.body.thumbnail || null,
+//         set_top: false,
+//         link: req.body.link || null,
+//         visit_count: 0,
+//         club_id: req.params.clubId,
+//         writer_id: req.user.id,
+//       });
 
-      // file upload(수정 필요)
-      // if (req.body.file_url) {
-      // const postFile = await ClubPostFile.create({
-      // file_name: req.body.file_name,
-      // file_dir: req.body.file_dir,
-      // file
-      // })
-      // }
+//       // file upload(수정 필요)
+//       // if (req.body.file_url) {
+//       // const postFile = await ClubPostFile.create({
+//       // file_name: req.body.file_name,
+//       // file_dir: req.body.file_dir,
+//       // file
+//       // })
+//       // }
 
-      res.json(post);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+//       res.json(post);
+//     } catch (error) {
+//       console.error(error);
+//       next(error);
+//     }
+//   }
+// );
+
+router.post("/create/:clubId", upload.none(), async (req, res, next) => {
+  try {
+    let clubPost = await ClubPost.create({
+      title: req.body.title,
+      category: req.body.category,
+      content: req.body.content || null,
+      thumbnail: req.body.thumbnail || null,
+      set_top: false,
+      comment_count: 0,
+      visit_count: 0,
+      thumb_count: 0,
+      club_id: req.params.clubId,
+      writer_id: req.user.id,
+    });
+    console.log("게사물 등록")
+    res.json(clubPost);
+  } catch (error) {
+    console.error(error);
   }
+}
 );
 
 // edit(update)
-router.post("/update/:postId", isLoggedIn, upload.none(), async (req, res, next) => {
-    try {
-      const post = await ClubPost.update(
-        {
-          title: req.body.title,
-          category: req.body.category,
-          content: req.body.content || null,
-          thumnail: req.body.thumnail || null,
-          set_top: req.body.set_top,
-          link: req.body.link || null,
-          visit_count: req.body.visit_count,
-        },
-        { where: { id: req.params.postId, writer_id: req.user.id } }
-      );
+// router.post("/update/:postId", isLoggedIn, upload.none(), async (req, res, next) => {
+//     try {
+//       const post = await ClubPost.update(
+//         {
+//           title: req.body.title,
+//           category: req.body.category,
+//           content: req.body.content || null,
+//           thumbnail: req.body.thumbnail || null,
+//           set_top: req.body.set_top,
+//           link: req.body.link || null,
+//           visit_count: req.body.visit_count,
+//         },
+//         { where: { id: req.params.postId, writer_id: req.user.id } }
+//       );
 
-      // file update(수정 필요)
+//       // file update(수정 필요)
 
-      res.json(post);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+//       res.json(post);
+//     } catch (error) {
+//       console.error(error);
+//       next(error);
+//     }
+//   }
+// );
+
+router.post("/update/:postId", upload.none(), async (req, res, next) => {
+  try {
+    const post = await ClubPost.update(
+      {
+        title: req.body.title,
+        category: req.body.category,
+        content: req.body.content || null,
+        thumbnail: req.body.thumbnail || null,
+        set_top: req.body.set_top,
+        link: req.body.link || null,
+        visit_count: req.body.visit_count,
+      },
+      { where: { id: req.params.postId, writer_id: req.user.id } }
+    );
+    console.log("게사물 수정")
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
+}
 );
 
 // post list
-router.get("/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
+// router.get("/:clubId", isLoggedIn, upload.none(), async (req, res, next) => {
+//   try {
+//     let result = await ClubPost.findAll({
+//       where: { id: req.params.clubId},
+//       order: [['createAt', 'DESC']]
+//     })
+//     res.json(result);
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// });
+
+router.get("/:clubId", upload.none(), async (req, res, next) => {
   try {
     let result = await ClubPost.findAll({
       where: { id: req.params.clubId},
@@ -154,11 +210,24 @@ router.get("/:id", isLoggedIn, upload.none(), async (req, res, next) => {
 });
 
 // delete
-router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next) => {
+// router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next) => {
+//   try {
+//     const post = await ClubPost.destroy({
+//       where: { id: req.params.postId, UserId: req.user.id },
+//     });
+//     res.json(post);
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// });
+
+router.get("/delete/:postId", async (req, res, next) => {
   try {
     const post = await ClubPost.destroy({
       where: { id: req.params.postId, UserId: req.user.id },
     });
+    console.log("게사물 삭제")
     res.json(post);
   } catch (err) {
     console.error(err);
@@ -167,7 +236,21 @@ router.get("/delete/:postId", isLoggedIn, checkPermission, async (req, res, next
 });
 
 // search
-router.get("/:id", function (req, res, next) {
+// router.get("/:id", function (req, res, next) {
+//   try {
+//     const post = await ClubPost.findOne({
+//       where: { id: req.params.title },
+//       order: [['createAt', 'DESC']]
+//     });
+
+//     req.json(post);
+//   } catch (err) {
+//     console.error(err);
+//     next(err);
+//   }
+// });
+
+router.get("/:id", async (req, res, next) => {
   try {
     const post = await ClubPost.findOne({
       where: { id: req.params.title },
@@ -182,65 +265,65 @@ router.get("/:id", function (req, res, next) {
 });
 
 // page count
-router.get("/", async function (req, res) {
-  var page = Math.max(1, parseInt(req.query.page));
-  var limit = Math.max(1, parseInt(req.query.limit));
-  page = !isNaN(page) ? page : 1;
-  limit = !isNaN(limit) ? limit : 10;
+// router.get("/", async function (req, res) {
+//   var page = Math.max(1, parseInt(req.query.page));
+//   var limit = Math.max(1, parseInt(req.query.limit));
+//   page = !isNaN(page) ? page : 1;
+//   limit = !isNaN(limit) ? limit : 10;
 
-  var skip = (page - 1) * limit;
-  var count = await ClubPost.countDocuments({});
-  var maxPage = Math.ceil(count / limit);
-  var posts = await ClubPost.find({
-    offset: offset,
-    limit: 20
-  })
+//   var skip = (page - 1) * limit;
+//   var count = await ClubPost.countDocuments({});
+//   var maxPage = Math.ceil(count / limit);
+//   var posts = await ClubPost.find({
+//     offset: offset,
+//     limit: 20
+//   })
 
-  res.send("/index", {
-    posts: posts,
-    currentPage: page,
-    maxPage: maxPage,
-    limit: limit,
-  });
-});
+//   res.send("/index", {
+//     posts: posts,
+//     currentPage: page,
+//     maxPage: maxPage,
+//     limit: limit,
+//   });
+// });
 
-router.get("/paising/:cur", function (req, res) {
-  var page_view_size = 15;
-  var page_num_list_size = 10;
-  var totalPostCount = 0;
-  var queryString = "";
-  getConnection().query(queryString, function (error, data) {
-    if (error) {
-      console.log(error, ": db에서 불러오는데 실패했습니다.");
-      return;
-    }
-    totalPostCount = data[0].cnt;
-    var curPage = req.params.cur;
-    console.log("현재 페이지 : " + curPage, "전체 게시물 : " + totalPostCount);
+// router.get("/paising/:cur", function (req, res) {
+//   var page_view_size = 15;
+//   var page_num_list_size = 10;
+//   var totalPostCount = 0;
+//   var queryString = "";
+//   getConnection().query(queryString, function (error, data) {
+//     if (error) {
+//       console.log(error, ": db에서 불러오는데 실패했습니다.");
+//       return;
+//     }
+//     totalPostCount = data[0].cnt;
+//     var curPage = req.params.cur;
+//     console.log("현재 페이지 : " + curPage, "전체 게시물 : " + totalPostCount);
 
-    if ((totalPostCount < 0) | (totalPostCount == 0)) {
-      totalPostCount = 0;
-    }
+//     if ((totalPostCount < 0) | (totalPostCount == 0)) {
+//       totalPostCount = 0;
+//     }
 
-    var totalPageCount = Math.ceil(totalPostCount / page_view_size);
-    var totalSetCount = Math.ceil(totalPageCount / page_num_list_size);
-    var curSet = Math.ceil(curPage / page_num_list_size);
-    var firstPage = (curSet - 1) * 10 + 1;
-    var lastPage = firstPage + page_num_list_size;
+//     var totalPageCount = Math.ceil(totalPostCount / page_view_size);
+//     var totalSetCount = Math.ceil(totalPageCount / page_num_list_size);
+//     var curSet = Math.ceil(curPage / page_num_list_size);
+//     var firstPage = (curSet - 1) * 10 + 1;
+//     var lastPage = firstPage + page_num_list_size;
 
-    var result = {
-      curPage: curPage,
-      page_num_list_size: page_num_list_size,
-      page_view_size: page_view_size,
-      totalPostCount: totalPageCount,
-      totalPageCount: totalPageCount,
-      totalSetCount: totalSetCount,
-      curSet: curSet,
-      firstPage: firstPage,
-      lastPage: lastPage,
-    };
-  });
-});
+//     var result = {
+//       curPage: curPage,
+//       page_num_list_size: page_num_list_size,
+//       page_view_size: page_view_size,
+//       totalPostCount: totalPageCount,
+//       totalPageCount: totalPageCount,
+//       totalSetCount: totalSetCount,
+//       curSet: curSet,
+//       firstPage: firstPage,
+//       lastPage: lastPage,
+//     };
+//   });
+// });
 
 function checkPermission(req, res, next){
   ClubPost.findOne({clubId: req.params.clubId}, function(err, user){
