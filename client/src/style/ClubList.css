@@ -22,12 +22,14 @@
    
 
 .clubs_list{
-    background-color: #1f67bf3f;
+    background-color: none;
     height: 120%;
     width: 100%;   
     -webkit-animation-name: fadeInDown;
     animation-name: fadeInDown;
-    animation-duration: 1.5s;
+    animation-duration: all 2s;
+    margin: 0;
+    padding: 0;
 }
 
 .clubs_division{
@@ -37,13 +39,14 @@
 }
 
 #division{
-    display: inline-block;
+    background-color: #1f65bb3f;
     justify-content: center;
     text-align: center;
-    margin: 0 auto;
     margin-top: 16px;
+    margin: 0 auto;
     font-family: 'twayair';
     font-size: 20px;
+    border-radius: 4px;
 }
 
 #club{

@@ -1,13 +1,44 @@
 import React from "react"
+import { Container, Row, Col } from 'react-bootstrap';
 
-const Page = () => {
+import Navbar from "./Navbar";
+import ImageExampleFluid from "./ImageExampleFluid";
+import SubMenu from "./Submenu";
+import {
+  BrowserView,
+  MobileView,
+  isBrowser,
+  isMobile
+} from "react-device-detect";
+
+const Page = ({ rightTitle, rightInner}) => {
   return (
-    // Page를 상속받아서 반복작업안하도록
-    <div> Page </div>
-    // navbar
-    // subMenu
-    // RighTitle
-    // RightInner
+    <>
+      <Navbar />
+      <Container>
+        <Row>
+          {isBrowser ? <ImageExampleFluid /> : null}
+        </Row>
+        {isBrowser ? console.log("borwser") : console.log("mobile")}
+        {isBrowser ?
+          // browser
+          <Row>
+            <Col className="item" xs="3">
+              <SubMenu />
+            </Col>
+            <Col className="item" xs="9">
+              {rightTitle}
+              {rightInner}
+            </Col>
+          </Row> :
+          // mobile
+          <Row>
+            <Col className="item"> 
+              {rightInner}
+            </Col>
+          </Row>}
+      </Container>
+    </>
   );
 }
 

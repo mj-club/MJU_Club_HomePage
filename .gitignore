@@ -27,7 +27,6 @@ package-lock.json
 .env.test.local
 .env.production.local
 /server/.env
-/server/config
 
 # error log
 /server/combined.log
@@ -36,3 +35,5 @@ package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/client/src/assets

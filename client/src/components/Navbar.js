@@ -18,7 +18,7 @@ function Navigationbar() {
   const delay = () => {
     setTimeout(() => {
       setIsShown(false);
-    }, 3000);
+    }, 2000);
   }
 
   return (
@@ -36,7 +36,7 @@ function Navigationbar() {
                 <Nav.Link id="nav-link" href="mju_club">총동연</Nav.Link>
                 <Nav.Link id="nav-link" 
                   onMouseEnter={() => setIsShown(true)}
-                  onMouseLeave={() => delay()}>동아리</Nav.Link>
+                  onMouseLeave={() => setIsShown(false)}>동아리</Nav.Link>
                 <Nav.Link id="nav-link" href="promotion">청원게시판</Nav.Link>
                 <Nav.Link id="nav-link" href="about">키움 이모저모</Nav.Link>
                 <Nav.Link id="nav-link" href="monthly_keyum">Montly-Key:um</Nav.Link>

@@ -32,7 +32,6 @@ function LoginForm() {
         {`
         .body{
           border : 3px solid #F1C40F;
-          margin : 30px;
           text-align: center;
         }
         
@@ -69,7 +68,7 @@ function LoginForm() {
           </Row>
         </Container>
       )}
-      <Card className="body pt-3 pb-3">
+      <Card className="body pt-3 pb-3 m-3 mt-5">
         <Container>
           <Row className="justify-content-md-center">
             <Col xs={12} md={6}>
@@ -140,7 +139,7 @@ function LoginForm() {
               </Form>
               <Row>
                 <Col>
-                  <Card.Link href="/join" id="join">
+                  <Card.Link href="/join_term" id="join">
                     회원가입
                   </Card.Link>
                 </Col>

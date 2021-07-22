@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const createError = require("http-errors");
 const session = require("express-session");
-const nunjucks = require("nunjucks");
 const passport = require("passport");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -35,11 +34,6 @@ const logger = require("./logger");
 const app = express();
 passportConfig();
 app.set("port", process.env.PORT || 3001);
-app.set("view engine", "html");
-nunjucks.configure("views", {
-  express: app,
-  watch: true,
-});
 
 // init sequelize
 sequelize
@@ -68,7 +62,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public"))); // default folder location
+app.use(express.static(path.join(__dirname, "../client/build"))); // default folder location
 app.use("/img", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -99,6 +93,11 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 
+
+app.get('*', (req, res) => {
+  res.sendFile( path.resolve(__dirname, "../client/build/index.html"));
+});
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
@@ -116,7 +115,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.send("error");
 });
 
 // listen server

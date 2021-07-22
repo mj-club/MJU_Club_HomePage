@@ -1,4 +1,5 @@
 import React from 'react';
+import '../style/ClubList.css';
 
 export default function ClubList() {
   return(
@@ -18,8 +19,8 @@ export default function ClubList() {
                 <li id="club"><a href="mju_club">P.E.R</a></li>
                 <li id="club"><a href="mju_club">Flow-er</a></li>
                 <li id="club"><a href="mju_club">SK루키</a></li>
-                </p>
-                <p id="division">전시창작분과
+            </p>
+            <p id="division">전시창작분과
                 <li id="club"><a href="mju_club">코아</a></li>
                 <li id="club"><a href="mju_club">씨네메이션</a></li>
                 <li id="club"><a href="mju_club">그림패시만화</a></li>
