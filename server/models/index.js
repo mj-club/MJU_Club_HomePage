@@ -57,13 +57,13 @@ db.User = User;
 db.ClubInfo = ClubInfo;
 db.ClubMember = ClubMember;
 // db.Comment = Comment;
-// db.Club_post = Club_post;
+db.ClubPost = ClubPost;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
 ClubMember.init(sequelize);
 // Comment.init(sequelized);
-// Club_post.init(sequelize);
+ClubPost.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
