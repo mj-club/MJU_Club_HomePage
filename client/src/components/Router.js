@@ -13,9 +13,6 @@ import Page from "../components/Page";
 import JoinTermPage from "../pages/JoinTermPage"
 import WelcomePage from "../pages/WelcomePage"
 
-//키움 이모저모
-import About_Board from '../pages/about/BulletinBoardPage';
-
 // Pages 로 이동
 export default function Routers() {
   return(
@@ -30,7 +27,6 @@ export default function Routers() {
 
           <Route path="/promotion" component={PromotionPage}/>
           <Route path="/about" component={AboutPage}/>
-          <Route path="/bulletin-board" component={About_Board}/>
           <Route path="/monthly_keyum" component={MonthlyPage}/>
 
           <Route path="/login" component={LoginPage}/>
