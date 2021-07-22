@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircle,
@@ -19,12 +19,29 @@ import {
   Spinner,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { kakaoLogin, clearError } from "../../actions";
+import { useHistory } from "react-router-dom";
+
+import { kakaoLogin, emailLogin, clearError } from "../../actions";
 
 function LoginForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const error = useSelector((state) => state.authReducer.error);
   const loading = useSelector((state) => state.authReducer.loading);
+  const user = useSelector((state) => state.authReducer.user);
+
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
+
+  const handleLogin = () => {
+    let body = {
+      email: email,
+      password: password
+    };
+
+    dispatch(emailLogin(body));
+  };
 
   return (
     <>
@@ -53,8 +70,11 @@ function LoginForm() {
           float:right;
         }
 
-    `}
+        `}
       </style>
+      {user && 
+        history.push("/")
+      }
       {error !== null && (
         <Container className="mt-3">
           <Row>
@@ -99,7 +119,9 @@ function LoginForm() {
                         />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl type="email" placeholder="이메일" />
+                    <FormControl type="email" placeholder="이메일" value={email}
+                      onChange={({ target: {value} }) => {setEmail(value)}}
+                    />
                   </InputGroup>
                 </Form.Group>
 
@@ -110,14 +132,19 @@ function LoginForm() {
                         <FontAwesomeIcon icon={faKey} color="gray" fixedWidth />
                       </InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl type="password" placeholder="비밀번호" />
+                    <FormControl type="password" placeholder="비밀번호" value={password}
+                      onChange={({ target: {value} }) => {setPassword(value)}}
+                    />
                   </InputGroup>
                 </Form.Group>
 
                 <div className="d-grid gap-2">
                   {!loading && (
                     <>
-                      <Button variant="warning" type="submit">
+                      <Button variant="warning" type="submit"
+                      onClick={() => {
+                        handleLogin()
+                      }}>
                         로그인
                       </Button>
                       <Button
