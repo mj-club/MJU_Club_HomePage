@@ -75,7 +75,7 @@ module.exports = class User extends Sequelize.Model {
 
   static associate(db) {
     // // User - ClubInfo (m:n)
-    // db.User.c(db.ClubInfo, { through: db.ClubMember });
+    db.User.belongsToMany(db.ClubInfo, { through: db.ClubMember });
     // // User - ClubPost (1:n)
     // db.User.hasMany(db.ClubPost, {
     //   foreignKey: "writer_id",
