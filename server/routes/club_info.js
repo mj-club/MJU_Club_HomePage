@@ -29,8 +29,8 @@ router.get(
 //create or update
 router.post(
   "/:clubName",
-  isLoggedIn,
-  checkPermission,
+  // isLoggedIn,
+  // checkPermission,
   async (req, res, next) => {
     try {
       let clubInfo = await ClubInfo.findOne({
