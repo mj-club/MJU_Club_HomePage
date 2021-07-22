@@ -31,7 +31,7 @@ router.get("/:clubName", async (req, res, next) => {
     { where: { name: req.params.clubName } },
     function (err, get) {
       if (err) return res.json(err);
-      return res.json(post);
+      return res.json(get);
     }
   );
 });
@@ -82,7 +82,7 @@ router.get("/:clubName", async (req, res, next) => {
 // );
 
 //create or update (임시 - 테스트용이므로 지워야함)
-router.post("/:clubName", multer().none(), async (req, res, next) => {
+router.post("/create/:clubName", multer().none(), async (req, res, next) => {
   try {
     let clubInfo = await ClubInfo.findOne({
       where: { name: req.params.clubName },
@@ -139,7 +139,7 @@ router.post("/:clubName", multer().none(), async (req, res, next) => {
 // );
 
 router.get(
-  "/:clubName",
+  "/delete/:clubName",
   isLoggedIn,
   checkPermission,
   async (req, res, next) => {

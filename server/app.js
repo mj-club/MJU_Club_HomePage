@@ -27,6 +27,9 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const clubInfoRouter = require("./routes/club_info");
+const clubPostRouter = require("./routes/club_post");
+const clubRouter = require("./routes/club");
+const postRouter = require("./routes/post");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const logger = require("./logger");
@@ -94,6 +97,9 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
 app.use("/club_info", clubInfoRouter);
+app.use("/club_post", clubPostRouter);
+app.use("/club", clubRouter);
+app.use("/post", postRouter);
 
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build/index.html"));

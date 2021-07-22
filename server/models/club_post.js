@@ -9,7 +9,7 @@ module.exports = class ClubPost extends Sequelize.Model {
           allowNull: false,
         },
         category: {
-          type: Sequelize.STRING(45), // 공지사항, 문의게시판, 자유게시판, 월별활동게시판
+          type: Sequelize.STRING(45), // 공지사항, 문의게시판
           allowNull: false,
         },
         thumbnail: {
@@ -34,6 +34,10 @@ module.exports = class ClubPost extends Sequelize.Model {
         },
         thumb_count: {
           type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+        writer: {
+          type: Sequelize.STRING(45),
           allowNull: false,
         },
       },
