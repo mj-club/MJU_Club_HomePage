@@ -9,7 +9,7 @@ const FormCard = ({icon, content, title}) => {
     <style type="text/css">
         {`
           .body{
-           border : 3px solid #F1C40F;
+           border : 3px solid #A99371;
 
           .form-title{
             font-size: 2rem;
@@ -23,7 +23,7 @@ const FormCard = ({icon, content, title}) => {
     <Card className="body pb-3 m-3 mt-5 text-center">
       <div className="top-icon" >
         <div className="fa-layers">
-          <FontAwesomeIcon icon={faCircle} color="#F1C40F" size="4x" transform="up-5 left-5" />
+          <FontAwesomeIcon icon={faCircle} color="#A99371" size="4x" transform="up-5 left-5" />
           <FontAwesomeIcon icon={icon} inverse size="4x" transform="shrink-7 up-5 left-6" />
         </div>
       </div>
