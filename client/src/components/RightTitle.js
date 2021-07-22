@@ -4,7 +4,7 @@ import "../style/RightTitle.css";
 const RightTitle = ({title, menu1, menu2, menu3}) => {
   return (
     <>
-    <Container className="RightTitle">
+    <Container className="RightTitle mt-3 mb-5" >
       <Row >
         <Col className="mb-0" xs="4"><h2>{title}</h2></Col>
         <Col className="mb-0 right-title">{menu1}{'>'}{menu2}{'>'}{menu3}</Col>

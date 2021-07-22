@@ -2,7 +2,7 @@ import React from 'react';
 
 import Page from '../../components/Page';
 import RightTitle from '../../components/RightTitle';
-import Ipsum from '../../components/Ipsum';
+import List from '../../components/Board/List';
 
 export default function BulletinBoardPage() {
   const title="자유 게시판";
@@ -12,7 +12,7 @@ export default function BulletinBoardPage() {
             menu2={title}
             menu3={"목록"}
           />
-  const rightInner = <Ipsum title={title}></Ipsum>
+  const rightInner = <List/>
 
   return(
     <Page rightInner={rightInner} rightTitle={rightTitle}/>
