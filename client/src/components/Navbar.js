@@ -77,7 +77,7 @@ function Navigationbar() {
             type="button" 
             value="회원가입"
             onClick={() => {
-              history.push("/join");
+              history.push("/join_term");
             }} />
         </Navbar.Collapse>
       </Navbar>
