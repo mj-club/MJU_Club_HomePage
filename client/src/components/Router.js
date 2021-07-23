@@ -12,7 +12,7 @@ import MonthlyPage from '../pages/MonthlyPage';
 import Page from "../components/Page";
 import JoinTermPage from "../pages/JoinTermPage";
 import AboutClubUnion from "../pages/AboutClubUnion";
-import WelcomePage from "../pages/WelcomePage"
+import WelcomePage from "../pages/WelcomePage";
 
 // Pages 로 이동
 export default function Routers() {
