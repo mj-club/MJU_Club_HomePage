@@ -37,16 +37,16 @@ const storage = multer({
 
 var upload = multer({ storage: storage });
 
-router.get('/', function(req,res){
-  res.json(req)
+router.get("/", function (req, res) {
+  res.json(req);
 });
 
-router.post('/uploadFile', upload.single('attachment'), function(req,res){
-  res.json(req)
+router.post("/uploadFile", upload.single("attachment"), function (req, res) {
+  res.json(req);
 });
 
-router.post('/uploadFiles', upload.array('attachments'), function(req,res){
-  res.json(req)
+router.post("/uploadFiles", upload.array("attachments"), function (req, res) {
+  res.json(req);
 });
 
 const upload2 = multer();
@@ -55,123 +55,141 @@ const upload2 = multer();
 
 // Read
 // 동아리별 전체 게시물
-router.get("/post/:clubName/:category",   // category: announcement[공지사항],faq[문의게시판]
-// isLoggedIn, 
-// upload.none(), 
-async (req, res, next) => {
-  try {
-    const clubInfo = await ClubInfo.findOne({
-      where: { name: req.params.clubName },
-    });
-    const clubId = clubInfo.id;
-    
-    let postList = await ClubPost.findAll({
-      where: { club_id: ClubId, category: req.params.category},
-      attributes: ['title', 'thumbnail','writer', 'set_top', 'visit_count', 'comment_count', 'thumb_count'],
-      order: [['createAt', 'DESC']]
-    })
-    res.json(postList);
-  } catch (error) {
-    console.error(error);
-    next(error);
+router.get(
+  "/post/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
+  // isLoggedIn,
+  // upload.none(),
+  async (req, res, next) => {
+    try {
+      const clubInfo = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+      const clubId = clubInfo.id;
+
+      let postList = await ClubPost.findAll({
+        where: { club_id: ClubId, category: req.params.category },
+        attributes: [
+          "title",
+          "thumbnail",
+          "writer",
+          "set_top",
+          "visit_count",
+          "comment_count",
+          "thumb_count",
+        ],
+        order: [["createAt", "DESC"]],
+      });
+      res.json(postList);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 // 게시물 상세
-router.get("/post/:postId", 
-// isLoggedIn, 
-// upload.none(), 
-async (req, res, next) => {
-  try {
-    let post = await ClubPost.findOne({
-      where: { id: req.params.postId},
-    })
-    let visit_count = parseInt(post.visit_count) + 1;
-    post = await post.update("visit_count", visit_count);
-    res.json(post);
-  } catch (error) {
-    console.error(error);
-    next(error);
+router.get(
+  "/post/:postId",
+  // isLoggedIn,
+  // upload.none(),
+  async (req, res, next) => {
+    try {
+      let post = await ClubPost.findOne({
+        where: { id: req.params.postId },
+      });
+      let visit_count = parseInt(post.visit_count) + 1;
+      post = await post.update("visit_count", visit_count);
+      res.json(post);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 // Create
-router.post("/post/:clubName/:category",  // category: announcement[공지사항],faq[문의게시판]
-// isLoggedIn, 
-// upload.none(), 
-async (req, res, next) => {
-  try {
-    const clubInfo = await ClubInfo.findOne({
-      where: { name: req.params.clubName },
-    });
-    const clubId = clubInfo.id;
+router.post(
+  "/post/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
+  // isLoggedIn,
+  // upload.none(),
+  async (req, res, next) => {
+    try {
+      const clubInfo = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+      const clubId = clubInfo.id;
 
-    let clubPost = await ClubPost.create({
-      title: req.body.title,
-      category: req.params.category,
-      content: req.body.content || null,
-      thumbnail: req.body.thumbnail || null,
-      set_top: req.body.set_top || false,
-      comment_count: 0,
-      visit_count: 0,
-      thumb_count: 0,
-      club_id: req.params.clubId,
-      writer_id: req.user.id,
-      writer: req.user.name,
-    });
-    console.log("게시물 등록")
-    res.json(clubPost);
-  } catch (error) {
-    console.error(error);
-  }
-});
-
-// Update
-router.post("/post/:postId", 
-// isLoggedIn, 
-// upload.none(), 
-async (req, res, next) => {
-  try {
-    const post = await ClubPost.update(
-      {
+      let clubPost = await ClubPost.create({
         title: req.body.title,
+        category: req.params.category,
         content: req.body.content || null,
         thumbnail: req.body.thumbnail || null,
         set_top: req.body.set_top || false,
-      },
-      { where: { id: req.params.postId, writer_id: req.user.id } }
-    );
-    console.log("게시물 수정")
-    res.json(post);
-  } catch (error) {
-    console.error(error);
-    next(error);
+        comment_count: 0,
+        visit_count: 0,
+        thumb_count: 0,
+        club_id: req.params.clubId,
+        writer_id: req.user.id,
+        writer: req.user.name,
+      });
+      console.log("게시물 등록");
+      res.json(clubPost);
+    } catch (error) {
+      console.error(error);
+    }
   }
-});
+);
+
+// Update
+router.post(
+  "/post/:postId",
+  // isLoggedIn,
+  // upload.none(),
+  async (req, res, next) => {
+    try {
+      const post = await ClubPost.update(
+        {
+          title: req.body.title,
+          content: req.body.content || null,
+          thumbnail: req.body.thumbnail || null,
+          set_top: req.body.set_top || false,
+        },
+        { where: { id: req.params.postId, writer_id: req.user.id } }
+      );
+      console.log("게시물 수정");
+      res.json(post);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
 
 // club post (delete)
-router.get("/delete/:postId", 
-// isLoggedIn, 
-// checkPermission, 
-async (req, res, next) => {
-  try {
-    const post = await ClubPost.destroy({
-      where: { id: req.params.postId, UserId: req.user.id },
-    });
-    console.log("게사물 삭제")
-    res.json(post);
-  } catch (err) {
-    console.error(err);
-    next(err);
+router.get(
+  "/delete/:postId",
+  // isLoggedIn,
+  // checkPermission,
+  async (req, res, next) => {
+    try {
+      const post = await ClubPost.destroy({
+        where: { id: req.params.postId, UserId: req.user.id },
+      });
+      console.log("게사물 삭제");
+      res.json(post);
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
   }
-});
+);
 
 // search
 router.get("/:id", async (req, res, next) => {
   try {
     const post = await ClubPost.findOne({
       where: { id: req.params.title },
-      order: [['createAt', 'DESC']]
+      order: [["createAt", "DESC"]],
     });
 
     req.json(post);
@@ -242,7 +260,6 @@ router.get("/:id", async (req, res, next) => {
 //   });
 // });
 
-
 // -----------comment------------
 router.post("/create/:postId", isLoggedIn, async (req, res, next) => {
   try {
@@ -262,7 +279,7 @@ router.post("/create/:postId", isLoggedIn, async (req, res, next) => {
 router.post("/update/:postId", isLoggedIn, async (req, res, next) => {
   try {
     const post = await ClubPost.fineOne({
-      where: {id: req.params.id, post_id: req.params.postId}
+      where: { id: req.params.id, post_id: req.params.postId },
     });
     console.log("댓글 수정");
     res.json();
@@ -277,46 +294,42 @@ router.post("/update/:postId", isLoggedIn, async (req, res, next) => {
 // club info
 // read
 router.get(
-  "/:clubName",
+  "/info/:clubName",
   // isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
-    ClubInfo.findOne(
-      { where: { name: req.params.clubName } },
-      function (err, get) {
-        if (err) return res.json(err);
-        return res.json(get);
-      }
-    );
+    try {
+      const club = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+      res.json(club);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+    // ClubInfo.findOne(
+    //   { where: { name: req.params.clubName } },
+    // function (err, get) {
+    //   if (err) return res.json(err);
+    //   return res.json(get);
+    // }
+    // );
   }
 );
 
 //create or update
 router.post(
-  "/create/:clubName", 
+  "/create/:clubName",
   // isLoggedIn,
   // checkPermission,
-  multer().none(), 
+  multer().none(),
   async (req, res, next) => {
-  try {
-    let clubInfo = await ClubInfo.findOne({
-      where: { name: req.params.clubName },
-    });
-    if (clubInfo === null) {
-      clubInfo = await ClubInfo.create({
-        name: req.params.clubName,
-        representation: req.body.representation,
-        contact_number: req.body.contact_number,
-        introduction: req.body.introduction,
-        plan: req.body.plan,
-        recruit: req.body.recruit,
-        meeting: req.body.meeting,
-        recruitment: req.body.recruitment,
+    try {
+      let clubInfo = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
       });
-    } else {
-      const targetId = clubInfo.id;
-      clubInfo = await ClubInfo.update(
-        {
+      if (clubInfo === null) {
+        clubInfo = await ClubInfo.create({
           name: req.params.clubName,
           representation: req.body.representation,
           contact_number: req.body.contact_number,
@@ -325,16 +338,30 @@ router.post(
           recruit: req.body.recruit,
           meeting: req.body.meeting,
           recruitment: req.body.recruitment,
-        },
-        { where: { id: targetId } }
-      );
+        });
+      } else {
+        const targetId = clubInfo.id;
+        clubInfo = await ClubInfo.update(
+          {
+            name: req.params.clubName,
+            representation: req.body.representation,
+            contact_number: req.body.contact_number,
+            introduction: req.body.introduction,
+            plan: req.body.plan,
+            recruit: req.body.recruit,
+            meeting: req.body.meeting,
+            recruitment: req.body.recruitment,
+          },
+          { where: { id: targetId } }
+        );
+      }
+      res.json(clubInfo);
+    } catch (error) {
+      console.log(error);
+      res.send(error);
     }
-    res.json(clubInfo);
-  } catch (error) {
-    console.log(error);
-    res.send(error);
   }
-});
+);
 
 // delete
 router.get(
@@ -355,27 +382,28 @@ router.get(
 
 // member list
 router.get(
-  "/member/:clubName", 
+  "/member/:clubName",
   isLoggedIn,
   checkPermission,
   async (req, res, next) => {
-  try {
-    const clubInfo = await ClubInfo.findOne({
-      where: { name: req.params.clubName },
-    });
-    const clubId = clubInfo.id;
-    const clubMembers = await ClubMember.findAll({
-      where: { club_id: clubId },
-    });
-    res.json(clubMembers);
-  } catch (error) {
-    console.log(error);
-    res.send(error);
+    try {
+      const clubInfo = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+      const clubId = clubInfo.id;
+      const clubMembers = await ClubMember.findAll({
+        where: { club_id: clubId },
+      });
+      res.json(clubMembers);
+    } catch (error) {
+      console.log(error);
+      res.send(error);
+    }
   }
-});
+);
 
-function checkPermission(req, res, next){
-  ClubPost.findOne({clubId: req.params.clubId}, function(err, user){
+function checkPermission(req, res, next) {
+  ClubPost.findOne({ clubId: req.params.clubId }, function (err, user) {
     if (err) return res.json(err);
     if (club_posts.writer_id != req.user.id) return noPermission(req, res);
     next();

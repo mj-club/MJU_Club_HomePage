@@ -1,4 +1,5 @@
 const express = require("express");
+const multer = require("multer");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
@@ -6,8 +7,20 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-router.post("/join", isNotLoggedIn, async (req, res, next) => {
-  const { email, name, password, ph_number, sex, department, school_year, student_id, auth_lv, major, snsId } = req.body;
+router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
+  const {
+    email,
+    name,
+    password,
+    ph_number,
+    sex,
+    department,
+    school_year,
+    student_id,
+    major,
+    snsId,
+  } = req.body;
+  let auth_lv = student_id ? 1 : 0;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -25,7 +38,7 @@ router.post("/join", isNotLoggedIn, async (req, res, next) => {
       student_id,
       auth_lv,
       major,
-      snsId
+      snsId,
     });
     return res.json(user);
   } catch (error) {
