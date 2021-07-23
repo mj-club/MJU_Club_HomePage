@@ -67,5 +67,6 @@ ClubPost.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
+ClubPost.associate(db);
 
 module.exports = db;

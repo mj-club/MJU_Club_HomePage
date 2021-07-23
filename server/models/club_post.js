@@ -67,19 +67,19 @@ module.exports = class ClubPost extends Sequelize.Model {
       targetKey: "id",
     });
 
-    // ClubPost - thumb - User (n:m)
-    db.ClubPost.belongsToMany(db.User, { through: db.Thumb });
+    // // ClubPost - thumb - User (n:m)
+    // db.ClubPost.belongsToMany(db.User, { through: db.Thumb });
 
-    // ClubPost - ClubPostComment (1:n)
-    db.ClubPost.hasMany(db.ClubPostComment, {
-      foreignKey: "post_id",
-      sourceKey: "id",
-    });
+    // // ClubPost - ClubPostComment (1:n)
+    // db.ClubPost.hasMany(db.ClubPostComment, {
+    //   foreignKey: "post_id",
+    //   sourceKey: "id",
+    // });
 
-    // ClubPost - ClubPostFile (1:n)
-    db.ClubPost.hasMany(db.ClubPostFile, {
-      foreignKey: "post_id",
-      sourceKey: "id",
-    });
+    // // ClubPost - ClubPostFile (1:n)
+    // db.ClubPost.hasMany(db.ClubPostFile, {
+    //   foreignKey: "post_id",
+    //   sourceKey: "id",
+    // });
   }
 };
