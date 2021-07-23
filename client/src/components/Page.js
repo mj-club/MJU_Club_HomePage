@@ -33,7 +33,7 @@ const Page = ({ rightTitle, rightInner}) => {
           </Row> :
           // mobile
           <Row>
-            <Col className="item"> 
+            <Col className="item" style="font-famiily: 'twayair'"> 
               {rightInner}
             </Col>
           </Row>}
