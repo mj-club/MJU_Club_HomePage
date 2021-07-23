@@ -7,9 +7,10 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers/index";
 import logger from "redux-logger";
 
-import "./index.css";
+import 'semantic-ui-css/semantic.min.css';
+import './index.css';
 import './assets/scss/style.scss';
-import App from "./App";
+import App from './App';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(

@@ -8,29 +8,33 @@ module.exports = class ClubInfo extends Sequelize.Model {
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        division: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
-        },
-        introdution: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-        },
         representation: {
           type: Sequelize.STRING(45),
           allowNull: false,
         },
         contact_number: {
           type: Sequelize.STRING(45),
-          allowNull: false,
+          allowNull: true,
         },
-        sns: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
-        },
-        infomation: {
+        introduction: {
           type: Sequelize.TEXT,
-          allowNull: false,
+          allowNull: true,
+        },
+        plan: {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        recruit: {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        meeting: {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        },
+        recruitment: {
+          type: Sequelize.TEXT,
+          allowNull: true,
         },
       },
       {

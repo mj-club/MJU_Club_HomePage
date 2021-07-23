@@ -24,6 +24,9 @@ const authReducer = produce((state, action) => {
     case 'CLEAR_ERROR':
       state.error = null;
       break;
+
+    case 'SHOW_MESSAGE':
+      state.message = action.payload;
     default:
       break;
   }

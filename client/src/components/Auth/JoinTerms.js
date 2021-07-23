@@ -1,21 +1,22 @@
 import React from "react";
-import { faUserCheck } from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { Row , Container, Form , Button} from "react-bootstrap";
 import FormCard from "./FormCard";
 import Ipsum from "../Ipsum";
 
 // const error = useSelector((state) => state.authReducer.error);
 const validCheck = () => {
+  // 동의가 체크되어야만 다음으로 넘어감
   
 };
 
-class TermCheck extends React.Component {
+class TermContent extends React.Component {
   render() {
     return (
       <>
         <style>
           {
-            `
+          `
           .scroll{
             overflow : scroll;
           }
@@ -40,16 +41,18 @@ class TermCheck extends React.Component {
           </Row>
           </Form>
         </Container>
-        <div className="text-center"><Button type="submit" onClick="validCheck">다음</Button></div>
+        <div className="text-center">
+          <Button type="submit" onClick="validCheck" href="/join">다음</Button>
+        </div>
       </>
     );
   }
 }
 
-const content = <TermCheck />
+const content = <TermContent />
 const JoinTerm = () => {
   return (
-    <FormCard icon={faUserCheck} content={content} title={"회원가입"} />
+    <FormCard icon={faUserPlus} content={content} title={"회원가입"} />
   );
 }
 

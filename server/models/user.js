@@ -15,7 +15,7 @@ module.exports = class User extends Sequelize.Model {
           unique: true,
         },
         password: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.STRING(100),
           allowNull: true,
         },
         ph_number: {
@@ -74,33 +74,24 @@ module.exports = class User extends Sequelize.Model {
   }
 
   static associate(db) {
-    // // User - ClubInfo (m:n)
-    // db.User.c(db.ClubInfo, { through: db.ClubMember });
-    // // User - ClubPost (1:n)
-    // db.User.hasMany(db.ClubPost, {
-    //   foreignKey: "writer_id",
-    //   sourceKey: "id",
-    // });
-    // // User - thumb - ClubPost (m:n)
+    // User - ClubInfo (m:n)
+    db.User.belongsToMany(db.ClubInfo, { through: db.ClubMember });
+    // User - ClubPost (1:n)
+    db.User.hasMany(db.ClubPost, {
+      foreignKey: "writer_id",
+      sourceKey: "id",
+    });
+    // User - thumb - ClubPost (m:n)
     // db.User.belongsToMany(db.ClubPost, { through: db.Thumb });
-    // // User - ClubPostComment (1:n)
-    // db.User.hasMany(db.ClubPostComment, {
-    //   foreignKey: "writer_id",
-    //   sourceKey: "id",
-    // });
-    // // User - PetitionPost (1:n)
+    // User - ClubPostComment (1:n)
+    db.User.hasMany(db.ClubPostComment, {
+      foreignKey: "writer_id",
+      sourceKey: "id",
+    });
+    // User - PetitionPost (1:n)
     // db.User.hasMany(db.PetitionPost, {
     //   foreignKey: "user_id",
     //   sourceKey: "id",
     // });
-    //     db.User.hasMany(db.Club_post);
-    //     db.User.hasMany(db.Club_member);
-    //     db.User.hasMany(db.Club_post_comment);
-    //     db.User.hasMany(db.Thumb);
-    //     db.User.hasMany(db.Club_union_post);
-    //     db.User.hasMany(db.Club_union_post_comment);
-    //     db.User.hasMany(db.Event_info);
-    //     db.User.hasMany(db.Rental_apply);
-    //     db.User.hasMany(db.Petition_Post);
   }
 };
