@@ -55,9 +55,9 @@ module.exports = class ClubInfo extends Sequelize.Model {
     db.ClubInfo.belongsToMany(db.User, { through: db.ClubMember });
 
     // ClubInfo - ClubPost (1:n)
-    // db.ClubInfo.hasMany(db.ClubPost, {
-    //   foreignKey: "club_id",
-    //   sourceKey: "id",
-    // });
+    db.ClubInfo.hasMany(db.ClubPost, {
+      foreignKey: "club_id",
+      sourceKey: "id",
+    });
   }
 };

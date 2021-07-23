@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 
-const { ClubInfo, ClubMember} = require("../models");
+const { ClubUnionInfo, ClubUnionMember} = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 // -----------info------------
