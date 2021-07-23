@@ -33,10 +33,10 @@ function Navigationbar() {
           <Nav className="mr-auto"> 
             {!isTabletOrMobile && 
               <>
-                <Nav.Link id="nav-link" href="mju_club">총동연</Nav.Link>
+                <Nav.Link id="nav-link" href="about">총동연</Nav.Link>
                 <Nav.Link id="nav-link" 
                   onMouseEnter={() => setIsShown(true)}
-                  onMouseLeave={() => setIsShown(false)}>동아리</Nav.Link>
+                  onMouseLeave={() => delay()}>동아리</Nav.Link>
                 <Nav.Link id="nav-link" href="promotion">청원게시판</Nav.Link>
                 <Nav.Link id="nav-link" href="about">키움 이모저모</Nav.Link>
                 <Nav.Link id="nav-link" href="monthly_keyum">Montly-Key:um</Nav.Link>
@@ -51,8 +51,13 @@ function Navigationbar() {
                 {isShown && isTabletOrMobile &&
                   <div class="d-block nav">
                     <Nav>
-                      <Nav.Link id="nav-link" href="mju_club" style={{textAlign: "center"}}>학술분과</Nav.Link>
-                      <Nav.Link id="nav-link" href="mju_club" style={{textAlign: "center"}}>사회연구분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>학술분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>사회연구분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>전시창작분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>체육분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>연행예술분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>종교분과</Nav.Link>
+                      <Nav.Link id="nav-link-mobile" href="mju_club" style={{textAlign: "center"}}>봉사분과</Nav.Link>
                     </Nav>
                   </div>
                 }
@@ -63,22 +68,24 @@ function Navigationbar() {
             }
             
           </Nav>
-          <Button 
-            id="signup-btn"
-            as="input" 
-            type="button" 
-            value="로그인"
-            onClick={() => {
-              history.push("/login");
-            }} />
-          <Button 
-            id="signup-btn"
-            as="input" 
-            type="button" 
-            value="회원가입"
-            onClick={() => {
-              history.push("/join");
-            }} />
+          <div id="btn">
+            <Button 
+              id="signup-btn"
+              as="input" 
+              type="button" 
+              value="로그인"
+              onClick={() => {
+                history.push("/login");
+              }} />
+            <Button 
+              id="signup-btn"
+              as="input" 
+              type="button" 
+              value="회원가입"
+              onClick={() => {
+                history.push("/join");
+              }} />
+          </div>
         </Navbar.Collapse>
       </Navbar>
       {isShown && !isTabletOrMobile &&

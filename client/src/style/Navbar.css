@@ -25,7 +25,9 @@
 #nav-link{
     /* font-weight: bold; */
     color: #000;
-    margin-right: 100px;
+    margin: 0 auto;
+    margin-left: 50px;
+    margin-right: 50px;
     font-size: 20px;
     font-family: 'twayair';
 }
@@ -34,14 +36,30 @@
     color : rgb(87, 107, 216);
     border-radius: 4px;
 }
+.d-block .nav {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+#nav-link-mobile {
+    font-size: 16px;
+    font-family: "twayair";
+    color: rgb(78, 78, 78);
+}
+#btn {
+    justify-content: center;
+    text-align: center;
+    margin: 0 30 0 30;
+}
 
 #signup-btn{
     background-color: #76a5fd;
     color: #000;
-    justify-self: center;
+    justify-content: center;
     border: none;
     /* font-weight: bold; */
-    margin-right: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
     font-family: 'twayair';
 }
 

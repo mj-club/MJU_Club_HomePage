@@ -22,7 +22,7 @@
    
 
 .clubs_list{
-    background-color: none;
+    background-color: #1f65bb3f;
     height: 120%;
     width: 100%;   
     -webkit-animation-name: fadeInDown;
@@ -39,7 +39,6 @@
 }
 
 #division{
-    background-color: #1f65bb3f;
     justify-content: center;
     text-align: center;
     margin-top: 16px;
