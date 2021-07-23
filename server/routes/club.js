@@ -87,7 +87,7 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      let clubInfo = await ClubPost.destroy({
+      let clubInfo = await ClubInfo.destroy({
         where: { name: req.params.clubName },
       });
       res.json(clubInfo);

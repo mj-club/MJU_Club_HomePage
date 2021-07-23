@@ -18,7 +18,7 @@ router.get(
   async (req, res, next) => {
     try {
       const comments = await ClubPostComment.findAll({
-        where: { post_id: postId },
+        where: { post_id: req.params.postId },
         order: [["createdAt", "DESC"]],
       });
 
@@ -53,9 +53,10 @@ async (req, res, next) => {
 router.post(
   "/update/:commentId",
   // isLoggedIn,
+  multer().none(),
   async (req, res, next) => {
     try {
-      const comment = await ClubPostComment.fineOne(
+      const comment = await ClubPostComment.update(
         {
           content: req.body.content,
         },
