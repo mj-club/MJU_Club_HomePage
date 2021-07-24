@@ -136,7 +136,7 @@ router.post(
 
 // Delete
 router.delete(
-  "delete/:postId",
+  "/delete/:postId",
   // isLoggedIn,
   // checkPermission,
   async (req, res, next) => {

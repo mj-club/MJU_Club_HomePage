@@ -35,7 +35,7 @@ const storage = multer({
 //   res.json({ url: `/img/${req.file.filename}` });
 // });
 
-var upload = multer({ storage: storage });
+var upload = multer({ storagez: storage });
 
 router.get("/", function (req, res) {
   res.json(req);
