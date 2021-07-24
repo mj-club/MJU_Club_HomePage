@@ -11,6 +11,7 @@ const ClubPost = require("./club_post");
 const ClubPostComment = require("./club_post_comment");
 const ClubInfo = require("./club_info");
 const ClubMember = require("./club_member");
+const Schedule = require("./schedule");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -28,16 +29,19 @@ db.ClubInfo = ClubInfo;
 db.ClubMember = ClubMember;
 db.ClubPostComment = ClubPostComment;
 db.ClubPost = ClubPost;
+db.Schedule = Schedule;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
 ClubMember.init(sequelize);
 ClubPostComment.init(sequelize);
 ClubPost.init(sequelize);
+Schedule.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
 ClubPost.associate(db);
 ClubPostComment.associate(db);
+Schedule.associate(db);
 
 module.exports = db;
