@@ -1,8 +1,8 @@
 import React from 'react';
 
-import JoinForm from '../components/Auth/JoinForm';
-import Page from "../components/Page";
-import RightTitle from '../components/RightTitle';
+import JoinForm from '../../components/Auth/JoinForm';
+import Page from "../../components/Page";
+import RightTitle from '../../components/RightTitle';
 
 export default function JoinPage() {
   const rightInner = <JoinForm />

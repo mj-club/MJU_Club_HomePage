@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container } from 'reactstrap';
 
-import Page from '../components/Page';
-import RightTitle from '../components/RightTitle';
-import Ipsum from '../components/Ipsum';
+import Page from '../../components/Page';
+import RightTitle from '../../components/RightTitle';
+import Ipsum from '../../components/Ipsum';
 
 export default function FindIdPwPage() {
   const rightTitle = <RightTitle 

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Page from '../components/Page';
-import RightTitle from '../components/RightTitle';
-import Welcome from "../components/Auth/Welcome";
+import Page from '../../components/Page';
+import RightTitle from '../../components/RightTitle';
+import Welcome from "../../components/Auth/Welcome";
 
 export default function MjuClubPage() {
   const title="회원가입"

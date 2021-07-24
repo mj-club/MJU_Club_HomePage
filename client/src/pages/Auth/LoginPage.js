@@ -1,8 +1,8 @@
 import { React } from "react";
 
-import Page from "../components/Page";
-import LoginForm from '../components/Auth/LoginForm';
-import RightTitle from "../components/RightTitle";
+import Page from "../../components/Page";
+import LoginForm from '../../components/Auth/LoginForm';
+import RightTitle from "../../components/RightTitle";
 
 export default function LoginPage() {
   const rightInner = <LoginForm/>
