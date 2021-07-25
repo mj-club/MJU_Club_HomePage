@@ -4,7 +4,7 @@ import "../style/RightTitle.css";
 const RightTitle = ({title, menu1, menu2, menu3}) => {
   const subtitle = "Home > 회원가입"
   return (
-    <>    
+    <>
     <Container className="RightTitle mt-3 mb-5" >
       <Row >
         <Col className="mb-0" xs="4"><h2>{title}</h2></Col>
