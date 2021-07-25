@@ -1,5 +1,4 @@
 import { React, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive';
