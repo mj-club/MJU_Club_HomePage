@@ -1,13 +1,50 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
 
-const {
-  ClubPost,
-  ClubPostComment,
-  ClubInfo,
-} = require("../models");
+const { ClubPost, ClubPostComment, ClubInfo } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+
+const router = express.Router();
+
+try {
+  fs.readFileSync("uploads");
+} catch (error) {
+  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
+  fs.mkdirSync("uploads");
+}
+
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: "ap-northeast-2",
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: "mju-club",
+    key(req, file, cb) {
+      cb(null, `original/${Date.now()}${path.basename(file.originalname)}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+const upload2 = multer();
+
+// -----------file------------
+
+router.post("/upload", isLoggedIn, upload.array("files"), (req, res) => {
+  console.log(req.files);
+  const urls = [];
+  req.files.map((file) => {
+    urls.push(file.location);
+  });
+  res.json(urls);
+});
 
 // -----------post------------
 
@@ -28,7 +65,7 @@ router.get(
       console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json({post, comments});
+      res.json({ post, comments });
     } catch (error) {
       console.error(error);
       next(error);
@@ -50,6 +87,7 @@ router.get(
       let postList = await ClubPost.findAll({
         where: { club_id: clubId, category: req.params.category },
         attributes: [
+          "id",
           "title",
           "thumbnail",
           "writer",
@@ -72,7 +110,7 @@ router.get(
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
   // isLoggedIn,
-  multer().none(),
+  upload2.none(),
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findOne({
@@ -107,7 +145,7 @@ router.post(
 router.post(
   "/update/:postId",
   // isLoggedIn,
-  multer().none(),
+  upload2.none(),
   async (req, res, next) => {
     try {
       let post = await ClubPost.update(

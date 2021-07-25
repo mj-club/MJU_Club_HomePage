@@ -69,6 +69,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../client/build"))); // default folder location
+app.use("/files", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // session
