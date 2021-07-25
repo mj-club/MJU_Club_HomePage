@@ -14,7 +14,7 @@ exports.handler = async (event, context, callback) => {
 
   try {
     const s3Object = await s3.getObject({ Bucket, Key }).promise(); // 버퍼로 가져오기
-    console.log("original", s3Object.Body.length);
+    console.log("images", s3Object.Body.length);
     const resizedImage = await sharp(s3Object.Body) // 리사이징
       .resize(200, 200, { fit: "inside" })
       .toFormat(requiredFormat)
