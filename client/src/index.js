@@ -7,6 +7,7 @@ import thunk from "redux-thunk";
 import rootReducer from "./reducers/index";
 import logger from "redux-logger";
 
+import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import './assets/scss/style.scss';
 import App from './App';

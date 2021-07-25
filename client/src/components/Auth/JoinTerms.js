@@ -7,6 +7,7 @@ import Ipsum from "../Ipsum";
 // const error = useSelector((state) => state.authReducer.error);
 const validCheck = () => {
   // 동의가 체크되어야만 다음으로 넘어감
+  
 };
 
 class TermContent extends React.Component {
@@ -15,7 +16,7 @@ class TermContent extends React.Component {
       <>
         <style>
           {
-            `
+          `
           .scroll{
             overflow : scroll;
           }

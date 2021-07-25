@@ -25,12 +25,12 @@ export function kakaoLogin() {
   };
 }
 
-export function join() {
+export function join(body) {
   return (dispatch) => {
-    axios.post(URL + "/join").then((data) => {
+    axios.post(URL + "/join", body).then((data) => {
       dispatch({
-        type: "SHOW_MESSAGE",
-        payload: data, //무슨데이터가 들어오지?
+        type: "SET_USER_EMAIL",
+        payload: data.email, 
       }).catch((error) => {
         dispatch({
           type: "ERROR",

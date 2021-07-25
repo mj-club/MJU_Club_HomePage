@@ -1,12 +1,14 @@
 .Footer {
   width: 100%;
-  background-color: rgb(221, 225, 226);
-  height: auto;
+  background-color: rgb(173, 173, 173);
+  height: 70px;
+  left: 0;
+  bottom: 0;
   margin: 0 auto;
   text-align: center;
   font-size: auto;
   color: black;
-  font-size: large;
+  font-size: 15px;
 }
 
 .spanstyle {
@@ -18,6 +20,7 @@
 .flex-container {
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 .flex_item {

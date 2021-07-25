@@ -26,10 +26,11 @@ const redisClient = redis.createClient({
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
-const clubInfoRouter = require("./routes/club_info");
-const clubPostRouter = require("./routes/club_post");
+const unionRouter = require("./routes/union");
 const clubRouter = require("./routes/club");
 const postRouter = require("./routes/post");
+const scheduleRouter = require("./routes/schedule");
+const commentRouter = require("./routes/comment");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const logger = require("./logger");
@@ -51,25 +52,26 @@ sequelize
 
 // middleware
 if (process.env.NODE_ENV === "production") {
-  // set morgan
   app.use(morgan("combined"));
   app.use(helmet({ contentSecurityPolicy: false }));
   app.use(hpp());
 } else {
   app.use(morgan("dev"));
 }
+// cors
 app.use(
   cors({
     origin: "http://localhost:3000", // 허용할 도메인
     credentials: true, // 도메인 간 쿠키 공유
   })
 );
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../client/build"))); // default folder location
-app.use("/img", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
+// session
 const sessionOption = {
   resave: false,
   saveUninitialized: false,
@@ -96,11 +98,13 @@ app.use(passport.session());
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/auth", authRouter);
-app.use("/club_info", clubInfoRouter);
-app.use("/club_post", clubPostRouter);
+app.use("/union", unionRouter);
 app.use("/club", clubRouter);
 app.use("/post", postRouter);
+app.use("/comment", commentRouter);
+app.use("/schedule", scheduleRouter);
 
+// react router
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
 });
