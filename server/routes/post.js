@@ -28,7 +28,7 @@ const upload = multer({
     s3: new AWS.S3(),
     bucket: "mju-club",
     key(req, file, cb) {
-      cb(null, `original/${Date.now()}${path.basename(file.originalname)}`);
+      cb(null, `images/${Date.now()}${path.basename(file.originalname)}`);
     },
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
