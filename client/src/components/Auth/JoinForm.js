@@ -1,24 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { Button, Table, InputGroup, FormControl, Form, Container, Col, Row, Card, FormGroup } from 'react-bootstrap';
 import "../../style/JoinForm.css"
 import FormCard from "./FormCard";
-
-function goBack() {
-  window.history.back();
-};
-
-function onJoin() {
-  //Form에 적절한 값이 들어가면 
-  //href="/welcome"으로 이동
-};
+import { useDispatch, useSelector } from "react-redux";
+import { join } from "../../actions";
 
 function JoinFormContent() {
+  
+  const [id, setId] = useState(null);
+  const dispatch = useDispatch();
+
+  function goBack() {
+    window.history.back();
+  };
+
+  function onJoin() {
+    //Form에 적절한 값이 들어가면 
+    //href="/welcome"으로 이동
+    const body = {id}
+    dispatch(join(body));
+  };
+
   return (
     <>
     <Row  className="justify-content-md-center">
     <Col md={10} lg={8}>
-      <Form className="p-3" action="/join" method="post">
+      <Form className="p-3">
         {/* start of table1 */}
         <div className="form-sub-title"><h5 className="fw-bold">아이디 정보</h5></div>
         <Table className="form-table">
@@ -26,7 +34,9 @@ function JoinFormContent() {
             <tr>
               <td>
                 <Form.Label className="form-labels" >아이디</Form.Label>
-                <FormControl id="id" />
+                <FormControl id="id" onChange={({ target: {value} }) => {
+                  setId(value);
+                }}/>
                 <Button id="valid-btn" className="p-1 mt-1">중복확인</Button>
               </td>
               <td className="p-0 m-0"></td>

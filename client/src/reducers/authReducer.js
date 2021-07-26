@@ -3,7 +3,8 @@ import produce from 'immer';
 const initialState = {
   user: null,
   loading: false,
-  error: null
+  error: null,
+  user_email : null
 };
 
 
@@ -25,8 +26,9 @@ const authReducer = produce((state, action) => {
       state.error = null;
       break;
 
-    case 'SHOW_MESSAGE':
-      state.message = action.payload;
+    case "SET_USER_EMAIL":
+      state.user_email = action.payload;
+      break;
     default:
       break;
   }

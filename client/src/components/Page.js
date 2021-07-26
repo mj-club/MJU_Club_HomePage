@@ -14,6 +14,15 @@ import {
 const Page = ({ rightTitle, rightInner}) => {
   return (
     <>
+    <style>
+      {
+        `
+        .item {
+          font-family: "twayair";
+      }
+        `
+      }
+    </style>
       <Navbar />
       <Container>
         <Row>

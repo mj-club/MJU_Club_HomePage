@@ -20,7 +20,6 @@ import {
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { kakaoLogin, emailLogin, clearError } from "../../actions";
 
 function LoginForm() {
@@ -141,24 +140,22 @@ function LoginForm() {
                 <div className="d-grid gap-2">
                   {!loading && (
                     <>
-                      <Button variant="warning" type="submit"
+                      <Button  type="submit"
                       onClick={() => {
                         handleLogin()
                       }}>
                         로그인
                       </Button>
                       <Button
-                        variant="warning"
                         onClick={() => {
                           dispatch(kakaoLogin());
-                        }}
-                      >
+                        }}>
                         Kakao 로그인
                       </Button>
                     </>
                   )}
                   {loading && (
-                    <Button variant="warning" type="submit">
+                    <Button type="submit">
                       <Spinner animation="grow" variant="light" />
                     </Button>
                   )}
