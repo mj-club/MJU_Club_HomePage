@@ -1,6 +1,6 @@
 import React from "react";
 import {Form, Table, Button} from "react-bootstrap";
-import "../../style/DeleteAccount.css";
+// import "../../style/DeleteAccount.css";
 
 const DeleteAccount = () => {
 
@@ -20,6 +20,13 @@ const DeleteAccount = () => {
 
   return(
     <>
+    <style>
+      {`
+      td{
+        border: 0px;
+      }
+      `}
+    </style>
     <p>회원탈퇴 하시려면, 비밀번호를 입력하신 후, 회원탈퇴 버튼을 눌러주세요.</p>
       <Table>
         <tbody>

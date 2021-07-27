@@ -1,8 +1,8 @@
 import React from "react";
 
 import Page from "../../components/Page";
-import DeleteAccount from "../../components/Auth/DeleteAccount"
-import RightTitle from "../../components/RightTitle"
+import DeleteAccount from "../../components/MyPage/DeleteAccount"
+import RightTitle from "../../components/RightTitle";
 
 const DeleteAccountPage = () => {
   const title = "회원탈퇴"
