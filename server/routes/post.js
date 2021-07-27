@@ -23,7 +23,7 @@ AWS.config.update({
   region: "ap-northeast-2",
 });
 
-const upload = multer({
+const uploadImage = multer({
   storage: multerS3({
     s3: new AWS.S3(),
     bucket: "mju-club",
@@ -33,16 +33,47 @@ const upload = multer({
   }),
   limits: { fileSize: 5 * 1024 * 1024 },
 });
-const upload2 = multer();
+const uploadFiles = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: "mju-club",
+    key(req, file, cb) {
+      cb(null, `files/${Date.now()}${path.basename(file.originalname)}`);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+
+const upload = multer();
 
 // -----------file------------
 
-router.post("/upload", isLoggedIn, upload.array("files"), (req, res) => {
+// image <- Resizing 때문에 따로 빼 놓음
+router.post("/img", isLoggedIn, uploadFilesImage.array("files"), (req, res) => {
   console.log(req.files);
+
+  const images = [];
+  let originalUrl, url;
+  req.files.map((file) => {
+    originalUrl = file.location;
+    url = originalUrl.replace(/\/images\//, "/thumb/");
+
+    images.push({ url, originalUrl });
+  });
+
+  res.json(images);
+});
+
+// else files
+router.post("/files", isLoggedIn, uploadFiles.array("files"), (req, res) => {
+  console.log(req.files);
+
   const urls = [];
+  let originalUrl, url;
   req.files.map((file) => {
     urls.push(file.location);
   });
+
   res.json(urls);
 });
 
@@ -110,7 +141,7 @@ router.get(
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
   // isLoggedIn,
-  upload2.none(),
+  upload.none(),
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findOne({
@@ -145,7 +176,7 @@ router.post(
 router.post(
   "/update/:postId",
   // isLoggedIn,
-  upload2.none(),
+  upload.none(),
   async (req, res, next) => {
     try {
       let post = await ClubPost.update(
