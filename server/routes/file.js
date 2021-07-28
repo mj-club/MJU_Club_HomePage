@@ -1,73 +1,76 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
-const mysql = require("mysql");
+const path = require("path");
 const fs = require("fs");
-const e = require("express");
+const AWS = require("aws-sdk");
+const multerS3 = require("multer-s3");
 
-const storage = multer({
-  storage: multer.diskStorage({
-    destination(req, file, cb) {
-      // image
-      if (file.mimetype == "image/jpg" || file.mimetype == "image/png" || file.mimetype == "image/jpeg"){
-        console.log("imageFile upload.")
-        cd(null, 'uploads/images')
-      }
-      else if (file.mimetype == "application/txt" || file.mimetype == "application/pdf" || file.mimetype == "application/md") {
-        console.log("txt,pdf etc... upload")
-        cd(null, 'uploads/texts')
-      }
-      else if (file.mimetype == "excelFile/xlsx"){
-        console.log("excelFile upload")
-        cd(null, 'uploads/excel')
-      }
-    },
-    filename(req, file, cb) {
-      const ext = path.extname(file.originalname);
-      cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
+const router = express.Router();
+
+// -----------file------------
+
+try {
+  fs.readFileSync("uploads");
+} catch (error) {
+  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
+  fs.mkdirSync("uploads");
+}
+
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region: "ap-northeast-2",
 });
 
-var upload = multer({ storage: storage })
-// db
-router.post('/upload_images', upload.single('fileupload'), function (req, res) {
-  console.log("post")
-  console.log(req.file)
-  console.log(req.file.path)
-  console.log(upload)
-  console.log(upload.storage.getFilename)
+var upload = multer({
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: "mju-club",
+    key(req, file, cb) {
+      const fileType =
+        file.mimetype.split("/")[file.mimetype.split("/").length - 1];
+      if (fileType == "image") {
+        console.log("imageFile upload.");
+        cb(null, `images/${Date.now()}${path.basename(file.originalname)}`);
+      } else if (fileType == "video") {
+        console.log("videoFile upload.");
+        cb(null, `videos/${Date.now()}${path.basename(file.originalname)}`);
+      } else {
+        console.log("documentFile upload.");
+        cb(null, `documents/${Date.now()}${path.basename(file.originalname)}`);
+      }
+    },
+  }),
+});
 
-  // mysql
-  getConnection().query('insert into myfile(name) values (?)', [req.file.path], function () {
-    // res.redirect('/filepage');
+router.post("/upload", isLoggedIn, uploadFiles.array("files"), (req, res) => {
+  console.log(req.files);
+
+  const urls = [];
+  let fileType, url, originalUrl;
+  req.files.map((file) => {
+    fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
+    if (fileType == "image") {
+      originalUrl = file.location;
+      url = originalUrl.replace(/\/images\//, "/thumb/");
+      urls.push({ fileType, url, originalUrl });
+    } else {
+      urls.push({ fileType, url: file.location });
+    }
   });
+
+  res.json(urls);
 });
 
 // download
-router.get('/download/uploads/images/:name', function (req, res) {
+router.get("/download/uploads/images/:name", function (req, res) {
   var filename = req.params.name;
-  
-  var file = __dirname + '/../uploads/images/' + filename
-  console.log(__dirname)
-  console.log(req.path)
-  console.log(file)
+
+  var file = __dirname + "/../uploads/images/" + filename;
+  console.log(__dirname);
+  console.log(req.path);
+  console.log(file);
   res.download(file);
 });
-  
-  
-var pool = mysql.createPool({
-  connectionLimit: 10,
-  host: 'localhost:3030',
-  user: 'root',
-  database: 'sql',
-  password: 'pw1234'
-})
-  
-function getConnection() {
-  return pool
-}
-  
-module.exports = router
-  
+
+module.exports = router;
