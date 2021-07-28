@@ -30,7 +30,6 @@
     "react-scripts": "4.0.3",
     "react-visibility-sensor": "^5.1.1",
     "react-youtube-background": "^1.0.0",
-    "reactstrap": "^8.9.0",
     "redux": "^4.1.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",

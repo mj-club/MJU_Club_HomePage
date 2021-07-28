@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container } from 'reactstrap';
 
 import Page from '../../components/Page';
 import RightTitle from '../../components/RightTitle';

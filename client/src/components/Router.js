@@ -13,7 +13,8 @@ import AboutKeyUmPage from '../pages/AboutKeyUmPage';
 import MonthlyPage from '../pages/MonthlyPage';
 import Page from "../components/Page";
 import AboutClubUnion from "../pages/AboutClubUnion";
-import DeleteAccountPage from '../pages/Auth/DeleteAccountPage';
+import DeleteAccountPage from '../pages/MyPage/DeleteAccountPage';
+import ProfilePage from "../pages/MyPage/ProfilePage";
 
 
 // Pages 로 이동
@@ -39,6 +40,7 @@ export default function Routers() {
           <Route path="/find_id_pw" component={FindIdPwPage}/>
           <Route path="/delete_account" component={DeleteAccountPage} />
           <Route path="/page" component={Page}/>
+          <Route path="/profile" component={ProfilePage} />
           <Route path="/" exact={true}>
             <MainPage />
           </Route>

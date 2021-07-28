@@ -145,7 +145,7 @@ function Navigationbar() {
                   동아리
                 </Nav.Link>
                 {isShown && isTabletOrMobile && (
-                  <div class="d-block nav">
+                  <div className="d-block nav">
                     <Nav>
                       <Nav.Link
                         id="nav-link-mobile"
