@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 
-const { ClubInfo, ClubMember } = require("../models");
+const { ClubInfo, ClubMember, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 // -----------info------------
@@ -99,22 +99,66 @@ router.delete(
 
 // -----------members------------
 
-// read
-// member list
+// read (member list)
 router.get(
-  "/member/:clubName",
+  "/readMembers/:clubId",
   // isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
     try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
       const clubMembers = await ClubMember.findAll({
-        where: { club_id: clubId },
+        where: { club_info_id: req.params.clubId },
       });
       res.json(clubMembers);
+    } catch (error) {
+      console.log(error);
+      res.send(error);
+    }
+  }
+);
+
+// add (member)
+router.post(
+  "/addMember/:clubId",
+  multer().none(),
+  // isLoggedIn,
+  // checkPermission,
+  async (req, res, next) => {
+    try {
+      const clubInfo = await ClubInfo.findByPk(req.params.clubId);
+      const user = await User.findByPk(req.body.user_id);
+      await clubInfo.addUser(user, {
+        through: { position: req.body.member_position },
+      });
+      const result = await ClubInfo.findOne({
+        where: { id: req.params.clubId },
+        include: User,
+      });
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+      res.send(error);
+    }
+  }
+);
+
+// delete (member)
+router.delete(
+  "/deleteMember/:clubId",
+  // isLoggedIn,
+  // checkPermission,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      ClubMember.destroy({
+        where: { club_info_id: req.params.clubId, user_id: req.body.user_id },
+      });
+      const result = await ClubInfo.findOne({
+        where: { id: req.params.clubId },
+        include: User,
+      });
+
+      res.json(result);
     } catch (error) {
       console.log(error);
       res.send(error);
