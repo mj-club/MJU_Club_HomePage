@@ -1,130 +1,98 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const fs = require("fs");
 
 const { UnionInfo, UnionMember } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+const { Op } = Sequelize = require('sequelize');
+const upload = multer();
 
-// -----------info------------
-
-// club info
-// read
+// Read
 router.get(
-  "/read/:clubName",
+  "/read",
   // isLoggedIn,
-  // checkPermission,
   async (req, res, next) => {
     try {
-      const club = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
+      const unionInfo = await UnionInfo.findAll();
+      res.json(unionInfo);
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
+  }
+);
+
+// Create
+router.post(
+  "/create",
+  // isLoggedIn,
+  upload.none(),
+  async (req, res, next) => {
+    try {
+      let unionInfo = await UnionInfo.create({
+        name: req.body.name,
+        slogan: req.body.slogan,
+        representative: req.body.slogan,
+        deputy_representative: req.body.deputy_representative,
+        organization_chart: req.body.organization_chart,
+        logo: req.body.logo,
+        th: req.body.th,
       });
-      res.json(club);
+      console.log("총동연 초기 정보 등록");
+      res.json(unionInfo);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+
+// Update
+router.post(
+  "/update",
+  // isLoggedIn,
+  upload.none(),
+  async (req, res, next) => {
+    try {
+      let unionInfo = await UnionInfo.update(
+        {
+          name: req.body.name,
+          slogan: req.body.slogan,
+          representative: req.body.slogan,
+          deputy_representative: req.body.deputy_representative,
+          organization_chart: req.body.organization_chart,
+          logo: req.body.logo,
+          th: req.body.th,
+        },
+        { 
+          where: { id : 1 } 
+      });
+      console.log("총동연 데이터 수정");
+      res.json(unionInfo);
     } catch (error) {
       console.error(error);
       next(error);
     }
-    // ClubInfo.findOne(
-    //   { where: { name: req.params.clubName } },
-    // function (err, get) {
-    //   if (err) return res.json(err);
-    //   return res.json(get);
-    // }
-    // );
   }
 );
 
-//create or update
-router.post(
-  "/createOrUpdate/:clubName",
-  // isLoggedIn,
-  // checkPermission,
-  multer().none(),
-  async (req, res, next) => {
-    try {
-      let clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      if (clubInfo === null) {
-        clubInfo = await ClubInfo.create({
-          name: req.params.clubName,
-          representation: req.body.representation,
-          contact_number: req.body.contact_number,
-          introduction: req.body.introduction,
-          plan: req.body.plan,
-          recruit: req.body.recruit,
-          meeting: req.body.meeting,
-          recruitment: req.body.recruitment,
-        });
-      } else {
-        const targetId = clubInfo.id;
-        clubInfo = await ClubInfo.update(
-          {
-            name: req.params.clubName,
-            representation: req.body.representation,
-            contact_number: req.body.contact_number,
-            introduction: req.body.introduction,
-            plan: req.body.plan,
-            recruit: req.body.recruit,
-            meeting: req.body.meeting,
-            recruitment: req.body.recruitment,
-          },
-          { where: { id: targetId } }
-        );
-      }
-      res.json(clubInfo);
-    } catch (error) {
-      console.log(error);
-      res.send(error);
-    }
-  }
-);
-
-// delete
+// Delete
 router.delete(
-  "/delete/:clubName",
+  "/delete",
   // isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
     try {
-      let clubInfo = await ClubPost.destroy({
-        where: { name: req.params.clubName },
+      const unionInfo = await UnionInfo.destroy({
+        where: {},
+        truncate: false
       });
-      res.json(clubInfo);
+      console.log("총동연 정보 삭제");
+      res.json(unionInfo);
     } catch (err) {
       console.error(err);
+      next(err);
     }
   }
 );
-
-// member list
-router.get(
-  "/member/:clubName",
-  // isLoggedIn,
-  // checkPermission,
-  async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
-      const clubMembers = await ClubMember.findAll({
-        where: { club_id: clubId },
-      });
-      res.json(clubMembers);
-    } catch (error) {
-      console.log(error);
-      res.send(error);
-    }
-  }
-);
-
-// function checkPermission(req, res, next) {
-//   ClubPost.findOne({ clubId: req.params.clubId }, function (err, user) {
-//     if (err) return res.json(err);
-//     if (club_posts.writer_id != req.user.id) return noPermission(req, res);
-//     next();
-//   });
-// }
 
 module.exports = router;

@@ -30,6 +30,7 @@ const unionRouter = require("./routes/union");
 const clubRouter = require("./routes/club");
 const postRouter = require("./routes/post");
 const scheduleRouter = require("./routes/schedule");
+const eventRouter = require("./routes/event");
 const commentRouter = require("./routes/comment");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
@@ -104,6 +105,8 @@ app.use("/club", clubRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
 app.use("/schedule", scheduleRouter);
+app.use("/schedule", scheduleRouter);
+app.use("/event", eventRouter);
 
 // react router
 app.get("*", (req, res) => {

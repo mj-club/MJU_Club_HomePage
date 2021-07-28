@@ -71,7 +71,7 @@ module.exports = class Post extends Sequelize.Model {
     // db.Post.belongsToMany(db.User, { through: db.Thumb });
 
     // Post - PostComment (1:n)
-    db.Post.hasMany(db.PostComment, {
+    db.Post.hasMany(db.Comment, {
       foreignKey: "post_id",
       sourceKey: "id",
     });
