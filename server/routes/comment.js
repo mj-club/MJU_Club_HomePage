@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const {
-  ClubPostComment,
-} = require("../models");
+const { Comment } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 // -----------comment------------
@@ -17,7 +15,7 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     try {
-      const comments = await ClubPostComment.findAll({
+      const comments = await Comment.findAll({
         where: { post_id: req.params.postId },
         order: [["createdAt", "DESC"]],
       });
@@ -31,23 +29,25 @@ router.get(
 );
 
 // Create
-router.post("/create/:postId", 
-// isLoggedIn, 
-multer().none(),
-async (req, res, next) => {
-  try {
-    const comment = await ClubPostComment.create({
-      content: req.body.content,
-      post_id: req.params.postId,
-      // writer_id: req.user.id,
-    });
-    console.log("댓글 등록");
-    res.json(comment);
-  } catch (error) {
-    console.error(error);
-    next(error);
+router.post(
+  "/create/:postId",
+  // isLoggedIn,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      const comment = await Comment.create({
+        content: req.body.content,
+        post_id: req.params.postId,
+        // writer_id: req.user.id,
+      });
+      console.log("댓글 등록");
+      res.json(comment);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 // Update
 router.post(
@@ -56,7 +56,7 @@ router.post(
   multer().none(),
   async (req, res, next) => {
     try {
-      const comment = await ClubPostComment.update(
+      const comment = await Comment.update(
         {
           content: req.body.content,
         },
@@ -80,7 +80,7 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      const post = await ClubPostComment.destroy({
+      const post = await Comment.destroy({
         where: { id: req.params.commentId },
       });
       console.log("댓글 삭제");

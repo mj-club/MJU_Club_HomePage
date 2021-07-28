@@ -7,8 +7,8 @@ const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
 const config = require(__dirname + "/../config/config.js")[env];
 const User = require("./user");
-const ClubPost = require("./club_post");
-const ClubPostComment = require("./club_post_comment");
+const Post = require("./post");
+const Comment = require("./comment");
 const ClubInfo = require("./club_info");
 const ClubMember = require("./club_member");
 const Schedule = require("./schedule");
@@ -27,21 +27,21 @@ db.sequelize = sequelize;
 db.User = User;
 db.ClubInfo = ClubInfo;
 db.ClubMember = ClubMember;
-db.ClubPostComment = ClubPostComment;
-db.ClubPost = ClubPost;
+db.Comment = Comment;
+db.Post = Post;
 db.Schedule = Schedule;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
 ClubMember.init(sequelize);
-ClubPostComment.init(sequelize);
-ClubPost.init(sequelize);
+Comment.init(sequelize);
+Post.init(sequelize);
 Schedule.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
-ClubPost.associate(db);
-ClubPostComment.associate(db);
+Post.associate(db);
+Comment.associate(db);
 Schedule.associate(db);
 
 module.exports = db;

@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubUnionMember extends Sequelize.Model {
+module.exports = class UnionMember extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -19,8 +19,8 @@ module.exports = class ClubUnionMember extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "ClubUnionMember",
-        tableName: "club_union_member",
+        modelName: "UnionMember",
+        tableName: "union_members",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -31,9 +31,9 @@ module.exports = class ClubUnionMember extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubUnionMember - ClubUnionInfo (n:1)
-    db.ClubUnionMember.belongsTo(db.ClubUnionInfo, {
-      foreignKey: "club_union_id",
+    // UnionMember - UnionInfo (n:1)
+    db.ClubUnionMember.belongsTo(db.UnionInfo, {
+      foreignKey: "union_id",
       targetKey: "id",
     });
   }
