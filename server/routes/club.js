@@ -97,6 +97,9 @@ router.delete(
   }
 );
 
+// -----------members------------
+
+// read
 // member list
 router.get(
   "/member/:clubName",

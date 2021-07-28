@@ -1,81 +1,12 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
-const AWS = require("aws-sdk");
-const multerS3 = require("multer-s3");
 
 const { ClubPost, ClubPostComment, ClubInfo } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
 
-try {
-  fs.readFileSync("uploads");
-} catch (error) {
-  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
-  fs.mkdirSync("uploads");
-}
-
-AWS.config.update({
-  accessKeyId: process.env.S3_ACCESS_KEY_ID,
-  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
-  region: "ap-northeast-2",
-});
-
-const uploadImage = multer({
-  storage: multerS3({
-    s3: new AWS.S3(),
-    bucket: "mju-club",
-    key(req, file, cb) {
-      cb(null, `images/${Date.now()}${path.basename(file.originalname)}`);
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
-const uploadFiles = multer({
-  storage: multerS3({
-    s3: new AWS.S3(),
-    bucket: "mju-club",
-    key(req, file, cb) {
-      cb(null, `files/${Date.now()}${path.basename(file.originalname)}`);
-    },
-  }),
-  limits: { fileSize: 5 * 1024 * 1024 },
-});
-
 const upload = multer();
-
-// -----------file------------
-
-// image <- Resizing 때문에 따로 빼 놓음
-router.post("/img", isLoggedIn, uploadFilesImage.array("files"), (req, res) => {
-  console.log(req.files);
-
-  const images = [];
-  let originalUrl, url;
-  req.files.map((file) => {
-    originalUrl = file.location;
-    url = originalUrl.replace(/\/images\//, "/thumb/");
-
-    images.push({ url, originalUrl });
-  });
-
-  res.json(images);
-});
-
-// else files
-router.post("/files", isLoggedIn, uploadFiles.array("files"), (req, res) => {
-  console.log(req.files);
-
-  const urls = [];
-  let originalUrl, url;
-  req.files.map((file) => {
-    urls.push(file.location);
-  });
-
-  res.json(urls);
-});
 
 // -----------post------------
 
