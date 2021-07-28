@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const { ClubUnionInfo } = require("../models");
+const { UnionInfo, UnionMember } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 const { Op } = Sequelize = require('sequelize');
 const upload = multer();
@@ -13,8 +13,8 @@ router.get(
   // isLoggedIn,
   async (req, res, next) => {
     try {
-      const clubUnionInfo = await ClubUnionInfo.findAll();
-      res.json(clubUnionInfo);
+      const unionInfo = await UnionInfo.findAll();
+      res.json(unionInfo);
     } catch (err) {
       console.error(err);
       next(err);
@@ -29,7 +29,7 @@ router.post(
   upload.none(),
   async (req, res, next) => {
     try {
-      let clubUnionInfo = await ClubUnionInfo.create({
+      let unionInfo = await UnionInfo.create({
         name: req.body.name,
         slogan: req.body.slogan,
         representative: req.body.slogan,
@@ -39,7 +39,7 @@ router.post(
         th: req.body.th,
       });
       console.log("총동연 초기 정보 등록");
-      res.json(clubUnionInfo);
+      res.json(unionInfo);
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +53,7 @@ router.post(
   upload.none(),
   async (req, res, next) => {
     try {
-      let ClubUnionInfo = await ClubUnionInfo.update(
+      let unionInfo = await UnionInfo.update(
         {
           name: req.body.name,
           slogan: req.body.slogan,
@@ -67,7 +67,7 @@ router.post(
           where: { id : 1 } 
       });
       console.log("총동연 데이터 수정");
-      res.json(clubUnionInfo);
+      res.json(unionInfo);
     } catch (error) {
       console.error(error);
       next(error);
@@ -82,13 +82,12 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      const clubUnionInfoData = await ClubUnionInfo.findAll();
-      const unionId = clubUnionInfoData.id;
-      const clubUnionInfo = await ClubUnionInfo.destroy({
-        where: { id: unionId },
+      const unionInfo = await UnionInfo.destroy({
+        where: {},
+        truncate: false
       });
       console.log("총동연 정보 삭제");
-      res.json(clubUnionInfo);
+      res.json(unionInfo);
     } catch (err) {
       console.error(err);
       next(err);

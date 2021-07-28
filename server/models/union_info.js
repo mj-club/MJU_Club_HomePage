@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubUnionInfo extends Sequelize.Model {
+module.exports = class UnionInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -37,8 +37,8 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
         sequelize,
         timestamp: true,
         underscored: true,
-        modelName: "ClubUnionInfo",
-        tableName: "club_union_infos",
+        modelName: "UnionInfo",
+        tableName: "union_info",
         paranoid: false,
         charset: "utf8mb4",
         collate: "utf8mb4_unicode_ci",
@@ -47,10 +47,10 @@ module.exports = class ClubUnionInfo extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubUnionInfo - ClubUnionMember (1:n)
-    db.ClubUnionInfo.hasMany(db.ClubUnionMember, {
-      foreignKey: "club_union_id",
-      sourceKey: "id",
-    });
+    // UnionInfo - UnionMember (1:n)
+    // db.UnionInfo.hasMany(db.UnionMember, {
+    //   foreignKey: "union_id",
+    //   sourceKey: "id",
+    // });
   }
 };

@@ -43,8 +43,8 @@ module.exports = class EventInfo extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "eventInfo",
-        tableName: "event_infos",
+        modelName: "EventInfo",
+        tableName: "event_info",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -55,8 +55,8 @@ module.exports = class EventInfo extends Sequelize.Model {
   }
 
   static associate(db) {
-    // Schedule - User (n:1)
-    db.Schedule.belongsTo(db.User, {
+    // EventInfo - User (n:1)
+    db.EventInfo.belongsTo(db.User, {
       foreignKey: "user_id",
       targetKey: "id",
     });

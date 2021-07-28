@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubPost extends Sequelize.Model {
+module.exports = class Post extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -43,8 +43,8 @@ module.exports = class ClubPost extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "ClubPost",
-        tableName: "club_posts",
+        modelName: "Post",
+        tableName: "posts",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -55,29 +55,29 @@ module.exports = class ClubPost extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubPost - User (n:1)
-    db.ClubPost.belongsTo(db.User, {
+    // Post - User (n:1)
+    db.Post.belongsTo(db.User, {
       foreignKey: "writer_id",
       targetKey: "id",
     });
 
-    // ClubPost - ClubInfo (n:1)
-    db.ClubPost.belongsTo(db.ClubInfo, {
+    // Post - ClubInfo (n:1)
+    db.Post.belongsTo(db.ClubInfo, {
       foreignKey: "club_id",
       targetKey: "id",
     });
 
-    // // ClubPost - thumb - User (n:m)
-    // db.ClubPost.belongsToMany(db.User, { through: db.Thumb });
+    // // Post - thumb - User (n:m)
+    // db.Post.belongsToMany(db.User, { through: db.Thumb });
 
-    // ClubPost - ClubPostComment (1:n)
-    db.ClubPost.hasMany(db.ClubPostComment, {
+    // Post - PostComment (1:n)
+    db.Post.hasMany(db.Comment, {
       foreignKey: "post_id",
       sourceKey: "id",
     });
 
-    // // ClubPost - ClubPostFile (1:n)
-    // db.ClubPost.hasMany(db.ClubPostFile, {
+    // // Post - PostFile (1:n)
+    // db.Post.hasMany(db.PostFile, {
     //   foreignKey: "post_id",
     //   sourceKey: "id",
     // });
