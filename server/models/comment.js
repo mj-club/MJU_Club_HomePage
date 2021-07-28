@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubPostComment extends Sequelize.Model {
+module.exports = class Comment extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -11,8 +11,8 @@ module.exports = class ClubPostComment extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "ClubPostComment",
-        tableName: "club_post_comment",
+        modelName: "Comment",
+        tableName: "comments",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -23,14 +23,14 @@ module.exports = class ClubPostComment extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubPostComment - User (n:1)
-    db.ClubPostComment.belongsTo(db.User, {
+    // Comment - User (n:1)
+    db.Comment.belongsTo(db.User, {
       foreignKey: "writer_id",
       targetKey: "id",
     });
 
-    // ClubPostComment - ClubPost (n:1)
-    db.ClubPostComment.belongsTo(db.ClubPost, {
+    // Comment - Post (n:1)
+    db.Comment.belongsTo(db.Post, {
       foreignKey: "post_id",
       targetKey: "id",
     });

@@ -43,8 +43,8 @@ module.exports = class EventInfo extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "ClubUnionPost",
-        tableName: "club_union_post",
+        modelName: "EventInfo",
+        tableName: "event_info",
         timestamp: true,
         underscored: true,
         paranoid: false,
