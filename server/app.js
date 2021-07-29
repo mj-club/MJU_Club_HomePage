@@ -136,5 +136,10 @@ app.use(function (err, req, res, next) {
 
 // listen server
 app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중");
+  console.log(
+    app.get("port"),
+    "번 포트에서 대기중\n",
+    "NODE_ENV: ",
+    process.env.NODE_ENV
+  );
 });
