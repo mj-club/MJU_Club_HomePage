@@ -5,16 +5,18 @@ const fs = require("fs");
 const AWS = require("aws-sdk");
 const multerS3 = require("multer-s3");
 
+const { Post, File } = require("../models");
+
 const router = express.Router();
 
 // -----------file------------
 
-try {
-  fs.readFileSync("uploads");
-} catch (error) {
-  console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
-  fs.mkdirSync("uploads");
-}
+// try {
+//   fs.readFileSync("uploads");
+// } catch (error) {
+//   console.log("uploads 폴더가 없어 uploads 폴더를 생성합니다.");
+//   fs.mkdirSync("uploads");
+// }
 
 AWS.config.update({
   accessKeyId: process.env.S3_ACCESS_KEY_ID,
@@ -43,24 +45,46 @@ var upload = multer({
   }),
 });
 
-router.post("/upload", isLoggedIn, uploadFiles.array("files"), (req, res) => {
-  console.log(req.files);
+router.post(
+  "/upload/:postId",
+  // isLoggedIn,
+  upload.array("files"),
+  (req, res) => {
+    console.log(req.files);
 
-  const urls = [];
-  let fileType, url, originalUrl;
-  req.files.map((file) => {
-    fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
-    if (fileType == "image") {
-      originalUrl = file.location;
-      url = originalUrl.replace(/\/images\//, "/thumb/");
-      urls.push({ fileType, url, originalUrl });
-    } else {
-      urls.push({ fileType, url: file.location });
-    }
-  });
+    // const urls = [];
+    let fileType, url, originalUrl;
+    // req.files.map((file) => {
+    //   fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
+    //   if (fileType == "image") {
+    //     originalUrl = file.location;
+    //     url = originalUrl.replace(/\/images\//, "/thumb/");
+    //     urls.push({ fileType, url, originalUrl });
+    //   } else {
+    //     urls.push({ fileType, url: file.location });
+    //   }
+    // });
+    req.files.map(async (file) => {
+      fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
+      if (fileType == "image") {
+        originalUrl = file.location;
+        url = originalUrl.replace(/\/images\//, "/thumb/");
+      } else {
+        url = file.location;
+        originalUrl = file.location;
+      }
 
-  res.json(urls);
-});
+      const uploaded = await File.create({
+        file_type: fileType,
+        original_url: originalUrl,
+        url: url,
+      });
+      const post = await Post.findByPk(req.params.postId);
+      post.addFile(uploaded);
+    });
+    res.json(post);
+  }
+);
 
 // download
 router.get("/download/uploads/images/:name", function (req, res) {

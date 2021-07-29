@@ -32,6 +32,7 @@ const postRouter = require("./routes/post");
 const scheduleRouter = require("./routes/schedule");
 const eventRouter = require("./routes/event");
 const commentRouter = require("./routes/comment");
+const fileRouter = require("./routes/file");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const logger = require("./logger");
@@ -108,7 +109,7 @@ app.use("/comment", commentRouter);
 app.use("/schedule", scheduleRouter);
 app.use("/schedule", scheduleRouter);
 app.use("/event", eventRouter);
-
+app.use("/file", fileRouter);
 // react router
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build/index.html"));
