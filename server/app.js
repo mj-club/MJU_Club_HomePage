@@ -60,12 +60,13 @@ if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
 // cors
-app.use(
-  cors({
-    origin: "http://localhost:3000", // 허용할 도메인
-    credentials: true, // 도메인 간 쿠키 공유
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // 허용할 도메인
+//     credentials: true, // 도메인 간 쿠키 공유
+//   })
+// );
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
