@@ -29,7 +29,7 @@ export default function Routers() {
 
 
           <Route path="/promotion" component={PromotionPage}/>
-          <Route path="/aboutKeyum" component={AboutKeyUmPage}/>
+          <Route path="/about_keyum" component={AboutKeyUmPage}/>
           <Route path="/monthly_keyum" component={MonthlyPage}/>
 
           <Route path="/login" component={LoginPage}/>
