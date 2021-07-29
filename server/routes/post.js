@@ -68,71 +68,43 @@ router.get(
   }
 );
 
-// Create(총동연)
-router.post(
-  "/create/union/:category", // category: announcement[공지사항],faq[문의게시판]
-  // isLoggedIn,
-  upload.none(),
-  async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
-
-      let Post = await Post.create({
-        title: req.body.title,
-        category: req.params.category,
-        content: req.body.content || null,
-        thumbnail: req.body.thumbnail || null,
-        set_top: req.body.set_top || false,
-        comment_count: 0,
-        visit_count: 0,
-        thumb_count: 0,
-        club_id: clubId,
-        // writer_id: req.user.id,
-        // writer: req.user.name,
-        // writer_id: 1,
-        writer: "봉현수",
-      });
-      console.log("게시물 등록");
-      res.json(Post);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-);
-// Create(동아리)
+// Create
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
   // isLoggedIn,
   upload.none(),
   async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
+    if (req.params.clubName === "union") {
+      try {
+        const 
+      } catch (error) {}
+    } else {
+      try {
+        const clubInfo = await ClubInfo.findOne({
+          where: { name: req.params.clubName },
+        });
+        
 
-      let Post = await Post.create({
-        title: req.body.title,
-        category: req.params.category,
-        content: req.body.content || null,
-        thumbnail: req.body.thumbnail || null,
-        set_top: req.body.set_top || false,
-        comment_count: 0,
-        visit_count: 0,
-        thumb_count: 0,
-        club_id: clubId,
-        // writer_id: req.user.id,
-        // writer: req.user.name,
-        // writer_id: 1,
-        writer: "봉현수",
-      });
-      console.log("게시물 등록");
-      res.json(Post);
-    } catch (error) {
-      console.error(error);
+        let Post = await Post.create({
+          title: req.body.title,
+          category: req.params.category,
+          content: req.body.content || null,
+          thumbnail: req.body.thumbnail || null,
+          set_top: req.body.set_top || false,
+          comment_count: 0,
+          visit_count: 0,
+          thumb_count: 0,
+          // writer_id: req.user.id,
+          // writer: req.user.name,
+          // writer_id: 1,
+          writer: "봉현수",
+        });
+        clubInfo.addPost(post)
+        console.log("게시물 등록");
+        res.json(Post);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 );
