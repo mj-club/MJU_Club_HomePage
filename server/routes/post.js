@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { Post, Comment, ClubInfo } = require("../models");
+const { Post, Comment, ClubInfo, UnionInfo } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
@@ -40,99 +40,111 @@ router.get(
   // isLoggedIn,
   // upload.none(),
   async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
+    if (req.params.clubName === "union") {
+      try {
+        let postList = await Post.findAll({
+          where: { union_id: 1 },
+          attributes: [
+            "id",
+            "title",
+            "thumbnail",
+            "writer",
+            "set_top",
+            "visit_count",
+            "comment_count",
+            "thumb_count",
+          ],
+          order: [["createdAt", "DESC"]],
+        });
+        res.json(postList);
+      } catch (error) {
+        console.error(error);
+        next(error);
+      }
+    } else {
+      try {
+        const clubInfo = await ClubInfo.findOne({
+          where: { name: req.params.clubName },
+        });
+        const clubId = clubInfo.id;
 
-      let postList = await Post.findAll({
-        where: { club_id: clubId, category: req.params.category },
-        attributes: [
-          "id",
-          "title",
-          "thumbnail",
-          "writer",
-          "set_top",
-          "visit_count",
-          "comment_count",
-          "thumb_count",
-        ],
-        order: [["createdAt", "DESC"]],
-      });
-      res.json(postList);
-    } catch (error) {
-      console.error(error);
-      next(error);
+        let postList = await Post.findAll({
+          where: { club_id: clubId, category: req.params.category },
+          attributes: [
+            "id",
+            "title",
+            "thumbnail",
+            "writer",
+            "set_top",
+            "visit_count",
+            "comment_count",
+            "thumb_count",
+          ],
+          order: [["createdAt", "DESC"]],
+        });
+        res.json(postList);
+      } catch (error) {
+        console.error(error);
+        next(error);
+      }
     }
   }
 );
 
-// Create(총동연)
-router.post(
-  "/create/union/:category", // category: announcement[공지사항],faq[문의게시판]
-  // isLoggedIn,
-  upload.none(),
-  async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
-
-      let Post = await Post.create({
-        title: req.body.title,
-        category: req.params.category,
-        content: req.body.content || null,
-        thumbnail: req.body.thumbnail || null,
-        set_top: req.body.set_top || false,
-        comment_count: 0,
-        visit_count: 0,
-        thumb_count: 0,
-        club_id: clubId,
-        // writer_id: req.user.id,
-        // writer: req.user.name,
-        // writer_id: 1,
-        writer: "봉현수",
-      });
-      console.log("게시물 등록");
-      res.json(Post);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-);
-// Create(동아리)
+// Create
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
   // isLoggedIn,
   upload.none(),
   async (req, res, next) => {
-    try {
-      const clubInfo = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
-      const clubId = clubInfo.id;
+    if (req.params.clubName === "union") {
+      try {
+        const unionInfo = await UnionInfo.findByPk(1);
 
-      let Post = await Post.create({
-        title: req.body.title,
-        category: req.params.category,
-        content: req.body.content || null,
-        thumbnail: req.body.thumbnail || null,
-        set_top: req.body.set_top || false,
-        comment_count: 0,
-        visit_count: 0,
-        thumb_count: 0,
-        club_id: clubId,
-        // writer_id: req.user.id,
-        // writer: req.user.name,
-        // writer_id: 1,
-        writer: "봉현수",
-      });
-      console.log("게시물 등록");
-      res.json(Post);
-    } catch (error) {
-      console.error(error);
+        let post = await Post.create({
+          title: req.body.title,
+          category: req.params.category,
+          content: req.body.content || null,
+          thumbnail: req.body.thumbnail || null,
+          set_top: req.body.set_top || false,
+          comment_count: 0,
+          visit_count: 0,
+          thumb_count: 0,
+          // writer_id: req.user.id,
+          // writer: req.user.name,
+          // writer_id: 1,
+          writer: "봉현수",
+        });
+        unionInfo.addPost(post);
+        console.log("게시물 등록");
+        res.json(post);
+      } catch (error) {}
+    } else {
+      try {
+        const clubInfo = await ClubInfo.findOne({
+          where: { name: req.params.clubName },
+        });
+
+        let post = await Post.create({
+          title: req.body.title,
+          category: req.params.category,
+          content: req.body.content || null,
+          thumbnail: req.body.thumbnail || null,
+          set_top: req.body.set_top || false,
+          comment_count: 0,
+          visit_count: 0,
+          thumb_count: 0,
+          // writer_id: req.user.id,
+          // writer: req.user.name,
+          // writer_id: 1,
+          writer: "봉현수",
+        });
+        clubInfo.addPost(post);
+        console.log("게시물 등록");
+        res.json(post);
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 );

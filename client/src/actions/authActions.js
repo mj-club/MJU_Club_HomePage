@@ -8,7 +8,7 @@ export function kakaoLogin() {
   return (dispatch) => {
     dispatch({ type: "LOADING" });
     axios
-      .get(URL + "/kakao")
+      .get(URL + "/auth/kakao")
       .then(({ data }) => {
         dispatch({
           type: "SET_USER",
@@ -30,7 +30,7 @@ export function join(body) {
     axios.post(URL + "/join", body).then((data) => {
       dispatch({
         type: "SET_USER_EMAIL",
-        payload: data.email, 
+        payload: data.email,
       }).catch((error) => {
         dispatch({
           type: "ERROR",
