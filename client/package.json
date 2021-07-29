@@ -47,7 +47,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -66,6 +65,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://13.209.214.244:8080",
   "optionalDependencies": {
     "fsevents": "*"
   },
