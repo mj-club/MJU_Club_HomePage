@@ -36,9 +36,9 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        writer: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
+        files: {
+          type: Sequelize.ARRAY,
+          allowNull: true,
         },
       },
       {

@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { Post, Comment, ClubInfo, UnionInfo } = require("../models");
+const { Post, Comment, ClubInfo, UnionInfo, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
@@ -110,12 +110,11 @@ router.post(
           comment_count: 0,
           visit_count: 0,
           thumb_count: 0,
-          // writer_id: req.user.id,
-          // writer: req.user.name,
-          // writer_id: 1,
-          writer: "봉현수",
+          files: req.body.file_urls,
         });
         unionInfo.addPost(post);
+        // const user = await User.findByPk(req.user.id);
+        // user.addPost(user);
         console.log("게시물 등록");
         res.json(post);
       } catch (error) {}
@@ -140,6 +139,8 @@ router.post(
           writer: "봉현수",
         });
         clubInfo.addPost(post);
+        // const user = await User.findByPk(req.user.id);
+        // user.addPost(user);
         console.log("게시물 등록");
         res.json(post);
       } catch (error) {

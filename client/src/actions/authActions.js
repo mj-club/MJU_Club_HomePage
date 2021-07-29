@@ -1,14 +1,17 @@
 import axios from "axios";
 
 // const URL = "http://13.209.214.244:8080";
-const URL =
-  process.env.NODE_ENV === "production" ? "" : "http://13.209.214.244:8080";
 
 export function kakaoLogin() {
+  // const URL =
+  //   process.env.REACT_APP_NODE_ENV === "production"
+  //     ? ""
+  //     : "http://13.209.214.244:8080";
   return (dispatch) => {
     dispatch({ type: "LOADING" });
     axios
-      .get(URL + "/auth/kakao")
+      // .get(URL + "/auth/kakao")
+      .get("/auth/kakao")
       .then(({ data }) => {
         dispatch({
           type: "SET_USER",
