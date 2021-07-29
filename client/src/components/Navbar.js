@@ -119,7 +119,7 @@ function Navigationbar() {
                 <Nav.Link id="nav-link" href="promotion">
                   청원게시판
                 </Nav.Link>
-                <Nav.Link id="nav-link" href="about">
+                <Nav.Link id="nav-link" href="about_keyum">
                   키움 이모저모
                 </Nav.Link>
                 <Nav.Link id="nav-link" href="monthly_keyum">

@@ -1,6 +1,12 @@
 import Page from '../components/Page';
 import RightTitle from '../components/RightTitle';
 import Ipsum from '../components/Ipsum';
+import {
+    Switch,
+    Route,
+    useRouteMatch
+  } from "react-router-dom";
+import FAQPage from './MjuClub/FAQ/ListPage';
 
 // export default function MjuClubPage() {
 //   const title="mju_club"
@@ -32,6 +38,8 @@ import axios from 'axios';
 
 
 const MjuClubPage = () => {
+    let { path } = useRouteMatch();
+
     useEffect(() => {
       axios.get('/')
     })
@@ -50,23 +58,32 @@ const MjuClubPage = () => {
 
 
     return ( 
-        <React.Fragment>
-            <SEO title="동아리 || {동아리이름}" />
-            <Navbar />
-            <Breadcrumb 
-                image="images/bg/breadcrumb-bg.jpg"
-                title="We are an agency located in New York"
-                content="Home"
-                contentTwo="About Us"
-            />
-            <AboutFour />
-            <Video />
-            <AboutFive />
-            <TestimonialContainer classOption="bg-primary-blue" />
-            <CallToActionTwo />
-            <ScrollToTop />
-            <Footer />
-        </React.Fragment>
+        <>
+            <Switch>
+                <Route exact path={path}>
+                    <React.Fragment>
+                        <SEO title="동아리 || {동아리이름}" />
+                        <Navbar />
+                        <Breadcrumb 
+                            image="images/bg/breadcrumb-bg.jpg"
+                            title="We are an agency located in New York"
+                            content="Home"
+                            contentTwo="About Us"
+                        />
+                        <AboutFour />
+                        <Video />
+                        <AboutFive />
+                        <TestimonialContainer classOption="bg-primary-blue" />
+                        <CallToActionTwo />
+                        <ScrollToTop />
+                        <Footer />
+                    </React.Fragment>
+                </Route>
+                <Route path={`${path}/FAQs`}>
+                    <FAQPage/>
+                </Route>
+            </Switch>
+        </>
     )
 }
 
