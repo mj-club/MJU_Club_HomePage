@@ -36,10 +36,6 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        files: {
-          type: Sequelize.ARRAY,
-          allowNull: true,
-        },
       },
       {
         sequelize,
@@ -82,10 +78,10 @@ module.exports = class Post extends Sequelize.Model {
       sourceKey: "id",
     });
 
-    // // Post - PostFile (1:n)
-    // db.Post.hasMany(db.PostFile, {
-    //   foreignKey: "post_id",
-    //   sourceKey: "id",
-    // });
+    // Post - File (1:n)
+    db.Post.hasMany(db.File, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
   }
 };

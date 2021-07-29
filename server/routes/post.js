@@ -110,7 +110,6 @@ router.post(
           comment_count: 0,
           visit_count: 0,
           thumb_count: 0,
-          files: req.body.file_urls,
         });
         unionInfo.addPost(post);
         // const user = await User.findByPk(req.user.id);

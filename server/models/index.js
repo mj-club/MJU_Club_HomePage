@@ -14,6 +14,7 @@ const ClubMember = require("./club_member");
 const Schedule = require("./schedule");
 const EventInfo = require("./event_info");
 const UnionInfo = require("./union_info");
+const File = require("./file");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -34,6 +35,7 @@ db.Post = Post;
 db.Schedule = Schedule;
 db.EventInfo = EventInfo;
 db.UnionInfo = UnionInfo;
+db.File = File;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
@@ -43,6 +45,7 @@ Post.init(sequelize);
 Schedule.init(sequelize);
 EventInfo.init(sequelize);
 UnionInfo.init(sequelize);
+File.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
@@ -51,5 +54,6 @@ Comment.associate(db);
 Schedule.associate(db);
 EventInfo.associate(db);
 UnionInfo.associate(db);
+File.associate(db);
 
 module.exports = db;
