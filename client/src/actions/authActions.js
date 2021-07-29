@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const URL = "http://13.209.214.244:8080";
-const URL = "http://localhost:3001";
+const URL =
+  process.env.NODE_ENV === "production" ? "" : "http://13.209.214.244:8080";
 
 export function kakaoLogin() {
   return (dispatch) => {
@@ -24,12 +25,12 @@ export function kakaoLogin() {
   };
 }
 
-export function join() {
+export function join(body) {
   return (dispatch) => {
-    axios.post(URL + "/join").then((data) => {
+    axios.post(URL + "/join", body).then((data) => {
       dispatch({
-        type: "SHOW_MESSAGE",
-        payload: data, //무슨데이터가 들어오지?
+        type: "SET_USER_EMAIL",
+        payload: data.email, 
       }).catch((error) => {
         dispatch({
           type: "ERROR",

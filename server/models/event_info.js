@@ -43,8 +43,8 @@ module.exports = class EventInfo extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "ClubUnionPost",
-        tableName: "club_union_post",
+        modelName: "EventInfo",
+        tableName: "event_info",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -54,5 +54,11 @@ module.exports = class EventInfo extends Sequelize.Model {
     );
   }
 
-  static associate(db) {}
+  static associate(db) {
+    // EventInfo - User (n:1)
+    db.EventInfo.belongsTo(db.User, {
+      foreignKey: "user_id",
+      targetKey: "id",
+    });
+  }
 };

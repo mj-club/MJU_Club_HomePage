@@ -1,13 +1,12 @@
 const express = require("express");
-const router = express.Router();
 const multer = require("multer");
 
-const {
-  ClubPost,
-  ClubPostComment,
-  ClubInfo,
-} = require("../models");
+const { Post, Comment, ClubInfo } = require("../models");
 const { isLoggedIn } = require("./middlewares");
+
+const router = express.Router();
+
+const upload = multer();
 
 // -----------post------------
 
@@ -18,17 +17,17 @@ router.get(
   // isLoggedIn,
   async (req, res, next) => {
     try {
-      let post = await ClubPost.findOne({
+      let post = await Post.findOne({
         where: { id: req.params.postId },
       });
-      const comments = await ClubPostComment.findAll({
+      const comments = await Comment.findAll({
         where: { post_id: req.params.postId },
         order: [["createdAt", "DESC"]],
       });
       console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json({post, comments});
+      res.json({ post, comments });
     } catch (error) {
       console.error(error);
       next(error);
@@ -47,9 +46,10 @@ router.get(
       });
       const clubId = clubInfo.id;
 
-      let postList = await ClubPost.findAll({
+      let postList = await Post.findAll({
         where: { club_id: clubId, category: req.params.category },
         attributes: [
+          "id",
           "title",
           "thumbnail",
           "writer",
@@ -68,11 +68,11 @@ router.get(
   }
 );
 
-// Create
+// Create(총동연)
 router.post(
-  "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
+  "/create/union/:category", // category: announcement[공지사항],faq[문의게시판]
   // isLoggedIn,
-  multer().none(),
+  upload.none(),
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findOne({
@@ -80,7 +80,7 @@ router.post(
       });
       const clubId = clubInfo.id;
 
-      let clubPost = await ClubPost.create({
+      let Post = await Post.create({
         title: req.body.title,
         category: req.params.category,
         content: req.body.content || null,
@@ -96,7 +96,41 @@ router.post(
         writer: "봉현수",
       });
       console.log("게시물 등록");
-      res.json(clubPost);
+      res.json(Post);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+);
+// Create(동아리)
+router.post(
+  "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
+  // isLoggedIn,
+  upload.none(),
+  async (req, res, next) => {
+    try {
+      const clubInfo = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+      const clubId = clubInfo.id;
+
+      let Post = await Post.create({
+        title: req.body.title,
+        category: req.params.category,
+        content: req.body.content || null,
+        thumbnail: req.body.thumbnail || null,
+        set_top: req.body.set_top || false,
+        comment_count: 0,
+        visit_count: 0,
+        thumb_count: 0,
+        club_id: clubId,
+        // writer_id: req.user.id,
+        // writer: req.user.name,
+        // writer_id: 1,
+        writer: "봉현수",
+      });
+      console.log("게시물 등록");
+      res.json(Post);
     } catch (error) {
       console.error(error);
     }
@@ -107,10 +141,10 @@ router.post(
 router.post(
   "/update/:postId",
   // isLoggedIn,
-  multer().none(),
+  upload.none(),
   async (req, res, next) => {
     try {
-      let post = await ClubPost.update(
+      let post = await Post.update(
         {
           title: req.body.title,
           content: req.body.content || null,
@@ -137,7 +171,7 @@ router.delete(
   async (req, res, next) => {
     try {
       console.log("게시물 삭제 전");
-      const post = await ClubPost.destroy({
+      const post = await Post.destroy({
         where: { id: req.params.postId },
       });
       console.log("게시물 삭제");

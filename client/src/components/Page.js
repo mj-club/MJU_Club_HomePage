@@ -11,9 +11,18 @@ import {
   isMobile
 } from "react-device-detect";
 
-const Page = ({ rightTitle, rightInner}) => {
+const Page = ({ rightTitle, rightInner }) => {
   return (
     <>
+      <style>
+        {
+          `
+        .item {
+          font-family: "twayair";
+        }
+        `
+        }
+      </style>
       <Navbar />
       <Container>
         <Row>
@@ -33,7 +42,7 @@ const Page = ({ rightTitle, rightInner}) => {
           </Row> :
           // mobile
           <Row>
-            <Col className="item" style="font-famiily: 'twayair'"> 
+            <Col className="item" style="font-famiily: 'twayair'">
               {rightInner}
             </Col>
           </Row>}

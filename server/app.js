@@ -29,6 +29,8 @@ const authRouter = require("./routes/auth");
 const unionRouter = require("./routes/union");
 const clubRouter = require("./routes/club");
 const postRouter = require("./routes/post");
+const scheduleRouter = require("./routes/schedule");
+const eventRouter = require("./routes/event");
 const commentRouter = require("./routes/comment");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
@@ -68,6 +70,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "../client/build"))); // default folder location
+app.use("/files", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // session
@@ -101,6 +104,9 @@ app.use("/union", unionRouter);
 app.use("/club", clubRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
+app.use("/schedule", scheduleRouter);
+app.use("/schedule", scheduleRouter);
+app.use("/event", eventRouter);
 
 // react router
 app.get("*", (req, res) => {
