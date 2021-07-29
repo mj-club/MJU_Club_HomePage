@@ -49,7 +49,7 @@ router.post(
   "/upload/:postId",
   // isLoggedIn,
   upload.array("files"),
-  (req, res) => {
+  async (req, res) => {
     console.log(req.files);
 
     // const urls = [];
@@ -64,6 +64,7 @@ router.post(
     //     urls.push({ fileType, url: file.location });
     //   }
     // });
+    const post = await Post.findByPk(req.params.postId);
     req.files.map(async (file) => {
       fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
       if (fileType == "image") {
@@ -73,15 +74,15 @@ router.post(
         url = file.location;
         originalUrl = file.location;
       }
-
+      
       const uploaded = await File.create({
         file_type: fileType,
         original_url: originalUrl,
         url: url,
       });
-      const post = await Post.findByPk(req.params.postId);
       post.addFile(uploaded);
     });
+    console.log(post);
     res.json(post);
   }
 );
