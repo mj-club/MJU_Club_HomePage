@@ -16,10 +16,10 @@ import DetailPage from './DetailPage';
 export default function BulletinBoardPage() {
   let { path } = useRouteMatch();
 
-  const title="자유게시판";
+  const title="문의사항";
   const rightTitle = <RightTitle 
             title={title}
-            menu1={"키움 이모저모"}
+            menu1={"총동연"}
             menu2={title}
             menu3={"목록"}
           />
