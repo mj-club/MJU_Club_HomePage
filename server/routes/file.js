@@ -68,7 +68,7 @@ router.post(
   "/upload/:postId",
   // isLoggedIn,
   upload.array("files"),
-  (req, res) => {
+  async (req, res) => {
     console.log(req.files);
 
     // const urls = [];
@@ -83,24 +83,33 @@ router.post(
     //     urls.push({ fileType, url: file.location });
     //   }
     // });
+    const post = await Post.findByPk(req.params.postId);
     req.files.map(async (file) => {
       fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
       if (fileType == "image") {
         originalUrl = file.location;
         url = originalUrl.replace(/\/images\//, "/thumb/");
+
+        console.log(originalUrl);
+        onsole.log(url);
       } else {
         url = file.location;
         originalUrl = file.location;
+
+        console.log(originalUrl);
+        console.log(url);
       }
 
       const uploaded = await File.create({
         file_type: fileType,
         original_url: originalUrl,
         url: url,
+        // file_name: ,
       });
-      const post = await Post.findByPk(req.params.postId);
       post.addFile(uploaded);
     });
+    console.log(post);
+
     res.json(post);
   }
 );
@@ -144,15 +153,18 @@ router.delete(
   }
 );
 
-// download
-router.get("/download/uploads/images/:name", function (req, res) {
-  var filename = req.params.name;
+// // download
+// router.get("/download/:postId/:name", function (req, res) {
+//   var filename = req.params.name;
+//   let filePath = await File.findOne({
+//     where: { post_id: req.params.postId  },
+//   });
 
-  var file = __dirname + "/../uploads/images/" + filename;
-  console.log(__dirname);
-  console.log(req.path);
-  console.log(file);
-  res.download(file);
-});
+//   console.log(__dirname);
+//   var file = __dirname + "/../uploads/images/" + filename;
+//   console.log(req.path);
+//   console.log(file);
+//   res.download(file);
+// });
 
 module.exports = router;
