@@ -74,7 +74,6 @@ router.get(
             "id",
             "title",
             "thumbnail",
-            "writer",
             "set_top",
             "visit_count",
             "comment_count",
@@ -135,7 +134,7 @@ router.post(
           // writer_id: req.user.id,
           // writer: req.user.name,
           // writer_id: 1,
-          writer: "봉현수",
+          // writer: "봉현수",
         });
         clubInfo.addPost(post);
         // const user = await User.findByPk(req.user.id);
