@@ -6,6 +6,7 @@ const AWS = require("aws-sdk");
 const multerS3 = require("multer-s3");
 
 const { Post, File } = require("../models");
+const { findByPk } = require("../models/user");
 
 const router = express.Router();
 
@@ -83,7 +84,10 @@ router.post(
     //     urls.push({ fileType, url: file.location });
     //   }
     // });
-    const post = await Post.findByPk(req.params.postId);
+    let post = await Post.findOne({
+      where: { id: req.params.postId },
+      include: [File],
+    });
     req.files.map(async (file) => {
       fileType = file.mimetype.split("/")[file.mimetype.split("/").length - 1];
       if (fileType == "image") {
@@ -106,11 +110,11 @@ router.post(
         url: url,
         // file_name: ,
       });
-      post.addFile(uploaded);
+      post = await post.addFile(uploaded);
     });
     console.log(post);
 
-    res.json(post);
+    res.json(post.File);
   }
 );
 
@@ -130,6 +134,23 @@ router.delete(
         Bucket: "mju-club/video",
         Key: delFileName,
       };
+      if (file.file_type === "image") {
+        s3.deleteObject(params, function (err, data) {
+          if (err) {
+            console.log("aws delete error");
+            console.log(err, err.stack);
+            res.redirect("/");
+          } else {
+            console.log("aws delete success" + data);
+          }
+
+          // const post = await Comment.destroy({
+          //   where: { id: req.params.fileId },
+          // });
+
+          console.log("리사이즈 파일 삭제");
+        });
+      }
       s3.deleteObject(params, function (err, data) {
         if (err) {
           console.log("aws delete error");
@@ -138,14 +159,13 @@ router.delete(
         } else {
           console.log("aws delete success" + data);
         }
-
-        // const post = await Comment.destroy({
-        //   where: { id: req.params.fileId },
-        // });
-
-        console.log("파일 삭제");
-        res.json(post);
       });
+      const deleted = await File.destroy({
+        where: { id: req.params.fileId },
+      });
+
+      console.log("파일 삭제");
+      res.json(deleted);
     } catch (err) {
       console.error(err);
       next(err);

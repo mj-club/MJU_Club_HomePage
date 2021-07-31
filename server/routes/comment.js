@@ -41,7 +41,7 @@ router.post(
         post_id: req.params.postId,
         // writer_id: req.user.id,
       });
-      post.addComment(comment);
+      await post.addComment(comment);
       console.log("댓글 등록");
       res.json(comment);
     } catch (error) {
@@ -82,11 +82,11 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      const post = await Comment.destroy({
+      const comment = await Comment.destroy({
         where: { id: req.params.commentId },
       });
       console.log("댓글 삭제");
-      res.json(post);
+      res.json(comment);
     } catch (err) {
       console.error(err);
       next(err);
