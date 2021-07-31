@@ -99,7 +99,7 @@ router.post(
         console.log(originalUrl);
         console.log(url);
       }
-      
+
       const uploaded = await File.create({
         file_type: fileType,
         original_url: originalUrl,
@@ -139,9 +139,9 @@ router.delete(
           console.log("aws delete success" + data);
         }
 
-        const post = await Comment.destroy({
-          where: { id: req.params.fileId },
-        });
+        // const post = await Comment.destroy({
+        //   where: { id: req.params.fileId },
+        // });
 
         console.log("파일 삭제");
         res.json(post);
@@ -152,7 +152,6 @@ router.delete(
     }
   }
 );
-
 
 // // download
 // router.get("/download/:postId/:name", function (req, res) {
