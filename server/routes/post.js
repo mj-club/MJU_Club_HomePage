@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { Post, Comment, ClubInfo, UnionInfo, User } = require("../models");
+const { Post, Comment, ClubInfo, UnionInfo, User, File } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
@@ -19,15 +19,16 @@ router.get(
     try {
       let post = await Post.findOne({
         where: { id: req.params.postId },
+        include: [Comment, File],
       });
-      const comments = await Comment.findAll({
-        where: { post_id: req.params.postId },
-        order: [["createdAt", "DESC"]],
-      });
+      // const comments = await Comment.findAll({
+      //   where: { post_id: req.params.postId },
+      //   order: [["createdAt", "DESC"]],
+      // });
       console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json({ post, comments });
+      res.json({ post });
     } catch (error) {
       console.error(error);
       next(error);
