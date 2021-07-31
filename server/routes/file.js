@@ -45,6 +45,25 @@ var upload = multer({
   }),
 });
 
+// Read
+// 게시물별 파일 불러오기
+router.get(
+  "/read/:postId",
+  // isLoggedIn,
+  async (req, res, next) => {
+    try {
+      let files = await File.findAll({
+        where: { post_id: req.params.postId },
+      });
+      res.json(files);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
+// Create
 router.post(
   "/upload/:postId",
   // isLoggedIn,
@@ -83,6 +102,45 @@ router.post(
       post.addFile(uploaded);
     });
     res.json(post);
+  }
+);
+
+// Delete
+router.delete(
+  "/delete/:fileId",
+  // isLoggedIn,
+  // checkPermission,
+  async (req, res, next) => {
+    try {
+      const file = await File.findByPk(req.params.fileId);
+      const url = file.url; // file에 저장된 fileUrl을 가져옴
+      const originalUrl = file.original_url;
+
+      const delFileName = url[url.length - 1]; // 버킷에 저장된 객체 URL만 가져옴
+      const params = {
+        Bucket: "mju-club/video",
+        Key: delFileName,
+      };
+      s3.deleteObject(params, function (err, data) {
+        if (err) {
+          console.log("aws delete error");
+          console.log(err, err.stack);
+          res.redirect("/");
+        } else {
+          console.log("aws delete success" + data);
+        }
+
+        const post = await Comment.destroy({
+          where: { id: req.params.fileId },
+        });
+
+        console.log("파일 삭제");
+        res.json(post);
+      });
+    } catch (err) {
+      console.error(err);
+      next(err);
+    }
   }
 );
 
