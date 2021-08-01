@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const URL = "http://13.209.214.244:8080";
+const URL = "http://localhost:3001/auth";
 
 export function kakaoLogin() {
   // const URL =

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Row, Col, Button, Container } from 'react-bootstrap';
+import { Table, Row, Col, Button, Container, Badge } from 'react-bootstrap';
 import { useHistory, useLocation } from "react-router-dom";
 
 export default function List() {
@@ -12,7 +12,7 @@ export default function List() {
         <Table bordered hover>
           <thead>
             <tr>
-              <th>글 번호</th>
+              <th> </th>
               <th>제목</th>
               <th>작성자</th>
               <th>등록일</th>
@@ -22,7 +22,22 @@ export default function List() {
           <tbody>
 
             <tr>
-              <td>1</td>
+              <td>
+                <Badge variant="danger">
+                  답변 미완료
+                </Badge>
+              </td>
+              <td>동아리방 지도는 어디에서 확인할 수 있나여????????????????????????????????????????????????????????????????????</td>
+              <td>박지원지원</td>
+              <td>2021-08-01</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>
+                <Badge variant="success">
+                  답변 완료
+                </Badge>
+              </td>
               <td>Mark</td>
               <td>Otto</td>
               <td>Otto</td>

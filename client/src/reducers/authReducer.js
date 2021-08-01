@@ -13,6 +13,7 @@ const authReducer = produce((state, action) => {
     case "SET_USER":
       state.loading = false;
       state.user = action.payload;
+      state.error = null;
       break;
     case "LOADING":
       state.loading = true;

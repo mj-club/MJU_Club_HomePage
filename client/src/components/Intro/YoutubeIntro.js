@@ -12,15 +12,14 @@ const YoutubeIntro = () => {
       <div className="container">
         <div className="row row-cols-lg-1 row-cols-1">
 
-          {/* <div className="col align-self-center">
+          <div className="col align-self-center">
             <div className="intro-content-two text-center mt-xl-8 mt-lg-8 mt-md-8 mt-sm-8 mt-xs-8">
-              <h2 className="title">Awesome & Beautiful 2PM </h2>
+              <h2 className="title">Montly Key:um</h2>
               <div className="desc">
-                  <p>We are an agency located in New York. We think strategy, craft design,
-                      develop digital and create motion. To forward your brand and business.</p>
+                  <p>MGH</p>
               </div>
             </div>
-          </div> */}
+          </div>
 
         </div>
       </div>
