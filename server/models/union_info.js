@@ -52,5 +52,11 @@ module.exports = class UnionInfo extends Sequelize.Model {
     //   foreignKey: "union_id",
     //   sourceKey: "id",
     // });
+
+    // UnionInfo - Post (1:n)
+    db.UnionInfo.hasMany(db.Post, {
+      foreignKey: "union_id",
+      sourceKey: "id",
+    });
   }
 };

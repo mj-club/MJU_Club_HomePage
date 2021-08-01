@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const { Comment } = require("../models");
+const { Comment, Post } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 // -----------comment------------
@@ -35,11 +35,13 @@ router.post(
   multer().none(),
   async (req, res, next) => {
     try {
+      const post = await Post.findByPk(req.params.postId);
       const comment = await Comment.create({
         content: req.body.content,
         post_id: req.params.postId,
         // writer_id: req.user.id,
       });
+      await post.addComment(comment);
       console.log("댓글 등록");
       res.json(comment);
     } catch (error) {
@@ -80,11 +82,11 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      const post = await Comment.destroy({
+      const comment = await Comment.destroy({
         where: { id: req.params.commentId },
       });
       console.log("댓글 삭제");
-      res.json(post);
+      res.json(comment);
     } catch (err) {
       console.error(err);
       next(err);

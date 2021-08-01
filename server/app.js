@@ -32,6 +32,8 @@ const postRouter = require("./routes/post");
 const scheduleRouter = require("./routes/schedule");
 const eventRouter = require("./routes/event");
 const commentRouter = require("./routes/comment");
+const fileRouter = require("./routes/file");
+const rentalRouter = require("./routes/rental");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const logger = require("./logger");
@@ -60,12 +62,13 @@ if (process.env.NODE_ENV === "production") {
   app.use(morgan("dev"));
 }
 // cors
-app.use(
-  cors({
-    origin: "http://localhost:3000", // 허용할 도메인
-    credentials: true, // 도메인 간 쿠키 공유
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000", // 허용할 도메인
+//     credentials: true, // 도메인 간 쿠키 공유
+//   })
+// );
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -105,8 +108,9 @@ app.use("/club", clubRouter);
 app.use("/post", postRouter);
 app.use("/comment", commentRouter);
 app.use("/schedule", scheduleRouter);
-app.use("/schedule", scheduleRouter);
 app.use("/event", eventRouter);
+app.use("/file", fileRouter);
+app.use("/rental", rentalRouter);
 
 // react router
 app.get("*", (req, res) => {
@@ -135,5 +139,10 @@ app.use(function (err, req, res, next) {
 
 // listen server
 app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중");
+  console.log(
+    app.get("port"),
+    "번 포트에서 대기중\n",
+    "NODE_ENV: ",
+    process.env.NODE_ENV
+  );
 });

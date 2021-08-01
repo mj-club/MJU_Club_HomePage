@@ -36,10 +36,6 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        writer: {
-          type: Sequelize.STRING(45),
-          allowNull: false,
-        },
       },
       {
         sequelize,
@@ -67,6 +63,12 @@ module.exports = class Post extends Sequelize.Model {
       targetKey: "id",
     });
 
+    // Post - UnionInfo (n:1)
+    db.Post.belongsTo(db.UnionInfo, {
+      foreignKey: "union_id",
+      targetKey: "id",
+    });
+
     // // Post - thumb - User (n:m)
     // db.Post.belongsToMany(db.User, { through: db.Thumb });
 
@@ -76,10 +78,10 @@ module.exports = class Post extends Sequelize.Model {
       sourceKey: "id",
     });
 
-    // // Post - PostFile (1:n)
-    // db.Post.hasMany(db.PostFile, {
-    //   foreignKey: "post_id",
-    //   sourceKey: "id",
-    // });
+    // Post - File (1:n)
+    db.Post.hasMany(db.File, {
+      foreignKey: "post_id",
+      sourceKey: "id",
+    });
   }
 };

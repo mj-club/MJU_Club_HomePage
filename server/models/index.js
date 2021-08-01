@@ -14,6 +14,9 @@ const ClubMember = require("./club_member");
 const Schedule = require("./schedule");
 const EventInfo = require("./event_info");
 const UnionInfo = require("./union_info");
+const File = require("./file");
+const RentalInfo = require("./rental_info");
+const RentalApply = require("./rental_apply");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -34,6 +37,9 @@ db.Post = Post;
 db.Schedule = Schedule;
 db.EventInfo = EventInfo;
 db.UnionInfo = UnionInfo;
+db.File = File;
+db.RentalInfo = RentalInfo;
+db.RentalApply = RentalApply;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
@@ -43,6 +49,9 @@ Post.init(sequelize);
 Schedule.init(sequelize);
 EventInfo.init(sequelize);
 UnionInfo.init(sequelize);
+File.init(sequelize);
+RentalInfo.init(sequelize);
+RentalApply.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
@@ -51,5 +60,8 @@ Comment.associate(db);
 Schedule.associate(db);
 EventInfo.associate(db);
 UnionInfo.associate(db);
+File.associate(db);
+RentalInfo.associate(db);
+RentalApply.associate(db);
 
 module.exports = db;

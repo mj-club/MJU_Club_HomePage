@@ -1,30 +1,23 @@
 const Sequelize = require("sequelize");
 
-module.exports = class ClubPostFile extends Sequelize.Model {
+module.exports = class File extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        file_name: {
+        file_type: { type: Sequelize.STRING(45), allowNull: true },
+        url: {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
-        file_dir: {
+        original_url: {
           type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        file_extension: {
-          type: Sequelize.STRING(45),
-          allowNull: true,
-        },
-        file_size: {
-          type: Sequelize.INTEGER,
           allowNull: true,
         },
       },
       {
         sequelize,
-        modelName: "ClubPostFile",
-        tableName: "club_post_file",
+        modelName: "File",
+        tableName: "files",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -35,8 +28,8 @@ module.exports = class ClubPostFile extends Sequelize.Model {
   }
 
   static associate(db) {
-    // ClubPostFile - ClubPost (n:1)
-    db.ClubPostFile.belongsTo(db.ClubPost, {
+    // File - Post (n:1)
+    db.File.belongsTo(db.Post, {
       foreignKey: "post_id",
       targetKey: "id",
     });
