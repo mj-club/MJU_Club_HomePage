@@ -1,6 +1,6 @@
 const Sequelize = require("sequelize");
 
-module.exports = class File extends Sequelize.Model {
+module.exports = class Join extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
@@ -12,8 +12,8 @@ module.exports = class File extends Sequelize.Model {
       },
       {
         sequelize,
-        modelName: "Sns",
-        tableName: "sns",
+        modelName: "Join",
+        tableName: "join",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -24,9 +24,9 @@ module.exports = class File extends Sequelize.Model {
   }
 
   static associate(db) {
-    // File - Post (n:1)
-    db.File.belongsTo(db.Post, {
-      foreignKey: "post_id",
+    // Join - ClubInfo (n:1)
+    db.Join.belongsTo(db.ClubInfo, {
+      foreignKey: "club_id",
       targetKey: "id",
     });
   }
