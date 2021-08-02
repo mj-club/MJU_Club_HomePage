@@ -43,6 +43,7 @@ db.File = File;
 db.RentalInfo = RentalInfo;
 db.RentalApply = RentalApply;
 db.Join = Join;
+db.Sns = Sns;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
@@ -56,6 +57,7 @@ File.init(sequelize);
 RentalInfo.init(sequelize);
 RentalApply.init(sequelize);
 Join.init(sequelize);
+Sns.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
@@ -67,6 +69,7 @@ UnionInfo.associate(db);
 File.associate(db);
 RentalInfo.associate(db);
 RentalApply.associate(db);
-Sns.init(db);
+Join.associate(db);
+Sns.associate(db);
 
 module.exports = db;

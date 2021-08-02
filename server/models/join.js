@@ -4,8 +4,8 @@ module.exports = class Join extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        sns_type: { type: Sequelize.STRING(45), allowNull: true },
-        sns_link: {
+        join_type: { type: Sequelize.STRING(45), allowNull: true },
+        join_path: {
           type: Sequelize.STRING(200),
           allowNull: true,
         },
