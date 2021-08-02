@@ -115,7 +115,7 @@ router.post(
     });
     console.log(post.Files);
 
-    res.json(post.File);
+    res.json(post.files);
   }
 );
 
@@ -136,7 +136,7 @@ router.delete(
         Key: delFileName,
       };
       if (file.file_type === "image") {
-        s3.deleteObject(params, function (err, data) {
+        await s3.deleteObject(params, function (err, data) {
           if (err) {
             console.log("aws delete error");
             console.log(err, err.stack);
@@ -152,7 +152,7 @@ router.delete(
           console.log("리사이즈 파일 삭제");
         });
       }
-      s3.deleteObject(params, function (err, data) {
+      await s3.deleteObject(params, function (err, data) {
         if (err) {
           console.log("aws delete error");
           console.log(err, err.stack);
