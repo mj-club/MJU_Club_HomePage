@@ -1,22 +1,3 @@
-import Page from '../components/Page';
-import RightTitle from '../components/RightTitle';
-import Ipsum from '../components/Ipsum';
-
-// export default function MjuClubPage() {
-//   const title="mju_club"
-//   const rightTitle = <RightTitle 
-//             title={title}
-//             menu1={"동아리"}
-//             menu2={title}
-//             // menu3={title}
-//           />
-//   const rightInner = <Ipsum title={title}></Ipsum>
-
-//   return(
-//      <Page rightInner={rightInner} rightTitle={rightTitle}/>
-//   );
-// }
-
 import React, { useEffect } from 'react';
 import SEO from '../components/SEO';
 import Navbar from "../components/Navbar";
@@ -30,34 +11,32 @@ import Footer from '../components/Footer/Footer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 import axios from 'axios';
 
-
 const MjuClubPage = () => {
-    useEffect(() => {
-      axios.get('/')
-    })
+    
 
-    // function searchApi() {
-    //   const url = "https://jsonplaceholder.typicode.com/photos";
-    //   axios.get(url)
-    //   .then(function(response) {
-    //       setPhotos(response.data);
-    //       console.log("성공");
-    //   })
-    //   .catch(function(error) {
-    //       console.log("실패");
-    //   })
-    // }
+    function searchApi() {
+      const url = "http://13.209.214.244:8080";
+      axios.get(url+"/read/")
+      .then(function(response) {
+          setPhotos(response.data);
+          console.log("성공");
+      })
+      .catch(function(error) {
+          console.log("실패");
+      })
+    }
 
+    searchApi()
 
     return ( 
         <React.Fragment>
             <SEO title="동아리 || {동아리이름}" />
             <Navbar />
             <Breadcrumb 
-                image="images/bg/breadcrumb-bg.jpg"
-                title="We are an agency located in New York"
-                content="Home"
-                contentTwo="About Us"
+                imgage="동아리별사진"
+                title="representation"  // clubInfo 안에 있는 데이터
+                content="동아리 소개"
+                contentTwo="name"      // clubInfo 안에 있는 데이터
             />
             <AboutFour />
             <Video />
@@ -85,4 +64,4 @@ export default MjuClubPage;
 // plan: 활동 계획
 // recruit: 모집기간 (ex> “2021년 3월 8일 – 2021년 3월 22일 자정”)
 // recruitment: 동아리 홍보멘트(신입회원 모집안내)
-// recruitment: 회장이름
+// representation: 회장이름
