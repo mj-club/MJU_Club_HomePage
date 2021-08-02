@@ -115,7 +115,7 @@ router.post(
     });
     console.log(post);
 
-    res.json(post.File);
+    res.json(post.files);
   }
 );
 
@@ -127,16 +127,16 @@ router.delete(
   async (req, res, next) => {
     try {
       const file = await File.findByPk(req.params.fileId);
-      const url = file.url; // file에 저장된 fileUrl을 가져옴
+      const url = file.url.split("/"); // file에 저장된 fileUrl을 가져옴
       const originalUrl = file.original_url;
 
       const delFileName = url[url.length - 1]; // 버킷에 저장된 객체 URL만 가져옴
       const params = {
-        Bucket: "mju-club/video",
+        Bucket: "mju-club/documents",
         Key: delFileName,
       };
       if (file.file_type === "image") {
-        s3.deleteObject(params, function (err, data) {
+        await s3.deleteObject(params, function (err, data) {
           if (err) {
             console.log("aws delete error");
             console.log(err, err.stack);
@@ -152,7 +152,7 @@ router.delete(
           console.log("리사이즈 파일 삭제");
         });
       }
-      s3.deleteObject(params, function (err, data) {
+      await s3.deleteObject(params, function (err, data) {
         if (err) {
           console.log("aws delete error");
           console.log(err, err.stack);
