@@ -231,12 +231,12 @@ router.delete(
   }
 );
 
-// function checkPermission(req, res, next) {
-//   ClubPost.findOne({ clubId: req.params.clubId }, function (err, user) {
-//     if (err) return res.json(err);
-//     if (club_posts.writer_id != req.user.id) return noPermission(req, res);
-//     next();
-//   });
-// }
+function checkPermission(req, res, next) {
+  ClubPost.findOne({ clubId: req.params.clubId }, function (err, post) {
+    if (err) return res.json(err);
+    if (post.writer_id != req.user.id) return noPermission(req, res);
+    next();
+  });
+}
 
 module.exports = router;
