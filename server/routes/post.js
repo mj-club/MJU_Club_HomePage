@@ -19,16 +19,12 @@ router.get(
     try {
       let post = await Post.findOne({
         where: { id: req.params.postId },
-        include: [Comment, File],
+        include: [Comment, File, { model: User, attributes: ["name"]}]
       });
-      // const comments = await Comment.findAll({
-      //   where: { post_id: req.params.postId },
-      //   order: [["createdAt", "DESC"]],
-      // });
-      console.log(post);
+      // console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json({ post });
+      res.json( post );
     } catch (error) {
       console.error(error);
       next(error);
@@ -42,14 +38,15 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
+      console.log("~!@~!")
       try {
         let postList = await Post.findAll({
-          where: { union_id: 1 },
+          where: { union_id: 1, category: req.params.category },
           attributes: [
             "id",
             "title",
             "thumbnail",
-            "writer",
+            "content",
             "set_top",
             "visit_count",
             "comment_count",
@@ -94,7 +91,7 @@ router.get(
 // Create
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
-  // isLoggedIn,
+  isLoggedIn,
   upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
@@ -112,8 +109,8 @@ router.post(
           thumb_count: 0,
         });
         unionInfo.addPost(post);
-        // const user = await User.findByPk(req.user.id);
-        // user.addPost(user);
+        const user = await User.findByPk(req.user.id);
+        await user.addPost(post);
         console.log("게시물 등록");
         res.json(post);
       } catch (error) {}
@@ -138,8 +135,8 @@ router.post(
           // writer: "봉현수",
         });
         clubInfo.addPost(post);
-        // const user = await User.findByPk(req.user.id);
-        // user.addPost(user);
+        const user = await User.findByPk(req.user.id);
+        user.addPost(post);
         console.log("게시물 등록");
         res.json(post);
       } catch (error) {
@@ -152,7 +149,8 @@ router.post(
 // Update
 router.post(
   "/update/:postId",
-  // isLoggedIn,
+  isLoggedIn,
+  
   upload.none(),
   async (req, res, next) => {
     try {
@@ -178,7 +176,7 @@ router.post(
 // Delete
 router.delete(
   "/delete/:postId",
-  // isLoggedIn,
+  isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
     try {
@@ -194,5 +192,13 @@ router.delete(
     }
   }
 );
+
+function checkPermission(req, res, next) {
+  ClubPost.findOne({ postId: req.params.postId }, function (err, post) {
+    if (err) return res.json(err);
+    if (post.writer_id != req.user.id) return noPermission(req, res);
+    next();
+  });
+}
 
 module.exports = router;

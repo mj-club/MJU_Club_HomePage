@@ -113,7 +113,7 @@ router.post(
       });
       post = await post.addFile(uploaded);
     });
-    console.log(post);
+    console.log(post.Files);
 
     res.json(post.files);
   }
