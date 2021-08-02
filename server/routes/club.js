@@ -126,13 +126,10 @@ router.post(
           join = req.body.join;
           join.map(async (data) => {
             try {
-              let join = await Join.findOrCreate({
-                where: { join_type: data.join_type },
-                defaults: { join_path: data.join_path },
+              let join = await Join.create({
+                join_type: data.join_type,
+                join_path: data.join_path,
               });
-              if (join.join_path !== data.join_path) {
-                join = join.update({ join_path: data.join_path });
-              }
               await clubInfo.addJoin(join);
             } catch (error) {
               console.error(error);
