@@ -113,7 +113,7 @@ router.post(
       });
       post = await post.addFile(uploaded);
     });
-    console.log(post);
+    console.log(post.Files);
 
     res.json(post.File);
   }
@@ -127,12 +127,12 @@ router.delete(
   async (req, res, next) => {
     try {
       const file = await File.findByPk(req.params.fileId);
-      const url = file.url; // file에 저장된 fileUrl을 가져옴
+      const url = file.url.split("/"); // file에 저장된 fileUrl을 가져옴
       const originalUrl = file.original_url;
 
       const delFileName = url[url.length - 1]; // 버킷에 저장된 객체 URL만 가져옴
       const params = {
-        Bucket: "mju-club/video",
+        Bucket: "mju-club/documents",
         Key: delFileName,
       };
       if (file.file_type === "image") {
