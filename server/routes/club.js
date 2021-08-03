@@ -118,7 +118,7 @@ router.post(
         }
         //join
         if (req.body.join) {
-          await Join.destroy({ club_id: clubInfo.id });
+          await Join.destroy({ where: { club_id: clubInfo.id } });
           join = req.body.join;
           join.map(async (data) => {
             try {
