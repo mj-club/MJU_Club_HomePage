@@ -89,24 +89,20 @@ router.post(
           });
         }
       } else {
-        const targetId = clubInfo.id;
-        clubInfo = await ClubInfo.update(
-          {
-            name: req.params.clubName,
-            representation: req.body.representation,
-            contact_number: req.body.contact_number,
-            introduction: req.body.introduction,
-            plan: req.body.plan,
-            recruit: req.body.recruit,
-            meeting: req.body.meeting,
-            recruitment: req.body.recruitment,
-          },
-          { where: { id: targetId } }
-        );
+        clubInfo.update({
+          name: req.params.clubName,
+          representation: req.body.representation,
+          contact_number: req.body.contact_number,
+          introduction: req.body.introduction,
+          plan: req.body.plan,
+          recruit: req.body.recruit,
+          meeting: req.body.meeting,
+          recruitment: req.body.recruitment,
+        });
 
         //sns
         if (req.body.sns) {
-          await Sns.destroy({ club_id: clubInfo.id });
+          await Sns.destroy({ where: { club_id: clubInfo.id } });
           sns = req.body.sns;
           sns.map(async (data) => {
             try {
