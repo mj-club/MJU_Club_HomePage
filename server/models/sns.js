@@ -1,23 +1,19 @@
 const Sequelize = require("sequelize");
 
-module.exports = class File extends Sequelize.Model {
+module.exports = class Sns extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        file_type: { type: Sequelize.STRING(45), allowNull: true },
-        url: {
-          type: Sequelize.STRING(100),
-          allowNull: true,
-        },
-        original_url: {
-          type: Sequelize.STRING(100),
+        sns_type: { type: Sequelize.STRING(45), allowNull: true },
+        sns_link: {
+          type: Sequelize.STRING(200),
           allowNull: true,
         },
       },
       {
         sequelize,
-        modelName: "File",
-        tableName: "files",
+        modelName: "Sns",
+        tableName: "sns",
         timestamp: true,
         underscored: true,
         paranoid: false,
@@ -28,9 +24,9 @@ module.exports = class File extends Sequelize.Model {
   }
 
   static associate(db) {
-    // File - Post (n:1)
-    db.File.belongsTo(db.Post, {
-      foreignKey: "post_id",
+    // Sns - ClubInfo (n:1)
+    db.Sns.belongsTo(db.ClubInfo, {
+      foreignKey: "club_id",
       targetKey: "id",
     });
   }
