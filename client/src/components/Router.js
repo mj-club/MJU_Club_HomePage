@@ -16,7 +16,7 @@ import AboutClubUnion from "../pages/AboutClubUnion";
 import DeleteAccountPage from '../pages/MyPage/DeleteAccountPage';
 import ProfilePage from "../pages/MyPage/ProfilePage";
 import Document_create from '../pages/Document_create';
-import Document1 from '../pages/Document1';
+import DocumentPage from '../pages/DocumentPage';
 
 // Pages 로 이동
 export default function Routers() {
