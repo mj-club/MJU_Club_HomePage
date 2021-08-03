@@ -31,7 +31,6 @@ router.get(
           "snsId",
         ],
         where: { id: req.user.id }
-        // order: [["department", "DESC"]],
       });
       res.json(userInfo);
     } catch (error) {
@@ -87,13 +86,13 @@ router.get(
 // Delete
 router.delete(
   "/delete",
-  // isLoggedIn,
+  isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
     try {
       const userInfo = await User.destroy({
         where: { id: req.user.id },
-        truncate: false
+        // truncate: true 
       });
       console.log("회원 정보 삭제(탈퇴)");
       res.json(userInfo);

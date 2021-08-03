@@ -109,11 +109,11 @@ router.post(
         file_type: fileType,
         original_url: originalUrl,
         url: url,
-        // file_name: ,
+        description: req.body.description,
       });
       post = await post.addFile(uploaded);
     });
-    console.log(post);
+    console.log(post.Files);
 
     res.json(post.files);
   }
