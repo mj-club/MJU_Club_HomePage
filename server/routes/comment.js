@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const {
-  ClubPostComment,
-} = require("../models");
+const { Comment, Post } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 // -----------comment------------
@@ -17,8 +15,8 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     try {
-      const comments = await ClubPostComment.findAll({
-        where: { post_id: postId },
+      const comments = await Comment.findAll({
+        where: { post_id: req.params.postId },
         order: [["createdAt", "DESC"]],
       });
 
@@ -31,31 +29,36 @@ router.get(
 );
 
 // Create
-router.post("/create/:postId", 
-// isLoggedIn, 
-multer().none(),
-async (req, res, next) => {
-  try {
-    const comment = await ClubPostComment.create({
-      content: req.body.content,
-      post_id: req.params.postId,
-      // writer_id: req.user.id,
-    });
-    console.log("댓글 등록");
-    res.json(comment);
-  } catch (error) {
-    console.error(error);
-    next(error);
+router.post(
+  "/create/:postId",
+  // isLoggedIn,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      const post = await Post.findByPk(req.params.postId);
+      const comment = await Comment.create({
+        content: req.body.content,
+        post_id: req.params.postId,
+        // writer_id: req.user.id,
+      });
+      await post.addComment(comment);
+      console.log("댓글 등록");
+      res.json(comment);
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-});
+);
 
 // Update
 router.post(
   "/update/:commentId",
   // isLoggedIn,
+  multer().none(),
   async (req, res, next) => {
     try {
-      const comment = await ClubPostComment.fineOne(
+      const comment = await Comment.update(
         {
           content: req.body.content,
         },
@@ -79,11 +82,11 @@ router.delete(
   // checkPermission,
   async (req, res, next) => {
     try {
-      const post = await ClubPostComment.destroy({
+      const comment = await Comment.destroy({
         where: { id: req.params.commentId },
       });
       console.log("댓글 삭제");
-      res.json(post);
+      res.json(comment);
     } catch (err) {
       console.error(err);
       next(err);
