@@ -9,7 +9,7 @@ module.exports = class RentalInfo extends Sequelize.Model {
           allowNull: false,
         },
         rental_state: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER, // 대여가능여부 0: 불가, 1:가능
           allowNull: false,
         },
         room_img: {

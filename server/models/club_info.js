@@ -59,5 +59,15 @@ module.exports = class ClubInfo extends Sequelize.Model {
       foreignKey: "club_id",
       sourceKey: "id",
     });
+    // ClubInfo - Sns (1:n)
+    db.ClubInfo.hasMany(db.Sns, {
+      foreignKey: "club_id",
+      sourceKey: "id",
+    });
+    // ClubInfo - Join (1:n)
+    db.ClubInfo.hasMany(db.Join, {
+      foreignKey: "club_id",
+      sourceKey: "id",
+    });
   }
 };

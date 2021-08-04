@@ -13,6 +13,10 @@ module.exports = class File extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
+        description: {
+          type: Sequelize.TEXT,
+          allowNull: true,
+        },
       },
       {
         sequelize,
