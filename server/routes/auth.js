@@ -77,7 +77,7 @@ router.get("/duplicate/:email", isNotLoggedIn, async (req, res, next) => {
   try {
     let userEmail = await User.findOne({
       attributes: ["email"],
-      where: { email: req.params.email }
+      where: { email: req.params.email },
     });
     if (userEmail.email == req.params.email) {
       console.log("이미 있는 이메일이에요!");
@@ -103,5 +103,20 @@ router.get(
     res.json(req.user);
   }
 );
+
+router.post("forgetPW", (req, res) => {
+  // email 입력 확인
+  if (req.body.email === "") {
+    res.status(400).send("email required");
+  }
+  // 유저 데이터베이스에 존재하는 이메일인지 확인
+  User.findOne({
+    where: {
+      email: {
+        like: req.body.email,
+      },
+    },
+  });
+});
 
 module.exports = router;
