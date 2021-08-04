@@ -64,6 +64,22 @@ export function emailLogin(body) {
   };
 }
 
+export function emailCheck(email) {
+  return (dispatch)=> {
+    axios.get(URL + "/duplicate/"+email).then((data) => {
+      dispatch({
+        type: "SET_MESSAGE",
+        payload : data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
 export function clearError() {
   return (dispatch) => {
     dispatch({ type: "CLEAR_ERROR" });
