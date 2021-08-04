@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
+const crypto = require("crypto");
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const User = require("../models/user");
 
@@ -104,19 +105,77 @@ router.get(
   }
 );
 
-router.post("forgetPW", (req, res) => {
+router.post("findPW", multer.none(), async (req, res) => {
   // email 입력 확인
   if (req.body.email === "") {
     res.status(400).send("email required");
   }
+  const crypto = require("crypto");
   // 유저 데이터베이스에 존재하는 이메일인지 확인
-  User.findOne({
+  try {
+    const user = await User.findOne({
+      where: {
+        email: {
+          like: req.body.email,
+        },
+      },
+    });
+  } catch {
+    let error = new Error("");
+  }
+  const token = crypto.randomBytes(20).toString("hex"); // token 생성
+  const data = {
+    // 데이터 정리
+    token,
+    userId: user.id,
+    ttl: 300, // ttl 값 설정 (5분)
+  };
+  await Auth.create(data);
+  const nodemailer = require("nodemailer");
+  // nodemailer Transport 생성
+  // email example: dsfsa@naver.com
+  const host = user.email.split("@")[1];
+  const transporter = nodemailer.createTransport({
+    host,
+    port: 465,
+    secure: true, // true for 465, false for other ports
+    auth: {
+      // 이메일을 보낼 계정 데이터 입력
+      user: user.email,
+      pass: user.password,
+    },
+  });
+  const resetPWLink =
+    process.env.NODE_ENV === "production"
+      ? `http://13.209.214.244:8080/reset/${token}`
+      : `http://localhost/reset/${token}`;
+  const emailOptions = {
+    // 옵션값 설정
+    from: "명지대학교 인문캠퍼스 총동아리연합회",
+    to: user.email,
+    subject: "비밀번호 초기화 이메일입니다.",
+    html:
+      "비밀번호 초기화를 위해서는 아래의 URL을 클릭하여 주세요." + resetPWLink,
+  };
+  transporter.sendMail(emailOptions, res); //전송
+  // 데이터베이스 Auth 테이블에 데이터 입력
+});
+
+router.post("resetPW", multer.none(), (req, res) => {
+  // 입력받은 token 값이 Auth 테이블에 존재하며 아직 유효한지 확인
+  const auth = await Auth.findOne({
     where: {
-      email: {
-        like: req.body.email,
+      token: {
+        like: req.body.token,
+      },
+      created: {
+        greater: new Date.now() - ttl,
       },
     },
   });
+  await User.update(
+    { password: req.body.password },
+    { where: { id: auth.user_id } }
+  );
 });
-
 module.exports = router;
