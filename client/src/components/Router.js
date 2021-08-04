@@ -15,6 +15,8 @@ import Page from "../components/Page";
 import AboutClubUnion from "../pages/AboutClubUnion";
 import DeleteAccountPage from '../pages/MyPage/DeleteAccountPage';
 import ProfilePage from "../pages/MyPage/ProfilePage";
+import Document_create from '../pages/Document_create';
+import DocumentPage from '../pages/DocumentPage';
 
 // Pages 로 이동
 export default function Routers() {
@@ -30,6 +32,8 @@ export default function Routers() {
           <Route path="/promotion" component={PromotionPage}/>
           <Route path="/about_keyum" component={AboutKeyUmPage}/>
           <Route path="/monthly_keyum" component={MonthlyPage}/>
+          <Route path="/Document" component={DocumentPage}/>
+          <Route path="/Document_create" component = {Document_create}/>
 
           <Route path="/login" component={LoginPage}/>
           <Route path="/join" component={JoinPage}/>
