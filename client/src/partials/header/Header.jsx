@@ -2,9 +2,9 @@ import {Fragment, useState, useEffect} from "react";
 import Logo from '../../components/logo/Logo';
 import NavBar from '../../components/NavBar/NavBar';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
-import MobileMenu from "../../components/NavBar/MobileMenu";
-import MainSearch from "../../components/NavBar/MainSearch";
-import {Link} from 'react-router-dom';
+import Btn from '../../components/Btn/Btn';
+import MobileMenu from "../../components/NavBar/MobileMenu"
+import MainSearch from "../../components/NavBar/MainSearch"
 
 const Header = () => {
     const [ofcanvasShow, setOffcanvasShow] = useState(false);
@@ -40,7 +40,7 @@ const Header = () => {
                         <div className="row justify-content-between align-items-center">
                             <div className="col-xl-2 col-auto order-0">
                                 <Logo 
-                                    image={`${process.env.PUBLIC_URL}/images/logo/mju.png`}
+                                    image={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
                                 />
                             </div>
                             <div className="col-auto col-xl d-flex align-items-center justify-content-xl-center justify-content-end order-2 order-xl-1">
@@ -62,7 +62,7 @@ const Header = () => {
                             </div>
 
                             <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                <Link to={process.env.PUBLIC_URL + "/"} className="btn btn-outline-white btn-hover-primary">로그인 / 회원가입</Link>
+                                <Btn name='Buy Now' />
                             </div>
                         </div>
                     </div>
