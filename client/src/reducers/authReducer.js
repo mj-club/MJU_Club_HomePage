@@ -5,6 +5,7 @@ const initialState = {
   loading: false,
   error: null,
   user_email: null,
+  message: null,
 };
 
 const authReducer = produce((state, action) => {
@@ -13,6 +14,7 @@ const authReducer = produce((state, action) => {
     case "SET_USER":
       state.loading = false;
       state.user = action.payload;
+      state.error = null;
       break;
     case "LOADING":
       state.loading = true;
@@ -27,6 +29,9 @@ const authReducer = produce((state, action) => {
 
     case "SET_USER_EMAIL":
       state.user_email = action.payload;
+      break;
+    case "SET_MESSAGE":
+      state.message = action.payload;
       break;
     default:
       break;

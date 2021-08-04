@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// const URL = "http://13.209.214.244:8080";
+const URL = "http://localhost:3001/auth";
 
 export function kakaoLogin() {
   // const URL =
@@ -61,6 +61,22 @@ export function emailLogin(body) {
           payload: error,
         });
       });
+  };
+}
+
+export function emailCheck(email) {
+  return (dispatch)=> {
+    axios.get(URL + "/duplicate/"+email).then((data) => {
+      dispatch({
+        type: "SET_MESSAGE",
+        payload : data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
   };
 }
 
