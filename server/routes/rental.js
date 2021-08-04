@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 
-const { RentalInfo, RentalApply } = require("../models");
+const { RentalInfo, RentalApply, User } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
@@ -23,27 +23,29 @@ router.get(
       res.json(myRental);
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );
-// 개인 신청 내역 조회
+// 개인 신청 내역 전체 조회
 router.get(
   "/my-application/readAll",
   // isLoggedIn,
   async (req, res, next) => {
     try {
       const myRental = await RentalApply.findAll({
-        where: { id: req.params.itemId, user_id: req.user.id },
+        where: { user_id: req.user.id },
       });
       res.json(myRental);
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );
 
 // Read
-// 대여 공간 및 물품 조회 (게시판에서)
+// 대여 공간 및 물품 상세 조회 (게시판에서)
 router.get(
   "/read/:itemId",
   // isLoggedIn,
@@ -55,17 +57,19 @@ router.get(
       res.json(rental);
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );
 
+// 대여 공간 및 물품 전체 조회 (게시판에서)
 router.get(
   "/readAll",
   // isLoggedIn,
   // upload.none(),
   async (req, res, next) => {
     try {
-      const rental = await rental.findAll({
+      const rental = await RentalInfo.findAll({
         attributes: [
           "room_name",
           "rental_state",
@@ -76,6 +80,7 @@ router.get(
       res.json(rental);
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );
@@ -83,6 +88,9 @@ router.get(
 //--------사용자(대여 신청)----------
 // Create
 // 신청
+// 날짜 먼저 선택 후 대여인지, 대여 신청페이지에서 날짜 선택인지..
+// 름 선택 후 신청인지, 신청페이지에서 룸 선택인지
+
 router.post(
   "/application/:itemId",
   // isLoggedIn,
@@ -94,23 +102,27 @@ router.post(
       });
       if (rentalItem.rental_state != 1) {
         const rental = await RentalApply.create({
-        room_name: rentalItem.room_name,
-        rental_date: req.body.rental_date,
-        rental_time: req.body.rental_time,
-        rep_member_name: req.body.rep_member_name,
-        member_count: req.body.member_count,
-        apply_state: req.body.apply_state,
-        // user_id: req.user.id,
+          room_name: rentalItem.room_name,
+          rental_date: req.body.rental_date,
+          start: req.body.start,
+          end: req.body.end,
+          rental_time: req.body.rental_time, // 수정할것
+          rep_member_name: req.body.rep_member_name,
+          member_count: req.body.member_count,
+          apply_state: 0,
         });
+        const user = await User.findByPk(req.user.id);
+        await user.addRentalApply(rental);
         console.log("대여 신청(사용자)");
         res.json(rental);
       }
       else {
-        const message = encodeURIComponent("잔여 수량이 부족하여 신청할 수 없습니다.");
-        res.json(message);
+        const error = new Error("잔여 수량이 부족하여 신청할 수 없습니다.");
+        res.send(error);
       }
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );
@@ -120,19 +132,20 @@ router.post(
 router.post(
   "/application/update/:itemId",
   // isLoggedIn,
+  // apply_state -> 0,1,2에 따른 구분 설정 추가 필요
   upload.none(),
   async (req, res, next) => {
     try {
       const rentalItem = await RentalInfo.findOne({
         where: { id: req.params.itemId },
       });
-      const rental = await RentalApply.create({
-        room_name: req.body.room_name,
+      const rental = await RentalApply.update({
         rental_date: req.body.rental_date,
+        start: req.body.start,
+        end: req.body.end,
         rental_time: req.body.rental_time,
         rep_member_name: req.body.rep_member_name,
         member_count: req.body.member_count,
-        apply_state: req.body.apply_state,
       },
       { 
         where: { id: rentalItem.id }
@@ -183,6 +196,7 @@ router.post(
       res.json(rental);
     } catch (error) {
       console.error(error);
+      res.send(error);
     }
   }
 );

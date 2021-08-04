@@ -12,8 +12,16 @@ module.exports = class RentalApply extends Sequelize.Model {
           type: Sequelize.DATE,
           allowNull: false,
         },
+        start: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
+        end: {
+          type: Sequelize.DATE,
+          allowNull: false,
+        },
         rental_time: {
-          type: Sequelize.TIME,
+          type: Sequelize.INTEGER,
           allowNull: false,
         },
         rep_member_name: {
@@ -25,7 +33,7 @@ module.exports = class RentalApply extends Sequelize.Model {
           allowNull: false,
         },
         apply_state: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER, // 신청 현황 -> 0: 승인대기, 1: 승인, 2: 반려(거절)
           allowNull: false,
         },
       },
@@ -43,6 +51,12 @@ module.exports = class RentalApply extends Sequelize.Model {
   }
 
   static associate(db) {
+    // RentalApply - User (n:1)
+    db.RentalApply.belongsTo(db.User, {
+      foreignKey: "user_id",
+      targetKey: "id",
+    });
+
     // RentalApply - RentalInfo (n:1)
     db.RentalApply.belongsTo(db.RentalInfo, {
       foreignKey: "room_id",
