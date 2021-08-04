@@ -88,10 +88,10 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: "writer_id",
       sourceKey: "id",
     });
-    // User - PetitionPost (1:n)
-    // db.User.hasMany(db.PetitionPost, {
-    //   foreignKey: "user_id",
-    //   sourceKey: "id",
-    // });
+    // User - RentalApply (1:n)
+    db.User.hasMany(db.RentalApply, {
+      foreignKey: "user_id",
+      sourceKey: "id",
+    });
   }
 };
