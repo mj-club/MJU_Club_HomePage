@@ -20,7 +20,7 @@ module.exports = class User extends Sequelize.Model {
         },
         ph_number: {
           type: Sequelize.STRING(45),
-          allowNull: true,
+          allowNull: false,
         },
         department: {
           type: Sequelize.STRING(45),
