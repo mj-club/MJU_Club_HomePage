@@ -16,6 +16,8 @@ import BlogCategories from './pages/BlogCategories';
 import BlogTag from './pages/BlogTag';
 import Contact from './pages/Contact';
 
+import LogIn from './pages/LogIn';
+
 import Join from './pages/Join';
 
 
