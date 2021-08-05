@@ -20,11 +20,7 @@ module.exports = class User extends Sequelize.Model {
         },
         ph_number: {
           type: Sequelize.STRING(45),
-          allowNull: true,
-        },
-        sex: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
+          allowNull: false,
         },
         department: {
           type: Sequelize.STRING(45),
@@ -53,10 +49,6 @@ module.exports = class User extends Sequelize.Model {
         },
         snsId: {
           type: Sequelize.STRING(30),
-          allowNull: true,
-        },
-        profile_img: {
-          type: Sequelize.STRING(200),
           allowNull: true,
         },
       },

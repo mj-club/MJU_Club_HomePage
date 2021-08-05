@@ -14,7 +14,12 @@ import BlogClassic from './pages/BlogClassic';
 import BlogDetails from './pages/BlogDetails';
 import BlogCategories from './pages/BlogCategories';
 import BlogTag from './pages/BlogTag';
-import Contact from './pages/Contact';
+// import Contact from './pages/Contact';
+
+import LogIn from './pages/LogIn';
+
+import Join from './pages/Join';
+
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -50,7 +55,9 @@ function App() {
               <Route path={`${process.env.PUBLIC_URL + "/tag/:slug"}`} component ={BlogTag} />
               <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
               <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
-              <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={Contact} />
+              <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
+              <Route path="/join" component={Join} />
+              
               {/* <Route component ={NotFound} /> */}
             </Switch>
           </NavScrollTop>
