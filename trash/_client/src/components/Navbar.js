@@ -22,9 +22,8 @@ function Navigationbar() {
 
   return (
     <>
-    <style>
-      {
-        `
+    <style type="text/css">
+      {`
         @font-face {
           font-family: 'twayair';
           src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_tway@1.0/twayair.woff') format('woff');
@@ -93,8 +92,8 @@ function Navigationbar() {
       #signup-btn:hover{
           background-color:  #add3ff;
       }
-        `
-      }
+        
+      `}
     </style>
     <div className="Navbar">
       <Navbar id="navbar" sticky="top" expand="lg">
@@ -157,7 +156,7 @@ function Navigationbar() {
                       <Nav.Link
                         id="nav-link-mobile"
                         href="mju_club"
-                        style={{ textAlign: "center" }}
+                        style={{ textAlign: "center" }}         
                       >
                         사회연구분과
                       </Nav.Link>
