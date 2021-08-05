@@ -15,7 +15,7 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
     ph_number,
     sex,
     department,
-    school_year,
+    school_year, //학년
     student_id,
     major,
     snsId,
@@ -71,6 +71,24 @@ router.get("/logout", isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.json({ status: "logout" });
+});
+
+router.get("/duplicate/:email", isNotLoggedIn, async (req, res, next) => {
+  try {
+    let userEmail = await User.findOne({
+      attributes: ["email"],
+      where: { email: req.params.email }
+    });
+    if (userEmail.email == req.params.email) {
+      console.log("이미 있는 이메일이에요!");
+      let message = encodeURIComponent("이미 있는 이메일이에요!");
+      res.json(message);
+    }
+  } catch {
+    console.log("사용가능한 이메일이에요");
+    let message = encodeURIComponent("사용가능한 이메일이에요");
+    res.json(message);
+  }
 });
 
 router.get("/kakao", passport.authenticate("kakao"));

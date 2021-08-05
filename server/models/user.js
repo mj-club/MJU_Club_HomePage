@@ -66,7 +66,7 @@ module.exports = class User extends Sequelize.Model {
         underscored: false,
         modelName: "User",
         tableName: "users",
-        paranoid: true,
+        paranoid: false,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
@@ -76,22 +76,22 @@ module.exports = class User extends Sequelize.Model {
   static associate(db) {
     // User - ClubInfo (m:n)
     db.User.belongsToMany(db.ClubInfo, { through: db.ClubMember });
-    // User - ClubPost (1:n)
-    db.User.hasMany(db.ClubPost, {
+    // User - Post (1:n)
+    db.User.hasMany(db.Post, {
       foreignKey: "writer_id",
       sourceKey: "id",
     });
-    // User - thumb - ClubPost (m:n)
-    // db.User.belongsToMany(db.ClubPost, { through: db.Thumb });
-    // User - ClubPostComment (1:n)
-    db.User.hasMany(db.ClubPostComment, {
+    // User - thumb - Post (m:n)
+    // db.User.belongsToMany(db.Post, { through: db.Thumb });
+    // User - Comment (1:n)
+    db.User.hasMany(db.Comment, {
       foreignKey: "writer_id",
       sourceKey: "id",
     });
-    // User - PetitionPost (1:n)
-    // db.User.hasMany(db.PetitionPost, {
-    //   foreignKey: "user_id",
-    //   sourceKey: "id",
-    // });
+    // User - RentalApply (1:n)
+    db.User.hasMany(db.RentalApply, {
+      foreignKey: "user_id",
+      sourceKey: "id",
+    });
   }
 };
