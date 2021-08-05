@@ -3,10 +3,14 @@ import Logo from '../../components/logo/Logo';
 import NavBar from '../../components/NavBar/NavBar';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
 import Btn from '../../components/Btn/Btn';
-import MobileMenu from "../../components/NavBar/MobileMenu"
-import MainSearch from "../../components/NavBar/MainSearch"
+import MobileMenu from "../../components/NavBar/MobileMenu";
+import MainSearch from "../../components/NavBar/MainSearch";
+
+import { useSelector } from "react-redux";
 
 const Header = () => {
+    const user = useSelector((state) => state.authReducer.user);
+
     const [ofcanvasShow, setOffcanvasShow] = useState(false);
     const onCanvasHandler = () => {
         setOffcanvasShow(prev => !prev);
@@ -60,10 +64,16 @@ const Header = () => {
                                     </button>
                                 </div>
                             </div>
-
-                            <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                <Btn name='Buy Now' />
-                            </div>
+                            {user == null &&
+                                <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
+                                    <Btn name='로그인' />
+                                </div>
+                            }
+                            {user !== null &&
+                                <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
+                                    <Btn name='마이페이지' />
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
