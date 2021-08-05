@@ -6,6 +6,7 @@ const JoinForm = () => {
     mode: "onBlur"
   });
   const onSubmit = data => console.log(data);
+  console.log("error", errors);
 
   return (
     <>
@@ -33,10 +34,10 @@ const JoinForm = () => {
           <div className="col-md-12 col-12 mb-4">
             <p>이메일</p>
             <input type="email" placeholder="Email *" name="email" ref={register({
-              required: 'Email is required',
+              required: '이메일을 입력해주세요',
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                message: "invalid email address"
+                message: "잘못된 이메일입니다"
               }
             })} />
             {errors.email && <p>{errors.email.message}</p>}
@@ -44,7 +45,18 @@ const JoinForm = () => {
 
           <p>비밀번호</p>
           <div className="col-md-12 col-12 mb-4">
-            <input type="password" placeholder="Pssword *" name="password" />
+            <input type="password" placeholder="Pssword *" name="password" 
+            ref={register({
+              required: "비밀번호를 입력해주세요", 
+              minLength: 8, 
+              maxLength: 20,
+              pattern: {
+                value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]$/,
+                message: "비밀번호는 영문, 숫자, 특수문자를 포함한 8~20글자입니다"
+              }
+              }) }/>
+              {errors.password && <p>{errors.password.message}</p>}
+
           </div>
           <div className="col-md-12 col-12 mb-4">
             <input type="password" placeholder="Check Pssword *" name="check-password" />
