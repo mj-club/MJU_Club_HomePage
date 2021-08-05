@@ -1,3 +1,5 @@
+<<<<<<< HEAD:client/src/pages/MjuClubPage.js
+=======
 import Page from '../components/Page';
 import RightTitle from '../components/RightTitle';
 import Ipsum from '../components/Ipsum';
@@ -23,6 +25,7 @@ import FAQPage from './MjuClub/FAQ/ListPage';
 //   );
 // }
 
+>>>>>>> 0aa933859976a923db8456bc53d5125c042dedba:trash/_client/src/pages/MjuClubPage.js
 import React, { useEffect } from 'react';
 import SEO from '../components/SEO';
 import Navbar from "../components/Navbar";
@@ -36,28 +39,51 @@ import Footer from '../components/Footer/Footer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 import axios from 'axios';
 
-
 const MjuClubPage = () => {
+<<<<<<< HEAD:client/src/pages/MjuClubPage.js
+    
+=======
     let { path } = useRouteMatch();
 
     useEffect(() => {
       axios.get('/')
     })
+>>>>>>> 0aa933859976a923db8456bc53d5125c042dedba:trash/_client/src/pages/MjuClubPage.js
 
-    // function searchApi() {
-    //   const url = "https://jsonplaceholder.typicode.com/photos";
-    //   axios.get(url)
-    //   .then(function(response) {
-    //       setPhotos(response.data);
-    //       console.log("성공");
-    //   })
-    //   .catch(function(error) {
-    //       console.log("실패");
-    //   })
-    // }
+    function searchApi() {
+      const url = "http://13.209.214.244:8080";
+      axios.get(url+"/read/")
+      .then(function(response) {
+          setPhotos(response.data);
+          console.log("성공");
+      })
+      .catch(function(error) {
+          console.log("실패");
+      })
+    }
 
+    searchApi()
 
     return ( 
+<<<<<<< HEAD:client/src/pages/MjuClubPage.js
+        <React.Fragment>
+            <SEO title="동아리 || {동아리이름}" />
+            <Navbar />
+            <Breadcrumb 
+                imgage="동아리별사진"
+                title="representation"  // clubInfo 안에 있는 데이터
+                content="동아리 소개"
+                contentTwo="name"      // clubInfo 안에 있는 데이터
+            />
+            <AboutFour />
+            <Video />
+            <AboutFive />
+            <TestimonialContainer classOption="bg-primary-blue" />
+            <CallToActionTwo />
+            <ScrollToTop />
+            <Footer />
+        </React.Fragment>
+=======
         <>
             <Switch>
                 <Route exact path={path}>
@@ -84,6 +110,7 @@ const MjuClubPage = () => {
                 </Route>
             </Switch>
         </>
+>>>>>>> 0aa933859976a923db8456bc53d5125c042dedba:trash/_client/src/pages/MjuClubPage.js
     )
 }
 
@@ -102,4 +129,4 @@ export default MjuClubPage;
 // plan: 활동 계획
 // recruit: 모집기간 (ex> “2021년 3월 8일 – 2021년 3월 22일 자정”)
 // recruitment: 동아리 홍보멘트(신입회원 모집안내)
-// recruitment: 회장이름
+// representation: 회장이름

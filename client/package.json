@@ -41,7 +41,6 @@
   },
   "scripts": {
     "start": "set PORT=3008 && react-scripts start",
-    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ignore-path .gitignore . --ext js --ext jsx",
@@ -66,7 +65,6 @@
     ]
   },
   "devDependencies": {
-    "eslint": "^7.20.0",
     "eslint-plugin-react": "^7.22.0"
   },
   "main": "index.js",

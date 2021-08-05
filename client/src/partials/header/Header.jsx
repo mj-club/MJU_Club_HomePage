@@ -35,6 +35,17 @@ const Header = () => {
         setScroll(window.scrollY);
     };
     return (
+        <>
+        <style>
+            {
+            `   
+                .header-section.is-sticky .header-inner{
+                    background-color: #A99371 !important;
+                }
+                    
+            `
+            }
+        </style> 
         <Fragment>
             <div className={`header-section header-transparent sticky-header section ${
         scroll > headerTop ? "is-sticky" : ""
@@ -44,7 +55,7 @@ const Header = () => {
                         <div className="row justify-content-between align-items-center">
                             <div className="col-xl-2 col-auto order-0">
                                 <Logo 
-                                    image={`${process.env.PUBLIC_URL}/images/logo/logo.png`}
+                                    image={`${process.env.PUBLIC_URL}/images/logo/logo.png`}   // 키움 이미지만 안뜸 images/logo/keyum-logo.png
                                 />
                             </div>
                             <div className="col-auto col-xl d-flex align-items-center justify-content-xl-center justify-content-end order-2 order-xl-1">
@@ -64,16 +75,9 @@ const Header = () => {
                                     </button>
                                 </div>
                             </div>
-                            {user == null &&
-                                <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                    <Btn name='로그인' />
-                                </div>
-                            }
-                            {user !== null &&
-                                <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                    <Btn name='마이페이지' />
-                                </div>
-                            }
+                            <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
+                                <Btn name='로그인/회원가입' />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,6 +85,7 @@ const Header = () => {
             <MobileMenu show={ofcanvasShow} onClose={onCanvasHandler}/>
             <MainSearch show={searchbarShow} onClose={onSearchHandler}/>
         </Fragment>
+     </>
     )
 }
 
