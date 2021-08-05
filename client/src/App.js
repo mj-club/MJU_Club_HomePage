@@ -16,6 +16,9 @@ import BlogCategories from './pages/BlogCategories';
 import BlogTag from './pages/BlogTag';
 import Contact from './pages/Contact';
 
+import Join from './pages/Join';
+
+
 // CSS File Here
 import "aos/dist/aos.css";
 import 'react-modal-video/scss/modal-video.scss';
@@ -51,6 +54,8 @@ function App() {
               <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
               <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
               <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={Contact} />
+              <Route path="/join" component={Join} />
+              
               {/* <Route component ={NotFound} /> */}
             </Switch>
           </NavScrollTop>
