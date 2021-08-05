@@ -92,6 +92,26 @@ router.get("/duplicate/:email", isNotLoggedIn, async (req, res, next) => {
   }
 });
 
+
+router.post("/findEmail", isNotLoggedIn, multer().none(), async (req, res, next) => {
+  try {
+    const userEmail = await User.findOne({
+      attributes: ["email"],
+      where: { name: req.body.name, student_id: req.body.student_id }
+    });
+    const finded = JSON.stringify(userEmail.email);
+    const loc = finded.indexOf("@");
+    const processed = finded.substring(1,loc-3) + "***" + finded.substring(loc,finded.length-1);
+
+    console.log("이메일을 찾았어요!");
+    res.json(processed);
+  } catch (error) {
+    console.log("이메일을 찾지 못했어요...");
+    console.error(error);
+    res.send(error);
+  }
+});
+
 router.get("/kakao", passport.authenticate("kakao"));
 
 router.get(
