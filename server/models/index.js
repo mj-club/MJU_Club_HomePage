@@ -19,6 +19,7 @@ const RentalInfo = require("./rental_info");
 const RentalApply = require("./rental_apply");
 const Join = require("./join");
 const Sns = require("./sns");
+const Auth = require("./auth");
 
 const db = {};
 const sequelize = new Sequelize(
@@ -44,6 +45,7 @@ db.RentalInfo = RentalInfo;
 db.RentalApply = RentalApply;
 db.Join = Join;
 db.Sns = Sns;
+db.Auth = Auth;
 
 User.init(sequelize);
 ClubInfo.init(sequelize);
@@ -58,6 +60,7 @@ RentalInfo.init(sequelize);
 RentalApply.init(sequelize);
 Join.init(sequelize);
 Sns.init(sequelize);
+Auth.init(sequelize);
 
 User.associate(db);
 ClubInfo.associate(db);
