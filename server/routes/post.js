@@ -1,12 +1,10 @@
 const express = require("express");
-const multer = require("multer");
-
-const { Post, Comment, ClubInfo, UnionInfo, User, File } = require("../models");
-const { isLoggedIn } = require("./middlewares");
-
 const router = express.Router();
-
+const multer = require("multer");
+const { Post, Comment, ClubInfo, UnionInfo, User, File, sequelize } = require("../models");
+const { isLoggedIn } = require("./middlewares");
 const upload = multer();
+const { Op } = Sequelize = require('sequelize');
 
 // -----------post------------
 
@@ -192,6 +190,21 @@ router.delete(
     }
   }
 );
+
+// search
+// 키워드가 포함되는 게시물 모두 검색
+router.get(
+  "/search/:keyword",
+  async (req, res, next) => {
+    try {
+      let keyword = req.params.keyword;
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+);
+
 
 function checkPermission(req, res, next) {
   ClubPost.findOne({ postId: req.params.postId }, function (err, post) {
