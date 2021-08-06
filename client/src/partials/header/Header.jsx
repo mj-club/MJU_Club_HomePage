@@ -6,10 +6,10 @@ import Btn from '../../components/Btn/Btn';
 import MobileMenu from "../../components/NavBar/MobileMenu";
 import MainSearch from "../../components/NavBar/MainSearch";
 
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 
 const Header = () => {
-    const user = useSelector((state) => state.authReducer.user);
+    // const user = useSelector((state) => state.authReducer.user);
 
     const [ofcanvasShow, setOffcanvasShow] = useState(false);
     const onCanvasHandler = () => {
