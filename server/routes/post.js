@@ -198,6 +198,13 @@ router.get(
   async (req, res, next) => {
     try {
       let keyword = req.params.keyword;
+      let fetchCount = req.query.page;
+      let skip = 0;
+      
+      if (fetchCount > 1) {
+        skip = 15 * (fetchCount-1);
+      }
+
       let post = Post.findAll({
         where: {
           [Op.or]: [{
@@ -206,7 +213,9 @@ router.get(
             }
           }]
         },
-        order: [["createAt", "ASC"]],
+        order: [["createAt", "DESC"]],
+        offset: skip,
+        limit: fetchCount
       });
       res.json(post)
     } catch (error) {
