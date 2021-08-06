@@ -198,6 +198,17 @@ router.get(
   async (req, res, next) => {
     try {
       let keyword = req.params.keyword;
+      let post = Post.findAll({
+        where: {
+          [Op.or]: [{
+            title: {
+              [Op.like]: "%" + keyword + "%"
+            }
+          }]
+        },
+        order: [["createAt", "ASC"]],
+      });
+      res.json(post)
     } catch (error) {
       console.error(error);
       next(error);
