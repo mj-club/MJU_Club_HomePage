@@ -38,7 +38,7 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       department,
       school_year,
       student_id,
-      auth_lv,
+      auth_lv: 0,
       major,
       snsId,
     });
