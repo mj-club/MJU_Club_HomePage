@@ -1,3 +1,28 @@
+
+
+import Page from '../components/Page';
+import RightTitle from '../components/RightTitle';
+import Ipsum from '../components/Ipsum';
+
+// export default function MjuClubPage() {
+//   const title="mju_club"
+//   const rightTitle = <RightTitle 
+//             title={title}
+//             menu1={"동아리"}
+//             menu2={title}
+//             // menu3={title}
+//           />
+//   const rightInner = <Ipsum title={title}></Ipsum>
+
+//   return(
+//      <Page rightInner={rightInner} rightTitle={rightTitle}/>
+//   );
+// }
+
+
+
+import React, { useEffect } from 'react';
+import SEO from '../components/SEO';
 import React, { useEffect } from "react";
 import SEO from "../components/SEO";
 import Navbar from "../components/Navbar";
@@ -10,6 +35,7 @@ import CallToActionTwo from "../containers/CallToAction/CallToActionTwo";
 import Footer from "../components/Footer/Footer";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import axios from "axios";
+
 
 const MjuClubPage = () => {
   let { path } = useRouteMatch();
