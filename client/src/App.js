@@ -19,6 +19,9 @@ import BlogTag from './pages/BlogTag';
 import LogIn from './pages/LogIn';
 import FindPassword from './pages/FindPassword';
 
+import Join from './pages/Join';
+
+
 // CSS File Here
 import "aos/dist/aos.css";
 import 'react-modal-video/scss/modal-video.scss';
@@ -56,6 +59,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
             <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
             {/* <Route component ={NotFound} /> */}
+            <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
           </Switch>
         </NavScrollTop>
       </Router>
