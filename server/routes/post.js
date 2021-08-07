@@ -1,12 +1,20 @@
 const express = require("express");
-const multer = require("multer");
-
-const { Post, Comment, ClubInfo, UnionInfo, User, File } = require("../models");
-const { isLoggedIn } = require("./middlewares");
-
 const router = express.Router();
-
+const multer = require("multer");
+const {
+  Post,
+  Comment,
+  ClubInfo,
+  UnionInfo,
+  User,
+  File,
+  sequelize,
+} = require("../models");
+const { isLoggedIn } = require("./middlewares");
 const upload = multer();
+const { Op } = (Sequelize = require("sequelize"));
+
+//
 
 // -----------post------------
 
@@ -19,12 +27,12 @@ router.get(
     try {
       let post = await Post.findOne({
         where: { id: req.params.postId },
-        include: [Comment, File, { model: User, attributes: ["name"]}]
+        include: [Comment, File, { model: User, attributes: ["name"] }],
       });
       // console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json( post );
+      res.json(post);
     } catch (error) {
       console.error(error);
       next(error);
@@ -38,7 +46,7 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
-      console.log("~!@~!")
+      console.log("~!@~!");
       try {
         let postList = await Post.findAll({
           where: { union_id: 1, category: req.params.category },
@@ -150,7 +158,7 @@ router.post(
 router.post(
   "/update/:postId",
   isLoggedIn,
-  
+
   upload.none(),
   async (req, res, next) => {
     try {
@@ -192,6 +200,40 @@ router.delete(
     }
   }
 );
+
+// search
+// 키워드가 포함되는 게시물 모두 검색
+router.get(
+  "/search/:keyword",
+  async (req, res, next) => {
+    try {
+      let keyword = req.params.keyword;
+      let fetchCount = req.query.page;
+      let skip = 0;
+      
+      if (fetchCount > 1) {
+        skip = 15 * (fetchCount-1);
+      }
+
+      let post = Post.findAll({
+        where: {
+          [Op.or]: [{
+            title: {
+              [Op.like]: "%" + keyword + "%"
+            }
+          }]
+        },
+        order: [["createAt", "DESC"]],
+        offset: skip,
+        limit: fetchCount
+      });
+      res.json(post)
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  }
+});
 
 function checkPermission(req, res, next) {
   ClubPost.findOne({ postId: req.params.postId }, function (err, post) {

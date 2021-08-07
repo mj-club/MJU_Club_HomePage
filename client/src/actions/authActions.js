@@ -80,6 +80,22 @@ export function emailCheck(email) {
   };
 }
 
+export function nameCheck(name){
+  return (dispatch) => {
+    axios.get(URL+"/findEmail"+name).then((data) =>{
+      dispatch({
+        type: "match_Name",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
 export function clearError() {
   return (dispatch) => {
     dispatch({ type: "CLEAR_ERROR" });
