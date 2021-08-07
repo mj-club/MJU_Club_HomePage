@@ -3,14 +3,13 @@ const router = express.Router();
 const multer = require("multer");
 
 const { UnionInfo, UnionMember } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isUnionManager } = require("./middlewares");
 const { Op } = Sequelize = require('sequelize');
 const upload = multer();
 
 // Read
 router.get(
   "/read",
-  // isLoggedIn,
   async (req, res, next) => {
     try {
       const unionInfo = await UnionInfo.findAll();
@@ -25,7 +24,8 @@ router.get(
 // Create
 router.post(
   "/create",
-  // isLoggedIn,
+  isLoggedIn,
+  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -49,7 +49,8 @@ router.post(
 // Update
 router.post(
   "/update",
-  // isLoggedIn,
+  isLoggedIn,
+  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -78,8 +79,8 @@ router.post(
 // Delete
 router.delete(
   "/delete",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isUnionManager,
   async (req, res, next) => {
     try {
       const unionInfo = await UnionInfo.destroy({

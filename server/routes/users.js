@@ -13,8 +13,7 @@ router.get('/', function(req, res, next) {
 // read
 router.get(
   "/read", 
-  // isLoggedIn, 
-  // checkPermission, 
+  isLoggedIn, 
   async (req, res, next) => {
     try {
 
@@ -42,8 +41,7 @@ router.get(
 // update
 router.get(
   "/update", 
-  // isLoggedIn, 
-  // checkPermission, 
+  isLoggedIn, 
   async (req, res, next) => {
     try {
       const {
@@ -84,7 +82,6 @@ router.get(
 router.delete(
   "/delete",
   isLoggedIn,
-  // checkPermission,
   async (req, res, next) => {
     try {
       const userInfo = await User.destroy({
