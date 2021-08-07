@@ -38,7 +38,7 @@ export default function LogIn() {
                   <a href="#forgot">회원가입</a>
                 </div>
                 <div className="col" data-aos="fade-up">
-                  <a href="#forgot">이메일/비밀번호 찾기</a>
+                  <a href="/idpw">이메일/비밀번호 찾기</a>
                 </div>
               </div>
             </div>
