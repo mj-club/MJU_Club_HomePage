@@ -44,6 +44,11 @@ const Header = () => {
                 .header-section.is-sticky .header-inner{
                     background-color: #A99371 !important;
                 }
+
+               .col-xl-2 col-auto order-0{
+                    display: flex !important;
+                }
+                
                     
             `
             }
@@ -57,7 +62,7 @@ const Header = () => {
                         <div className="row justify-content-between align-items-center">
                             <div className="col-xl-2 col-auto order-0">
                                 <Logo 
-                                    image={`${process.env.PUBLIC_URL}/images/logo/logo.png`}   // 키움 이미지만 안뜸 images/logo/keyum-logo.png
+                                    image={`${process.env.PUBLIC_URL}/images/logo/keyum-logo.png`}   // 키움 이미지만 안뜸 images/logo/keyum-logo.png
                                 />
                             </div>
                             <div className="col-auto col-xl d-flex align-items-center justify-content-xl-center justify-content-end order-2 order-xl-1">

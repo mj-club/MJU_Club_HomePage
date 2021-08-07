@@ -5,8 +5,11 @@ const NavBar = () => {
     return (
         <>
         <style>
-            {
-            `   .site-main-menu > ul > li:hover > a {
+            {`
+                .menu-text {
+                    font-size: 18px;
+                }
+               .site-main-menu > ul > li:hover > a {
                     color: #FFEF96;
                 }
                 .site-main-menu .sub-menu li:hover > a, .site-main-menu .sub-menu li.active > a, .site-main-menu .mega-menu li:hover > a, .site-main-menu .mega-menu li.active > a {
@@ -14,8 +17,7 @@ const NavBar = () => {
                 }
                     
                     
-            `
-            }
+            `}
         </style>    
         <nav className="site-main-menu">
             <ul>
@@ -27,7 +29,7 @@ const NavBar = () => {
                     <span className="menu-toggle"><i className="far fa-angle-down"></i></span>
                     <ul className="sub-menu">
                         <li><NavLink to={process.env.PUBLIC_URL + "/home-one"}><span className="menu-text">동아리방 지도</span></NavLink></li>
-                        <li><NavLink to={process.env.PUBLIC_URL + "/home-two"}><span className="menu-text">동아리 소개</span></NavLink></li>
+                        <li><NavLink to={process.env.PUBLIC_URL + "/service"}><span className="menu-text">동아리 소개</span></NavLink></li>
                     </ul>
                 </li>
                 <li>

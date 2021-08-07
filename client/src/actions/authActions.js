@@ -32,7 +32,7 @@ export function join(body) {
   return (dispatch) => {
     axios.post(URL + "/join", body).then((data) => {
       dispatch({
-        type: "SET_USER_EMAIL",
+        type: "SET_USER_EMAIL", //그 뒤에 입력
         payload: data.email,
       }).catch((error) => {
         dispatch({

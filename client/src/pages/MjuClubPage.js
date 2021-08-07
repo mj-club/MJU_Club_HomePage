@@ -1,38 +1,17 @@
-
-
-import Page from '../components/Page';
-import RightTitle from '../components/RightTitle';
-import Ipsum from '../components/Ipsum';
-
-// export default function MjuClubPage() {
-//   const title="mju_club"
-//   const rightTitle = <RightTitle 
-//             title={title}
-//             menu1={"동아리"}
-//             menu2={title}
-//             // menu3={title}
-//           />
-//   const rightInner = <Ipsum title={title}></Ipsum>
-
-//   return(
-//      <Page rightInner={rightInner} rightTitle={rightTitle}/>
-//   );
-// }
-
-
-
 import React, { useEffect } from 'react';
+import {
+  Switch,
+  Route,
+  useRouteMatch
+} from "react-router-dom";
 import SEO from '../components/SEO';
-import React, { useEffect } from "react";
-import SEO from "../components/SEO";
-import Navbar from "../components/Navbar";
-import Breadcrumb from "../containers/Breadcrumb/Breadcrumb";
-import AboutFour from "../containers/About/AboutFour";
-import Video from "../containers/Video/Video";
-import AboutFive from "../containers/About/AboutFive";
-import TestimonialContainer from "../containers/Testimonial/TestimonialContainer";
-import CallToActionTwo from "../containers/CallToAction/CallToActionTwo";
-import Footer from "../components/Footer/Footer";
+import Header from "../partials/header/Header";
+import Breadcrumb from "../container/Breadcrumb/Breadcrumb";
+import AboutFour from "../container/About/AboutFour";
+import AboutFive from "../container/About/AboutFive";
+import TestimonialContainer from "../container/Testimonial/TestimonialContainer";
+import CallToActionTwo from "../container/CallToAction/CallToActionTwo";
+// import Footer from "../components/Footer/FooterLinkItem";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import axios from "axios";
 
@@ -44,20 +23,20 @@ const MjuClubPage = () => {
     axios.get("/");
   });
 
-  function searchApi() {
-    const url = "http://13.209.214.244:8080";
-    axios
-      .get(url + "/read/")
-      .then(function (response) {
-        setPhotos(response.data);
-        console.log("성공");
-      })
-      .catch(function (error) {
-        console.log("실패");
-      });
-  }
+  // function searchApi() {
+  //   const url = "http://13.209.214.244:8080";
+  //   axios
+  //     .get(url + "/read/")
+  //     .then(function (response) {
+  //       setPhotos(response.data);
+  //       console.log("성공");
+  //     })
+  //     .catch(function (error) {
+  //       console.log("실패");
+  //     });
+  // }
 
-  searchApi();
+  // searchApi();
 
   return (
     <>
@@ -65,7 +44,7 @@ const MjuClubPage = () => {
         <Route exact path={path}>
           <React.Fragment>
             <SEO title="동아리 || {동아리이름}" />
-            <Navbar />
+            <Header />
             <Breadcrumb
               image="images/bg/breadcrumb-bg.jpg"
               title="We are an agency located in New York"
@@ -73,18 +52,17 @@ const MjuClubPage = () => {
               contentTwo="About Us"
             />
             <AboutFour />
-            <Video />
             <AboutFive />
             <TestimonialContainer classOption="bg-primary-blue" />
             <CallToActionTwo />
             <ScrollToTop />
-            <Footer />
+            {/* <Footer /> */}
           </React.Fragment>
         </Route>
         {/* <Route path={`${path}/FAQs`}>
           <FAQPage />
         </Route> */}
-      </Switch> 
+      </Switch>
     </>
   );
 };
