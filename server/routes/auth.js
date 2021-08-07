@@ -38,7 +38,7 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       department,
       school_year,
       student_id,
-      auth_lv,
+      auth_lv: 0,
       major,
       snsId,
     });
@@ -207,8 +207,8 @@ router.post("/findPW", multer().none(), async (req, res) => {
       secure: true, // true for 465, false for other ports
       auth: {
         // 이메일을 보낼 계정 데이터 입력
-        user: "총동연이메일 입력필요",
-        pass: "총동연비밀번호 입력필요",
+        user: process.env.MAILER_MAIL,
+        pass: process.env.MAILER_PW,
       },
     });
     console.log(user.email, user.password);
