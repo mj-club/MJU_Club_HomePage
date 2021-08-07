@@ -18,6 +18,7 @@ import Idfind from "./pages/IdFind";
 // import Contact from './pages/Contact';
 
 import LogIn from './pages/LogIn';
+import FindPassword from './pages/FindPassword';
 
 import Join from './pages/Join';
 
@@ -42,28 +43,27 @@ function App() {
   return (
       <Router>
         <NavScrollTop>
-            <Switch>
-              <Route path={`${process.env.PUBLIC_URL + "/"}`} exact component={HomeOne}/>
-              <Route path={`${process.env.PUBLIC_URL + "/home-one"}`} exact component={HomeOne}/>
-              <Route path={`${process.env.PUBLIC_URL + "/home-two"}`} component={HomeTwo}/>
-              <Route path={`${process.env.PUBLIC_URL + "/home-three"}`} component={HomeThree}/>
-              <Route path={`${process.env.PUBLIC_URL + "/about"}`} component ={About} />
-              <Route path={`${process.env.PUBLIC_URL + "/service"}`} component ={Service} />
-              <Route path={`${process.env.PUBLIC_URL + "/work"}`} component ={Work} />
-              <Route path={`${process.env.PUBLIC_URL + "/work-details/:id"}`} component ={WorkDetails} />
-              <Route path={`${process.env.PUBLIC_URL + "/blog-grid"}`} component ={BlogGrid} />
-              <Route path={`${process.env.PUBLIC_URL + "/blog-classic"}`} component ={BlogClassic} />
-              <Route path={`${process.env.PUBLIC_URL + "/tag/:slug"}`} component ={BlogTag} />
-              <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
-              <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
-              <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
-              <Route path="/join" component={Join} />
-              <Route path={`${process.env.PUBLIC_URL + "/idpw"}`} component ={Idfind} />
-              
-              
-              {/* <Route component ={NotFound} /> */}
-            </Switch>
-          </NavScrollTop>
+          <Switch>
+            <Route path={`${process.env.PUBLIC_URL + "/"}`} exact component={HomeOne}/>
+            <Route path={`${process.env.PUBLIC_URL + "/home-one"}`} exact component={HomeOne}/>
+            <Route path={`${process.env.PUBLIC_URL + "/home-two"}`} component={HomeTwo}/>
+            <Route path={`${process.env.PUBLIC_URL + "/home-three"}`} component={HomeThree}/>
+            <Route path={`${process.env.PUBLIC_URL + "/about"}`} component ={About} />
+            <Route path={`${process.env.PUBLIC_URL + "/service"}`} component ={Service} />
+            <Route path={`${process.env.PUBLIC_URL + "/work"}`} component ={Work} />
+            <Route path={`${process.env.PUBLIC_URL + "/work-details/:id"}`} component ={WorkDetails} />
+            <Route path={`${process.env.PUBLIC_URL + "/blog-grid"}`} component ={BlogGrid} />
+            <Route path={`${process.env.PUBLIC_URL + "/blog-classic"}`} component ={BlogClassic} />
+            <Route path={`${process.env.PUBLIC_URL + "/tag/:slug"}`} component ={BlogTag} />
+            <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
+            <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
+            <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
+            <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
+            {/* <Route component ={NotFound} /> */}
+            <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
+            <Route path={`${process.env.PUBLIC_URL + "/idpw"}`} component ={Idfind} />
+          </Switch>
+        </NavScrollTop>
       </Router>
   );
 }
