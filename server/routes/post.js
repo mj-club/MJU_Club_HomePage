@@ -1,10 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const { Post, Comment, ClubInfo, UnionInfo, User, File, sequelize } = require("../models");
+const {
+  Post,
+  Comment,
+  ClubInfo,
+  UnionInfo,
+  User,
+  File,
+  sequelize,
+} = require("../models");
 const { isLoggedIn } = require("./middlewares");
 const upload = multer();
-const { Op } = Sequelize = require('sequelize');
+const { Op } = (Sequelize = require("sequelize"));
+
+//
 
 // -----------post------------
 
@@ -17,12 +27,12 @@ router.get(
     try {
       let post = await Post.findOne({
         where: { id: req.params.postId },
-        include: [Comment, File, { model: User, attributes: ["name"]}]
+        include: [Comment, File, { model: User, attributes: ["name"] }],
       });
       // console.log(post);
       let visit_count = parseInt(post.visit_count) + 1;
       post = await post.update({ visit_count });
-      res.json( post );
+      res.json(post);
     } catch (error) {
       console.error(error);
       next(error);
@@ -36,7 +46,7 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
-      console.log("~!@~!")
+      console.log("~!@~!");
       try {
         let postList = await Post.findAll({
           where: { union_id: 1, category: req.params.category },
@@ -148,7 +158,7 @@ router.post(
 router.post(
   "/update/:postId",
   isLoggedIn,
-  
+
   upload.none(),
   async (req, res, next) => {
     try {
@@ -223,8 +233,7 @@ router.get(
       next(error);
     }
   }
-);
-
+});
 
 function checkPermission(req, res, next) {
   ClubPost.findOne({ postId: req.params.postId }, function (err, post) {
