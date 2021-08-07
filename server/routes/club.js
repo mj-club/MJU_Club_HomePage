@@ -4,7 +4,7 @@ const multer = require("multer");
 const fs = require("fs");
 
 const { ClubInfo, ClubMember, User, Sns, Join } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isClubManager } = require("./middlewares");
 
 // -----------info------------
 
@@ -12,8 +12,6 @@ const { isLoggedIn } = require("./middlewares");
 // read
 router.get(
   "/read/:clubName",
-  // isLoggedIn,
-  // checkPermission,
   async (req, res, next) => {
     try {
       const club = await ClubInfo.findOne({
@@ -25,21 +23,14 @@ router.get(
       console.error(error);
       next(error);
     }
-    // ClubInfo.findOne(
-    //   { where: { name: req.params.clubName } },
-    // function (err, get) {
-    //   if (err) return res.json(err);
-    //   return res.json(get);
-    // }
-    // );
   }
 );
 
 //create or update
 router.post(
   "/createOrUpdate/:clubName",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   multer().none(),
   async (req, res, next) => {
     try {
@@ -144,8 +135,8 @@ router.post(
 // delete
 router.delete(
   "/delete/:clubName",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   async (req, res, next) => {
     try {
       let clubInfo = await ClubInfo.destroy({
@@ -163,8 +154,8 @@ router.delete(
 // read (member list)
 router.get(
   "/readMembers/:clubId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   async (req, res, next) => {
     try {
       const clubMembers = await ClubMember.findAll({
@@ -182,8 +173,8 @@ router.get(
 router.post(
   "/addMember/:clubId",
   multer().none(),
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findByPk(req.params.clubId);
@@ -206,8 +197,8 @@ router.post(
 // delete (member)
 router.delete(
   "/deleteMember/:clubId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   multer().none(),
   async (req, res, next) => {
     try {
