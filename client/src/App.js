@@ -17,6 +17,7 @@ import BlogTag from './pages/BlogTag';
 // import Contact from './pages/Contact';
 
 import LogIn from './pages/LogIn';
+import FindPassword from './pages/FindPassword';
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -53,6 +54,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
             <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
             <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
+            <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
             {/* <Route component ={NotFound} /> */}
           </Switch>
         </NavScrollTop>

@@ -10,11 +10,6 @@ import CallToActionTwo from '../container/CallToAction/CallToActionTwo';
 import Footer from '../container/Footer/Footer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 
-
-
-
-
-
 const AboutUs = () => {
     return (
         <React.Fragment>
