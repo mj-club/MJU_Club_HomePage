@@ -35,7 +35,7 @@ export default function IdFind() {
             <div className="LogInForm_foot-lnk">
               <div className='row'>
                 <div className="col" data-aos="fade-up">
-                  <a href="#forgot">뒤로가기</a>
+                  <a href="/contact">뒤로가기</a>
                 </div>
                 <div className="col" data-aos="fade-up">
                   <a href="#forgot">PW 찾기</a>
