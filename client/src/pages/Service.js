@@ -3,31 +3,21 @@ import SEO from '../components/SEO';
 import Header from "../partials/header/Header";
 import Breadcrumb from '../container/Breadcrumb/Breadcrumb';
 import ServiceIconBoxTwo from '../container/service/ServiceIconBoxTwo';
-import ServiceSkill from '../container/service/ServiceSkill';
-import AboutSix from '../container/About/AboutSix';
-import FunfactTwo from '../container/Funfact/FunfactTwo';
-import ContactInformationThree from '../container/ContactInformation/ContactInformationThree';
-import Footer from '../container/Footer/Footer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 
 
 const Service = () => {
     return (
         <React.Fragment>
-            <SEO title="Exomac || Service" />
+            <SEO title="동아리 || 동아리소개" />
             <Header />
             <Breadcrumb 
                 image="images/bg/breadcrumb-bg-three.jpg"
-                title="We work with bold brands that we believe in"
+                title="명지대학교의 동아리들을 소개합니다!"
                 content="Home"
-                contentTwo="Services"
+                contentTwo="동아리 소개"
             />
             <ServiceIconBoxTwo />
-            <ServiceSkill />
-            <AboutSix />
-            <FunfactTwo />
-            <ContactInformationThree />
-            <Footer />
             <ScrollToTop />
         </React.Fragment>
     )
