@@ -32,9 +32,9 @@ const LogInForm = () => {
               <input type="password" placeholder="Password *" name="password" ref={register({ required: 'Password is required' })} />
               {errors.name && <p>{errors.name.message}</p>}
             </div>
-              <div className="col-12 text-center mb-4">
-                <button className="btn btn-primary btn-hover-secondary">로그인</button>
-              </div>
+            <div className="col-12 text-center mb-4">
+              <button className="btn btn-primary btn-hover-secondary">로그인</button>
+            </div>
           </div>
         </form>
         <p className="form-messege"></p>
