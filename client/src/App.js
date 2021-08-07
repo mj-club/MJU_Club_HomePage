@@ -14,6 +14,7 @@ import BlogClassic from './pages/BlogClassic';
 import BlogDetails from './pages/BlogDetails';
 import BlogCategories from './pages/BlogCategories';
 import BlogTag from './pages/BlogTag';
+import Idfind from "./pages/IdFind";
 // import Contact from './pages/Contact';
 
 import LogIn from './pages/LogIn';
@@ -57,6 +58,8 @@ function App() {
               <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
               <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
               <Route path="/join" component={Join} />
+              <Route path={`${process.env.PUBLIC_URL + "/idpw"}`} component ={Idfind} />
+              
               
               {/* <Route component ={NotFound} /> */}
             </Switch>
