@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import AOS from "aos";
 import NavScrollTop from './components/NavScrollTop';
 import HomeOne from './pages/HomeOne';
-import HomeTwo from './pages/HomeTwo';
+// import HomeTwo from './pages/HomeTwo';
+import MjuClubPage from "./pages/MjuClubPage";
 import HomeThree from './pages/HomeThree';
 import About from './pages/About';
 import Service from './pages/Service';
@@ -44,7 +45,7 @@ function App() {
             <Switch>
               <Route path={`${process.env.PUBLIC_URL + "/"}`} exact component={HomeOne}/>
               <Route path={`${process.env.PUBLIC_URL + "/home-one"}`} exact component={HomeOne}/>
-              <Route path={`${process.env.PUBLIC_URL + "/home-two"}`} component={HomeTwo}/>
+              <Route path={`${process.env.PUBLIC_URL + "/MjuClubpage"}`} component={MjuClubPage}/>
               <Route path={`${process.env.PUBLIC_URL + "/home-three"}`} component={HomeThree}/>
               <Route path={`${process.env.PUBLIC_URL + "/about"}`} component ={About} />
               <Route path={`${process.env.PUBLIC_URL + "/service"}`} component ={Service} />
