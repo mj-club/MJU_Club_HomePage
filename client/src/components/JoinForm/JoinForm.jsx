@@ -1,16 +1,15 @@
 import React, { Fragment, useState } from 'react';
-import { useForm } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import { join, emailCheck } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 //TODO
 // 이미 가입된 이메일입니다
-// pw 다시입력
 // action, reducer
 
 const JoinForm = () => {
   //validation
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, setError, errors } = useForm({
     mode: "onBlur"
   });
   const onSubmit = data => console.log(data);
@@ -40,15 +39,22 @@ const JoinForm = () => {
       setIsEmailExist(true);
     }
     console.log(isEmailExist);
-    //서버랑 잘되는지 확인 어떻게?
   } //왜 ;쓰면 안돼지?
+
+  function onPhCheck() {
+    
+  }
+
+  function onStudentIdCheck(){
+
+  }
 
   const dispatch = useDispatch();
 
   function onJoin() {
     //Form에 적절한 값이 들어가면 
     //href="/welcome"으로 이동
-    const body = { email, name, password, phNumber, department, schoolYear, studentId, major};
+    const body = { email, name, password, phNumber, department, schoolYear, studentId, major };
     dispatch(join(body));
   }
 
@@ -56,7 +62,21 @@ const JoinForm = () => {
     <>
       <style type="text/css">
         {`
-      .check-student{
+      .is-student{
+        color: #343a40;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        margin-top: 60px;
+      }
+
+      .float-right{
+        margin-top : 5px;
+        float: right;
+      }
+    
+      .text-end{
+        margin-top : 5px;
         text-align: right;
       }
 
@@ -70,8 +90,15 @@ const JoinForm = () => {
         outline: none;
         background-color: #F5F5F5;
       }
+
+      .emailcheck{
+        font-size: 12px;
+        line-height: 35px;
+        height: 30px;
+        padding: 0 15px;
+      }
       `}
-        {/* css더 똑같이 고치기?? */}
+        {/* css - 글자 색이 조금 다른 부분 더 똑같이 고치기 */}
       </style>
       <Fragment>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,9 +112,20 @@ const JoinForm = () => {
               },
               //isEmailExist가 true면 error -> "이미 가입된 이메일입니다."
             })} onChange={
-              ({target : {value}}) => setEmail(value)
-            }/>
+              ({ target: { value } }) => setEmail(value)
+            } />
+            <div className="float-right">
+              <button className="btn btn-primary btn-hover-secondary emailcheck"
+                onClick={() => {
+                  onEmailCheck();
+                }
+                }>중복확인</button>
+            </div>
+
             {errors.email && <p>{errors.email.message}</p>}
+
+
+
           </div>
 
           <p>비밀번호</p>
@@ -95,53 +133,84 @@ const JoinForm = () => {
             <input type="password" placeholder="Pssword *" name="password"
               ref={register({
                 required: "비밀번호를 입력해주세요",
-                minLength: 8,
+                minLength: {
+                  value: 8,
+                  message: "비밀번호는 영문, 숫자, 특수문자를 포함한 8~20글자입니다"
+                },
                 maxLength: 20,
                 pattern: {
-                  value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]$/,
+                  value: /[a-zA-Z0-9!@#$%^&*()-=+;'":,.]$/,
                   message: "비밀번호는 영문, 숫자, 특수문자를 포함한 8~20글자입니다"
                 }
               })} onChange={
-                ({target : {value}}) => setPassword(value)
-              }/>
+                ({ target: { value } }) => setPassword(value)
+              } />
             {errors.password && <p>{errors.password.message}</p>}
 
           </div>
           <div className="col-md-12 col-12 mb-4">
-            <input type="password" placeholder="Check Pssword *" name="check-password" />
+            <input type="password" placeholder="Check Pssword *" name="checkPassword" 
+              ref={register({
+                required: "비밀번호를 다시 한번 입력해주세요"               
+              })}
+              onBlur={({ target: { value } }) => {
+                const password = document.getElementsByName("password")[0].value;
+                console.log("passwrd", password);
+                console.log("check-password", value);
+                const isSamePw = password==value;
+                console.log(isSamePw);
+                if(!isSamePw){
+                  setError("checkPassword", {
+                    type: "isSame",
+                    message: "비밀번호가 다릅니다",
+                  });
+                }
+              }}
+                />
+            {errors.checkPassword && <p>{errors.checkPassword.message}</p>}
           </div>
 
           <p>개인정보</p>
           {/* 이름 */}
           <div className="col-md-12 col-12 mb-4">
-            <input type="text" placeholder="Your Name *" name="name" 
-            ref={register({ required: 'Name is required' })} 
-            onChange={({target : {value}}) => setName(value)}/>
+            <input type="text" placeholder="Your Name *" name="name"
+              ref={register({ required: 'Name is required' })}
+              onChange={({ target: { value } }) => setName(value)} />
             {errors.name && <p>{errors.name.message}</p>}
           </div>
           {/* 핸드폰 */}
           <div className="col-md-12 col-12 mb-4">
-            <input type="number" placeholder="PhoneNumber * ex)01012341234" name="ph" 
+            <input type="number" placeholder="PhoneNumber * ex)01012341234" name="ph"
               ref={register({
-                required : "핸드폰 번호를 입력해주세요",
-                maxLength : 11
-              })} 
+                required: "핸드폰 번호를 입력해주세요",
+                maxLength: 11
+              })}
               onChange={
-                ({target : {value}}) => setPhNumber(value)
-            }/>
+                ({ target: { value } }) => setPhNumber(value)
+              } />
+            <div className="float-right">
+              <button className="btn btn-primary btn-hover-secondary emailcheck"
+                onClick={() => {
+                  onPhCheck();
+                }
+                }>중복확인</button>
+            </div>
+
             {errors.ph && <p>{errors.ph.message}</p>}
+
+
           </div>
 
-          <div className="check-student">
-            <input type="checkbox" name="isStudent" onChange={({target : {value}}) => setIsStudent(value)}/>
-            <label>&nbsp;학생</label>
-          </div>
-          {isStudent}
-          {/* isStudent가 true면 밑에내용보여줌  */}
-      <p>학생정보</p>
+          <p className="is-student">
+            <input type="checkbox" name="isStudent" onChange={({ target: { value } }) => setIsStudent(value)} />
+            <label>&nbsp;명지대 학생입니다</label>
+          </p>
+          {isStudent /*가 true면 밑에내용보여줌  */}
+
+          <p>학생정보</p>
           <div className="col-md-12 col-12 mb-4">
             {/* 단과대학 */}
-            <select className="form-select" onChange={({target : {value}}) => setDepartment(value)}>
+            <select className="form-select" onChange={({ target: { value } }) => setDepartment(value)}>
               <option value="null">단과대학 선택</option>
               <option value="인문대학">인문대학</option>
               <option value="사회과학대학">사회과학대학</option>
@@ -155,7 +224,7 @@ const JoinForm = () => {
 
           <div className="col-md-12 col-12 mb-4">
             {/* 학과 */}
-            <select className="form-select" onChange={({target : {value}}) => setMajor(value)}>
+            <select className="form-select" onChange={({ target: { value } }) => setMajor(value)}>
               <option value="null">학과</option>
               <option value="국어국문학과">국어국문학과</option>
               <option value="중어중문학과">중어중문학과</option>
@@ -193,7 +262,7 @@ const JoinForm = () => {
             </select>
           </div>
           {/* 학년 */}
-          <div className="col-md-12 col-12 mb-4" onChange={({target : {value}}) => setSchoolYear(value)}>
+          <div className="col-md-12 col-12 mb-4" onChange={({ target: { value } }) => setSchoolYear(value)}>
             <select className="form-select">
               <option>1</option>
               <option>2</option>
@@ -203,17 +272,24 @@ const JoinForm = () => {
           </div>
 
           <div className="col-md-12 col-12 mb-4">
-            <input type="text" placeholder="학번 * ex)60123456" name="school-id" 
-              onChange={({target : {value}}) => setStudentId(value)}
+            <input type="text" placeholder="학번 * ex)60123456" name="school-id"
+              onChange={({ target: { value } }) => setStudentId(value)}
             />
-          </div>    
+
+            <div className="text-end">
+              <button className="btn btn-primary btn-hover-secondary emailcheck"
+                onClick={() => {
+                  onStudentIdCheck();
+                }
+                }>중복확인</button>
+            </div>
+          </div>
 
           {/* submit   */}
           <div className="col-12 text-center mb-4">
             <button className="btn btn-primary btn-hover-secondary"
               onClick={() => {
-                onEmailCheck();
-                if(isEmailExist == false){
+                if (isEmailExist == false) {
                   onJoin();
                 }
               }
