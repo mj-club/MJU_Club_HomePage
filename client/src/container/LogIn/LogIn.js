@@ -34,11 +34,11 @@ export default function LogIn() {
             <div className="LogInForm_hr"></div>
             <div className="LogInForm_foot-lnk">
               <div className='row'>
-                <div className="col" data-aos="fade-up">
+                <div className="col-5" data-aos="fade-up">
                   <a href="#forgot">회원가입</a>
                 </div>
-                <div className="col" data-aos="fade-up">
-                  <a href="/idpw">이메일/비밀번호 찾기</a>
+                <div className="col-7" data-aos="fade-up">
+                  <a href="/findEmail">이메일/비밀번호 찾기</a>
 
                 </div>
               </div>
