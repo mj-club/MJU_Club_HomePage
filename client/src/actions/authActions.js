@@ -96,6 +96,25 @@ export function nameCheck(name){
   };
 }
 
+
+//post -> body
+export function findEmail(body){
+  return (dispatch) => {
+    dispatch({ type: "LOADING" });
+    axios.post(URL+"/findEmail", body).then((data) =>{
+      dispatch({
+        type: "FIND_EMAIL",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
 export function clearError() {
   return (dispatch) => {
     dispatch({ type: "CLEAR_ERROR" });

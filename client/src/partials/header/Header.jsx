@@ -2,9 +2,10 @@ import {Fragment, useState, useEffect} from "react";
 import Logo from '../../components/logo/Logo';
 import NavBar from '../../components/NavBar/NavBar';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
-import Btn from '../../components/Btn/Btn';
 import MobileMenu from "../../components/NavBar/MobileMenu";
 import MainSearch from "../../components/NavBar/MainSearch";
+
+import { Link } from "react-router-dom";
 
 // import { useSelector } from "react-redux";
 
@@ -34,6 +35,7 @@ const Header = () => {
     const handleScroll = () => {
         setScroll(window.scrollY);
     };
+
     return (
         <>
         <style>
@@ -76,7 +78,7 @@ const Header = () => {
                                 </div>
                             </div>
                             <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                <Btn name='로그인/회원가입' />
+                                <Link className="btn btn-primary btn-hover-secondary" to={process.env.PUBLIC_URL + "/logIn"}>로그인 / 회원가입</Link>
                             </div>
                         </div>
                     </div>
