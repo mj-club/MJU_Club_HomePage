@@ -8,6 +8,8 @@
 //   }
 // };
 
+const { User, Post } = require("../models");
+
 exports.isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     next();
@@ -47,7 +49,7 @@ exports.isManager = (req, res, next) => {
   }
 };
 // permission (동아리만)
-exports.isManager = (req, res, next) => {
+exports.isClubManager = (req, res, next) => {
   if (req.user.auth_lv === 1) {
     next();
   } else {
@@ -57,7 +59,7 @@ exports.isManager = (req, res, next) => {
   }
 };
 // permission (총동연만)
-exports.isManager = (req, res, next) => {
+exports.isUnionManager = (req, res, next) => {
   if (req.user.auth_lv === 2) {
     next();
   } else {
@@ -66,6 +68,33 @@ exports.isManager = (req, res, next) => {
     // res.json(req);
   }
 };
+
+// permission (총동연만)
+exports.canUpdate = (userId, postId) => {
+  const user = await User.findByPk(userId);
+  const post = await Post.findByPk(postId);
+  if (user.hasPost(post)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+// permission (for delete)
+exports.canDelete = async (userId, postId) => {
+  const user = await User.findByPk(userId);
+  const post = await Post.findByPk(postId);
+  const club = await post.getClubInfo();
+  if (user.auth_lv === 2) {
+    return true;
+  } else if (user.hasPost(post)) {
+    return true;
+  } else if (user.auth_lv === 1 || user.hasClubInfo(club)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 exports.fileSize = function (bytes) {
   var sizes = ["Bytes", "KB", "MB", "GB", "TB"];
   if (bytes == 0) return "0 Byte";
