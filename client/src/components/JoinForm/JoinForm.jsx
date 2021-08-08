@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 //TODO
 // 이미 가입된 이메일입니다
 // action, reducer
+// 전화번호placeholder, text
+// 학과선택 readonly
+// 대학 선택하면 해당 대학 학과만 보이게
+// 전화번호 - 들어가면 에러
 
 const JoinForm = () => {
   //validation
@@ -180,7 +184,7 @@ const JoinForm = () => {
           </div>
           {/* 핸드폰 */}
           <div className="col-md-12 col-12 mb-4">
-            <input type="number" placeholder="PhoneNumber * ex)01012341234" name="ph"
+            <input type="number" placeholder="01012341234 *" name="ph"
               ref={register({
                 required: "핸드폰 번호를 입력해주세요",
                 maxLength: 11
