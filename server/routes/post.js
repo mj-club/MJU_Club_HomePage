@@ -10,7 +10,7 @@ const {
   File,
   sequelize,
 } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isClubManager, isUnionManager } = require("./middlewares");
 const upload = multer();
 const { Op } = (Sequelize = require("sequelize"));
 
@@ -98,7 +98,7 @@ router.get(
 router.post(
   "/create/:clubName/:category", // category: announcement[공지사항], questions[문의게시판], freeBoard[자유게시판]
   isLoggedIn,
-  isClubManager,
+  // isClubManager,
   upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
@@ -216,21 +216,23 @@ router.delete(
 // => 제목 : title, 제목 + 내용 : both , 작성자 : writer
 // fetchCount (페이지수) - 쿼리
 // => 검색 페이지 기입 
-router.get(
+router.post(
   "/search/:clubName/:category/:keyword",
   async (req, res, next) => {
     try {
       const clubName = req.params.clubName;
       const categoryName = req.params.category;
       const keyword = req.params.keyword;
-      const searchOption = req.query.searchOption;
-      let fetchCount = req.query.page;
+      const searchOption = req.body.searchOption;
+      let fetchCount = req.body.page;
+      let limit = 15;
       let skip = 0;
       let post;
       let clubId = null;
       
+      console.log("시작");
       if (fetchCount > 1) {
-        skip = 15 * (fetchCount-1);
+        skip = limit * (fetchCount-1);
       }
       if (clubName) {
         const club = await ClubInfo.findOne({
@@ -239,23 +241,22 @@ router.get(
         clubId = club.id;
       }
       if (searchOption == "title") {
-        post = Post.findAll({
+        post = await Post.findAll({
           where: {
-            [Op.or]: [{
-              title: {
-                [Op.like]: "%" + keyword + "%"
-              }
-            }],
+            title: {
+              [Op.like]: "%" + keyword + "%"
+            },
             club_id: clubId,
             category: categoryName
           },
-          order: [["createAt", "DESC"]],
+          order: [["createdAt", "DESC"]],
           offset: skip,
-          limit: fetchCount
+          limit: limit
         });
+        console.log("post >> ", post);
       }
       else if (searchOption == "both") {
-        post = Post.findAll({
+        post = await Post.findAll({
           where: {
             [Op.or]: [{
               title: {
@@ -268,20 +269,20 @@ router.get(
             club_id: club.id,
             category: categoryName
           },
-          order: [["createAt", "DESC"]],
+          order: [["createdAt", "DESC"]],
           offset: skip,
-          limit: fetchCount
+          limit: limit
         });
       }
       else if (searchOption == "writer") {
-        const user = User.findOne({
+        const user = await User.findOne({
           where: { name: keyword }
         });
-        post = Post.findAll({
+        post =  await Post.findAll({
           where: { id: user.id, club_id: clubId, category: categoryName },
-          order: [["createAt", "DESC"]],
+          order: [["createdAt", "DESC"]],
           offset: skip,
-          limit: fetchCount
+          limit: limit
         });
       }
       res.json(post)
@@ -289,11 +290,7 @@ router.get(
       console.error(error);
       next(error);
     }
-  }
-<<<<<<< HEAD
-);
-=======
-});
+  });
 
 function checkPermission(req, res, next) {
   ClubPost.findOne({ postId: req.params.postId }, function (err, post) {
@@ -302,6 +299,5 @@ function checkPermission(req, res, next) {
     next();
   });
 }
->>>>>>> upstream/main
 
 module.exports = router;

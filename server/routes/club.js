@@ -30,7 +30,7 @@ router.get(
 router.post(
   "/createOrUpdate/:clubName",
   isLoggedIn,
-  isClubManager,
+  // isClubManager,
   multer().none(),
   async (req, res, next) => {
     try {
