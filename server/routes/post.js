@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-<<<<<<< HEAD
-const { Post, Comment, ClubInfo, UnionInfo, User, File, sequelize } = require("../models");
-const { isLoggedIn, isClubManager, isUnionManager } = require("./middlewares");
-=======
 const {
   Post,
   Comment,
@@ -15,7 +11,6 @@ const {
   sequelize,
 } = require("../models");
 const { isLoggedIn } = require("./middlewares");
->>>>>>> upstream/main
 const upload = multer();
 const { Op } = (Sequelize = require("sequelize"));
 
