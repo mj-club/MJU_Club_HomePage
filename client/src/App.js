@@ -3,8 +3,8 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import AOS from "aos";
 import NavScrollTop from './components/NavScrollTop';
 import HomeOne from './pages/HomeOne';
-// import HomeTwo from './pages/HomeTwo';
-import MjuClubPage from "./pages/MjuClubPage";
+import HomeTwo from './pages/HomeTwo';
+// import MjuClubPage from "./pages/MjuClubPage";
 import HomeThree from './pages/HomeThree';
 import About from './pages/About';
 import Service from './pages/Service';
@@ -20,7 +20,7 @@ import BlogTag from './pages/BlogTag';
 
 import LogIn from './pages/LogIn';
 import FindPassword from './pages/Find/FindPassword';
-import findEmail from "./pages/Find/findEmail";
+import findEmail from "./pages/Find/FindEmail";
 import Join from './pages/Join';
 
 

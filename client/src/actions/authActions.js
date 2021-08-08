@@ -115,6 +115,25 @@ export function findEmail(body){
   };
 }
 
+
+export function findPassword(body){
+  return (dispatch) => {
+    dispatch({type: "LOADING"});
+    axios.post(URL + "/findPW", body).then((data) => {
+      dispatch({
+        type: "FIND_PASSWORD",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
+
 export function clearError() {
   return (dispatch) => {
     dispatch({ type: "CLEAR_ERROR" });
