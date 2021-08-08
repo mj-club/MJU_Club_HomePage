@@ -39,6 +39,13 @@ const authReducer = produce((state, action) => {
       state.find_email = action.payload;
       state.error = null;
       break;
+      
+    case "FIND_PASSWORD":
+      state.loading = false;
+      state.find_password = action.payload;
+      state.error = null;
+      break;
+      
     default:
       break;
   }
