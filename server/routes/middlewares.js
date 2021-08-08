@@ -70,7 +70,7 @@ exports.isUnionManager = (req, res, next) => {
 };
 
 // permission (총동연만)
-exports.canUpdate = (userId, postId) => {
+exports.canUpdate = async (userId, postId) => {
   const user = await User.findByPk(userId);
   const post = await Post.findByPk(postId);
   if (user.hasPost(post)) {

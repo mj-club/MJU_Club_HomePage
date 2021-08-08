@@ -7,6 +7,7 @@ const multerS3 = require("multer-s3");
 
 const { Post, File } = require("../models");
 const { findByPk } = require("../models/user");
+const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
 
