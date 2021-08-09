@@ -25,10 +25,10 @@ router.get(
 router.post(
   "/create",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
+      
       let unionInfo = await UnionInfo.create({
         name: req.body.name,
         slogan: req.body.slogan,
@@ -50,7 +50,6 @@ router.post(
 router.post(
   "/update",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -80,7 +79,6 @@ router.post(
 router.delete(
   "/delete",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
     try {
       const unionInfo = await UnionInfo.destroy({
