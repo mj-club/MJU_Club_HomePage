@@ -51,6 +51,10 @@ module.exports = class User extends Sequelize.Model {
           type: Sequelize.STRING(30),
           allowNull: true,
         },
+        accessible_club: {
+          type: Sequelize.STRING(30),
+          allowNull: true,
+        },
       },
       {
         sequelize,
