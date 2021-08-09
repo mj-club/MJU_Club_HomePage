@@ -1,7 +1,7 @@
 [
     {
         "id": "1",
-        "icon": "images/svg/linea/linea-basic-target.svg",
+        "icon": "images/svg/linea/linea-basic-book-pencil.svg",
         "title": "학술분과",
         "pageLink": [ 
             "MIRS",
@@ -13,7 +13,7 @@
     },
     {
         "id": "2",
-        "icon": "images/svg/linea/linea-basic-picture-multiple.svg",
+        "icon": "images/svg/linea/linea-basic-magnifier.svg",
         "title": "사회연구분과",
         "pageLink": [ 
             "인액터스",
@@ -28,7 +28,7 @@
     },
     {
         "id": "3",
-        "icon": "images/svg/linea/linea-basic-picture.svg",
+        "icon": "images/svg/linea/linea-basic-video.svg",
         "title": "전시창작분과",
         "pageLink": [ 
             "코아",
@@ -41,7 +41,7 @@
     },
     {
         "id": "4",
-        "icon": "images/svg/linea/linea-ecommerce-cart-plus.svg",
+        "icon": "images/svg/linea/linea-basic-bolt.svg",
         "title": "체육분과",
         "pageLink": [ 
             "FC명지",
@@ -58,7 +58,7 @@
     },
     {
         "id": "5",
-        "icon": "images/svg/linea/linea-basic-gear.svg",
+        "icon": "images/svg/linea/linea-music-headphones.svg",
         "title": "연행예술분과",
         "pageLink": [ 
             "주리랑",
@@ -72,7 +72,7 @@
     },
     {
         "id": "6",
-        "icon": "images/svg/linea/linea-basic-display.svg",
+        "icon": "images/svg/linea/linea-basic-star.svg",
         "title": "종교분과",
         "pageLink": [ 
             "실로암",
@@ -85,7 +85,7 @@
     },
     {
         "id": "7",
-        "icon": "images/svg/linea/linea-basic-display.svg",
+        "icon": "images/svg/linea/linea-basic-heart.svg",
         "title": "봉사분과",
         "pageLink": [ 
             "PTPI",

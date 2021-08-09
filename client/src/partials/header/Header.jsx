@@ -48,7 +48,19 @@ const Header = () => {
                .col-xl-2 col-auto order-0{
                     display: flex !important;
                 }
-                
+
+                .btn-primary {
+                    border-color: #fff;
+                    background-color: #fff;
+                    color: #A99371;
+                    border-radius: 8px;
+                }
+
+                .btn-hover-secondary:hover, .btn-hover-secondary:not(:disabled):not(.disabled).active {
+                    border-color: transparent;
+                    background-color: #A99371;
+                    color: #ffffff;
+                }
                     
             `
             }

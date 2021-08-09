@@ -11,6 +11,15 @@ const IconBox = ({ data, classOption }) => {
             {`
                 .icon-box{
                     height: 100%;
+                    color: #A99371;
+                }
+
+                .icon-box .content .link:hover {
+                    color: #A99371;
+                }
+
+                #Layer_1{
+                    color: #A99371;
                 }
             `}
         </style>
