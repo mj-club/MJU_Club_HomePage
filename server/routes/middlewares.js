@@ -51,35 +51,9 @@ exports.isClubManager = (user) => {
 };
 
 // permission (총동연만)
-<<<<<<< HEAD
 exports.isUnionManager = (user) => {
   const res = user.auth_lv === 2 ? true : false;
   return res;
-=======
-exports.canUpdate = async (userId, postId) => {
-  const user = await User.findByPk(userId);
-  const post = await Post.findByPk(postId);
-  if (user.hasPost(post)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-// permission (for delete)
-exports.canDelete = async (userId, postId) => {
-  const user = await User.findByPk(userId);
-  const post = await Post.findByPk(postId);
-  const club = await post.getClubInfo();
-  if (user.auth_lv === 2) {
-    return true;
-  } else if (user.hasPost(post)) {
-    return true;
-  } else if (user.auth_lv === 1 || user.hasClubInfo(club)) {
-    return true;
-  } else {
-    return false;
-  }
->>>>>>> 87d6222cc8285b40c9ea5232ec4fc1c15433239a
 };
 
 exports.fileSize = function (bytes) {

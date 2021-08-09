@@ -14,13 +14,12 @@ const { isLoggedIn, isClubManager, isUnionManager } = require("./middlewares");
 const upload = multer();
 const { Op } = (Sequelize = require("sequelize"));
 
-// permission
+// -----------permission------------
+
 function checkPermissionForCreate(user, clubName, category) {
-  ```
-  user: req.user
-  clubName: req.params
-  category: req.params
-  ```;
+  // user: req.user
+  // clubName: req.params
+  // category: req.params
   // 총동연 - 공지사항
   if (clubName === "union" && category === "announcement") {
     if (!isUnionManager(user)) {
@@ -48,10 +47,9 @@ function checkPermissionForCreate(user, clubName, category) {
   }
 }
 async function checkPermissionForUpdate(user, post) {
-  ```
-  user: sequelize model,
-  post: sequelize model
-  ```;
+  // user: sequelize model,
+  // post: sequelize model
+
   if (!(await user.hasPost(post))) {
     const err = new Error("해당 게시물에 대한 작성자 계정이 아닙니다.");
     err.name = "IsNotPostOwner";
@@ -59,10 +57,8 @@ async function checkPermissionForUpdate(user, post) {
   }
 }
 async function checkPermissionForDelete(user, post, clubName) {
-  ```
-  user: sequelize model,
-  post: sequelize model
-  ```;
+  // user: sequelize model,
+  // post: sequelize model
   if (isUnionManager(user)) {
     return true;
   } else if (isClubManager(user) && user.accessible_club === clubName) {
