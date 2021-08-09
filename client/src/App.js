@@ -15,7 +15,6 @@ import BlogClassic from './pages/BlogClassic';
 import BlogDetails from './pages/BlogDetails';
 import BlogCategories from './pages/BlogCategories';
 import BlogTag from './pages/BlogTag';
-
 // import Contact from './pages/Contact';
 
 import LogIn from './pages/LogIn';
@@ -42,6 +41,17 @@ function App() {
     
   }, [])
   return (
+      <>
+      {/* 메인 css가 안먹어서 홈페이지에 적용될 모든 a태그에 대한 스타일만 따로 지정해줌 */}
+      <style>  
+        {`
+          a {
+            color: gray;
+            text-decoration: none; }
+            a:hover {
+              color: #A99371; }
+        `}
+      </style>
       <Router>
         <NavScrollTop>
           <Switch>
@@ -66,6 +76,7 @@ function App() {
           </Switch>
         </NavScrollTop>
       </Router>
+      </>
   );
 }
 
