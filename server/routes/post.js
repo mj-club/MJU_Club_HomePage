@@ -255,7 +255,7 @@ router.delete(
       user = await User.findByPk(req.user.id);
       post = await Post.findByPk(req.params.postId);
       club = await post.getClubInfo();
-      await checkPermissionForDelete(user, post, club);
+      await checkPermissionForDelete(user, post, club.name);
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
