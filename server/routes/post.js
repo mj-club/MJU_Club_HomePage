@@ -160,6 +160,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     if (req.params.clubName === "union") {
       try {
@@ -227,6 +228,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       post = await post.update({
@@ -259,6 +261,7 @@ router.delete(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       console.log("게시물 삭제 전");
