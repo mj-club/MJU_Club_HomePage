@@ -134,6 +134,24 @@ export function findPassword(body){
 }
 
 
+export function resetPW(body){
+  return(dispatch) => {
+    dispatch({type: "LOADING"});
+    axios.post(URL + "/resetPW", body).then((data) => {
+      dispatch({
+        type: "RESET_PASSWORD",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      })
+    })
+  }
+}
+
+
 export function clearError() {
   return (dispatch) => {
     dispatch({ type: "CLEAR_ERROR" });
