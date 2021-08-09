@@ -6,10 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 //TODO
 // 이미 가입된 이메일입니다
 // action, reducer
-// 전화번호placeholder, text
-// 학과선택 readonly
+// 전화번호placeholder, text - ok
+// 학과선택 readonly - ok
 // 대학 선택하면 해당 대학 학과만 보이게
-// 전화번호 - 들어가면 에러
+// 전화번호 - 들어가면 에러 - ok
 
 const JoinForm = () => {
   //validation
@@ -143,7 +143,7 @@ const JoinForm = () => {
                 },
                 maxLength: 20,
                 pattern: {
-                  value: /[a-zA-Z0-9!@#$%^&*()-=+;'":,.]$/,
+                  value: /[a-zA-Z0-9!@#$%^&*()-=+;'":,.]/,
                   message: "비밀번호는 영문, 숫자, 특수문자를 포함한 8~20글자입니다"
                 }
               })} onChange={
@@ -184,10 +184,14 @@ const JoinForm = () => {
           </div>
           {/* 핸드폰 */}
           <div className="col-md-12 col-12 mb-4">
-            <input type="number" placeholder="01012341234 *" name="ph"
+            <input type="text" placeholder="01012341234 *" name="ph"
               ref={register({
                 required: "핸드폰 번호를 입력해주세요",
-                maxLength: 11
+                maxLength: 11,
+                pattern: {
+                  value :  /[0-9]$/g,
+                  message:"숫자만 입력해주세요"
+                }
               })}
               onChange={
                 ({ target: { value } }) => setPhNumber(value)
@@ -215,7 +219,7 @@ const JoinForm = () => {
           <div className="col-md-12 col-12 mb-4">
             {/* 단과대학 */}
             <select className="form-select" onChange={({ target: { value } }) => setDepartment(value)}>
-              <option value="null">단과대학 선택</option>
+              <option disabled="disabled" value="null" selected>단과대학 선택</option>
               <option value="인문대학">인문대학</option>
               <option value="사회과학대학">사회과학대학</option>
               <option value="경영대학">경영대학</option>
@@ -228,8 +232,15 @@ const JoinForm = () => {
 
           <div className="col-md-12 col-12 mb-4">
             {/* 학과 */}
-            <select className="form-select" onChange={({ target: { value } }) => setMajor(value)}>
-              <option value="null">학과</option>
+            <select id="select-major" className="form-select" onChange={({ target: { value } }) => setMajor(value)}>
+            {department === "인문대학" && 
+              document.getElementById("select-major").append(`
+                <option value="null" selected>학과</option>
+                <option value="국어국문학과">국어국문학과</option>
+                `)}
+
+
+              {/* <option disabled="disabled" value="null">학과</option>
               <option value="국어국문학과">국어국문학과</option>
               <option value="중어중문학과">중어중문학과</option>
               <option value="일어일문학과">일어일문학과</option>
@@ -262,7 +273,7 @@ const JoinForm = () => {
               <option value="미래융합경영학과">미래융합경영학과</option>
               <option value="멀티디자인학과">멀티디자인학과</option>
               <option value="전공자유학부">전공자유학부</option>
-              <option value="융합전공학부">융합전공학부</option>
+              <option value="융합전공학부">융합전공학부</option> */}
             </select>
           </div>
           {/* 학년 */}
