@@ -40,6 +40,9 @@ const ScrollToTop = (props) => {
       <>
       <style>
         {`
+          .scroll-top {
+            background-color: #A99371 !important;
+          }
           .scroll-top.show{
             background-color: #A99371 !important;
           }

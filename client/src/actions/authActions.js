@@ -65,74 +65,103 @@ export function emailLogin(body) {
 }
 
 export function emailCheck(email) {
-  return (dispatch)=> {
-    axios.get(URL + "/duplicate/"+email).then((data) => {
-      dispatch({
-        type: "SET_MESSAGE",
-        payload : data,
-      });
-    }).catch((error) => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
-      });
-    });
-  };
-}
-
-export function nameCheck(name){
   return (dispatch) => {
-    axios.get(URL+"/findEmail"+name).then((data) =>{
-      dispatch({
-        type: "match_Name",
-        payload: data,
+    axios
+      .get(URL + "/duplicate/" + email)
+      .then((data) => {
+        dispatch({
+          type: "SET_MESSAGE",
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
       });
-    }).catch((error) => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
-      });
-    });
   };
 }
 
+export function nameCheck(name) {
+  return (dispatch) => {
+    axios
+      .get(URL + "/findEmail" + name)
+      .then((data) => {
+        dispatch({
+          type: "match_Name",
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
+      });
+  };
+}
 
 //post -> body
-export function findEmail(body){
+export function findEmail(body) {
   return (dispatch) => {
     dispatch({ type: "LOADING" });
-    axios.post(URL+"/findEmail", body).then((data) =>{
-      dispatch({
-        type: "FIND_EMAIL",
-        payload: data,
+    axios
+      .post(URL + "/findEmail", body)
+      .then((data) => {
+        dispatch({
+          type: "FIND_EMAIL",
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
       });
-    }).catch((error) => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
-      });
-    });
   };
 }
 
-
-export function findPassword(body){
+export function findPassword(body) {
   return (dispatch) => {
-    dispatch({type: "LOADING"});
-    axios.post(URL + "/findPW", body).then((data) => {
-      dispatch({
-        type: "FIND_PASSWORD",
-        payload: data,
+    dispatch({ type: "LOADING" });
+    axios
+      .post(URL + "/findPW", body)
+      .then((data) => {
+        dispatch({
+          type: "FIND_PASSWORD",
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
       });
-    }).catch((error) => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
-      });
-    });
   };
 }
 
+export function resetPW(body) {
+  return (dispatch) => {
+    dispatch({ type: "LOADING" });
+    axios
+      .post(URL + "/resetPW", body)
+      .then((data) => {
+        dispatch({
+          type: "RESET_PASSWORD",
+          payload: data,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
+      });
+  };
+}
 
 export function clearError() {
   return (dispatch) => {

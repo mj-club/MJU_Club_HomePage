@@ -160,6 +160,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     if (req.params.clubName === "union") {
       try {
@@ -227,6 +228,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       post = await post.update({
@@ -255,10 +257,11 @@ router.delete(
       user = await User.findByPk(req.user.id);
       post = await Post.findByPk(req.params.postId);
       club = await post.getClubInfo();
-      await checkPermissionForDelete(user, post, club);
+      await checkPermissionForDelete(user, post, club.name);
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       console.log("게시물 삭제 전");
