@@ -5,6 +5,13 @@ const multer = require("multer");
 const { Comment, Post } = require("../models");
 const { isLoggedIn } = require("./middlewares");
 
+// -----------permission------------
+function checkPermissionForCreate() {
+  // 총동연 문의사항: 일반, 동아리, 총동연
+  // 동아리 문의사항: 일반, 해당 동아리
+}
+async function checkPermissionForUpdate() {}
+async function checkPermissionForDelete() {}
 // -----------comment------------
 
 //Read
@@ -74,20 +81,16 @@ router.post(
 );
 
 // Delete
-router.delete(
-  "/delete/:commentId",
-  isLoggedIn,
-  async (req, res, next) => {
-    try {
-      const comment = await Comment.destroy({
-        where: { id: req.params.commentId },
-      });
-      console.log("댓글 삭제");
-      res.json(comment);
-    } catch (err) {
-      console.error(err);
-      next(err);
-    }
+router.delete("/delete/:commentId", isLoggedIn, async (req, res, next) => {
+  try {
+    const comment = await Comment.destroy({
+      where: { id: req.params.commentId },
+    });
+    console.log("댓글 삭제");
+    res.json(comment);
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
-);
+});
 module.exports = router;
