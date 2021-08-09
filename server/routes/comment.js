@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const { Comment, Post } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { Comment, Post, User } = require("../models");
+const { isLoggedIn, isClubManager, isUnionManager } = require("./middlewares");
 
 // -----------permission------------
 function checkPermissionForCreate(user, clubName) {

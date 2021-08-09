@@ -8,13 +8,13 @@ const { Op } = (Sequelize = require("sequelize"));
 const { isLoggedIn, isClubManager } = require("./middlewares");
 
 // -----------동아리, 개인 일정 모두 불러오기------------------
-router.get("/readAll", async (req, res, next) => {
+router.get("/readAll", isLoggedIn, async (req, res, next) => {
   try {
     // 동아리 id
-    // const clubInfo = await ClubInfo.findOne({
-    //   where: { name: req.params.clubName },
-    // });
-    // const clubId = clubInfo.id;
+    const clubInfo = await ClubInfo.findOne({
+      where: { name: req.params.clubName },
+    });
+    const clubId = clubInfo.id;
 
     // 일정 불러오기
     const paramDate = req.params.date;

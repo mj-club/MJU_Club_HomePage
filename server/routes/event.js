@@ -67,7 +67,6 @@ router.get("/readAll", async (req, res, next) => {
 router.post(
   "/create",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -100,7 +99,6 @@ router.post(
 router.post(
   "/update/:eventId",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -137,7 +135,6 @@ router.post(
 router.delete(
   "/delete/:eventId",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
     try {
       checkPermissionForDelete(req.user);
