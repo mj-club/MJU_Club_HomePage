@@ -242,6 +242,11 @@ router.post("/findPW", multer().none(), async (req, res) => {
 });
 
 router.post("/resetPW", multer().none(), async (req, res) => {
+  
+  if (req.body.password === "") {
+    res.status(400).send("new password required");
+  }
+  
   // 입력받은 token 값이 Auth 테이블에 존재하며 아직 유효한지 확인
   try {
     const auth = await Auth.findOne({
