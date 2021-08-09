@@ -35,10 +35,10 @@ export default function FindPassword() {
             <div className="FindPasswordForm_foot-lnk">
               <div className='row'>
                 <div className="col" data-aos="fade-up">
-                  <a href="#forgot">로그인</a>
+                  <a href="/logIn">로그인</a>
                 </div>
                 <div className="col" data-aos="fade-up">
-                  <a href="#forgot">이메일 찾기</a>
+                  <a href="/findEmail">이메일 찾기</a>
                 </div>
               </div>
             </div>

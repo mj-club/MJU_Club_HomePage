@@ -32,7 +32,7 @@ export function join(body) {
   return (dispatch) => {
     axios.post(URL + "/join", body).then((data) => {
       dispatch({
-        type: "SET_USER_EMAIL",
+        type: "SET_USER_EMAIL", //그 뒤에 입력
         payload: data.email,
       }).catch((error) => {
         dispatch({
@@ -95,6 +95,44 @@ export function nameCheck(name){
     });
   };
 }
+
+
+//post -> body
+export function findEmail(body){
+  return (dispatch) => {
+    dispatch({ type: "LOADING" });
+    axios.post(URL+"/findEmail", body).then((data) =>{
+      dispatch({
+        type: "FIND_EMAIL",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
+
+export function findPassword(body){
+  return (dispatch) => {
+    dispatch({type: "LOADING"});
+    axios.post(URL + "/findPW", body).then((data) => {
+      dispatch({
+        type: "FIND_PASSWORD",
+        payload: data,
+      });
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
 
 export function clearError() {
   return (dispatch) => {

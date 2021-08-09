@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 
 const { EventInfo } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isUnionManager } = require("./middlewares");
 
 const router = express.Router();
 
@@ -12,7 +12,6 @@ const upload = multer();
 // 개별 이벤트 상세
 router.get(
   "/read/:eventId",
-  // isLoggedIn,
   async (req, res, next) => {
     try {
       let eventInfo = await EventInfo.findOne({
@@ -29,8 +28,6 @@ router.get(
 // 전체 이벤트 목록
 router.get(
   "/readAll",
-  // isLoggedIn,
-  // upload.none(),
   async (req, res, next) => {
     try {
       let eventInfo = await EventInfo.findAll({
@@ -53,7 +50,8 @@ router.get(
 // Create
 router.post(
   "/create",
-  // isLoggedIn,
+  isLoggedIn,
+  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -79,7 +77,8 @@ router.post(
 // Update
 router.post(
   "/update/:eventId",
-  // isLoggedIn,
+  isLoggedIn,
+  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -109,8 +108,8 @@ router.post(
 // Delete
 router.delete(
   "/delete/:eventId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isUnionManager,
   async (req, res, next) => {
     try {
       const eventInfo = await EventInfo.destroy({

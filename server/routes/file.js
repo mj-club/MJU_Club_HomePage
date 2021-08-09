@@ -7,6 +7,7 @@ const multerS3 = require("multer-s3");
 
 const { Post, File } = require("../models");
 const { findByPk } = require("../models/user");
+const { isLoggedIn } = require("./middlewares");
 
 const router = express.Router();
 
@@ -51,7 +52,6 @@ var upload = multer({
 // 게시물별 파일 불러오기
 router.get(
   "/read/:postId",
-  // isLoggedIn,
   async (req, res, next) => {
     try {
       let files = await File.findAll({
@@ -68,7 +68,7 @@ router.get(
 // Create
 router.post(
   "/upload/:postId",
-  // isLoggedIn,
+  isLoggedIn,
   upload.array("files"),
   async (req, res) => {
     console.log(req.files);
@@ -122,8 +122,7 @@ router.post(
 // Delete
 router.delete(
   "/delete/:fileId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const file = await File.findByPk(req.params.fileId);

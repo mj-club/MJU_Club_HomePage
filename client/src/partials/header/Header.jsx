@@ -2,9 +2,10 @@ import {Fragment, useState, useEffect} from "react";
 import Logo from '../../components/logo/Logo';
 import NavBar from '../../components/NavBar/NavBar';
 import HeaderSearch from '../../components/HeaderSearch/HeaderSearch';
-import Btn from '../../components/Btn/Btn';
 import MobileMenu from "../../components/NavBar/MobileMenu";
 import MainSearch from "../../components/NavBar/MainSearch";
+
+import { Link } from "react-router-dom";
 
 // import { useSelector } from "react-redux";
 
@@ -34,6 +35,7 @@ const Header = () => {
     const handleScroll = () => {
         setScroll(window.scrollY);
     };
+
     return (
         <>
         <style>
@@ -42,6 +44,11 @@ const Header = () => {
                 .header-section.is-sticky .header-inner{
                     background-color: #A99371 !important;
                 }
+
+               .col-xl-2 col-auto order-0{
+                    display: flex !important;
+                }
+                
                     
             `
             }
@@ -55,7 +62,7 @@ const Header = () => {
                         <div className="row justify-content-between align-items-center">
                             <div className="col-xl-2 col-auto order-0">
                                 <Logo 
-                                    image={`${process.env.PUBLIC_URL}/images/logo/logo.png`}   // 키움 이미지만 안뜸 images/logo/keyum-logo.png
+                                    image={`${process.env.PUBLIC_URL}/images/logo/keyum-logo.png`}   // 키움 이미지만 안뜸 images/logo/keyum-logo.png
                                 />
                             </div>
                             <div className="col-auto col-xl d-flex align-items-center justify-content-xl-center justify-content-end order-2 order-xl-1">
@@ -76,7 +83,7 @@ const Header = () => {
                                 </div>
                             </div>
                             <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                <Btn name='로그인/회원가입' />
+                                <Link className="btn btn-primary btn-hover-secondary" to={process.env.PUBLIC_URL + "/logIn"}>로그인 / 회원가입</Link>
                             </div>
                         </div>
                     </div>
