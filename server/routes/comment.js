@@ -72,6 +72,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       const comment = await Comment.create({
@@ -104,6 +105,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       comment.update({
@@ -129,6 +131,7 @@ router.delete("/delete/:commentId", isLoggedIn, async (req, res, next) => {
   } catch (error) {
     console.error(error);
     res.status(403).send(error);
+    return;
   }
   try {
     comment.destroy();
