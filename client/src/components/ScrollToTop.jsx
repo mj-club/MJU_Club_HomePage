@@ -37,10 +37,19 @@ const ScrollToTop = (props) => {
     
     
     return (
+      <>
+      <style>
+        {`
+          .scroll-top.show{
+            background-color: #A99371 !important;
+          }
+        `}
+      </style>
         <button type="button" className={`scroll-top ${stick ? "show" : ""}`} onClick={onClickHandler} {...props}>
           <i className="arrow-top fal fa-long-arrow-up"></i>
           <i className="arrow-bottom fal fa-long-arrow-up"></i>
         </button>
+      </>
     )
 }
 
