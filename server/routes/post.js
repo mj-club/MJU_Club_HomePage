@@ -10,12 +10,74 @@ const {
   File,
   sequelize,
 } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const {
+  isLoggedIn,
+  isManager,
+  isClubManager,
+  isUnionManager,
+} = require("./middlewares");
 const upload = multer();
 const { Op } = (Sequelize = require("sequelize"));
 
-//
-
+// permission
+function checkPermissionForCreate(user, clubName, category) {
+  ```
+  user: req.user
+  clubName: req.params
+  category: req.params
+  ```;
+  // 총동연 - 공지사항
+  if (clubName === "union" && category === "announcement") {
+    if (!isUnionManager(user)) {
+      const err = new Error("총동연 관리자 계정이 아닙니다.");
+      err.name = "IsNotAdminAccount";
+      throw err;
+    }
+  } else if (clubName === "union" && category === "monthlyKeyum") {
+    if (!isUnionManager(user)) {
+      const err = new Error("총동연 관리자 계정이 아닙니다.");
+      err.name = "IsNotAdminAccount";
+      throw err;
+    }
+  } else if (clubName !== "union" && category === "announcement") {
+    if (!isClubManager(user)) {
+      const err = new Error("동아리 관리자 계정이 아닙니다.");
+      err.name = "IsNotAdminAccount";
+      throw err;
+    }
+    if (user.accessible_club !== clubName) {
+      const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+      err.name = "IsNotAccessibleAdminAccount";
+      throw err;
+    }
+  }
+}
+async function checkPermissionForUpdate(user, post) {
+  ```
+  user: sequelize model,
+  post: sequelize model
+  ```;
+  if (!(await user.hasPost(post))) {
+    const err = new Error("해당 게시물에 대한 작성자 계정이 아닙니다.");
+    err.name = "IsNotPostOwner";
+    throw err;
+  }
+}
+async function checkPermissionForDelete(user, post, clubName) {
+  ```
+  user: sequelize model,
+  post: sequelize model
+  ```;
+  if (isUnionManager(user)) {
+    return true;
+  } else if (isClubManager(user) && user.accessible_club === clubName) {
+    return true;
+  } else if (!(await user.hasPost(post))) {
+    const err = new Error("해당 게시물에 대한 작성자 계정이 아닙니다.");
+    err.name = "IsNotPostOwner";
+    throw err;
+  }
+}
 // -----------post------------
 
 // Read
@@ -102,6 +164,16 @@ router.post(
   isLoggedIn,
   upload.none(),
   async (req, res, next) => {
+    try {
+      checkPermissionForCreate(
+        req.user,
+        req.params.clubName,
+        req.params.category
+      );
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
     if (req.params.clubName === "union") {
       try {
         const unionInfo = await UnionInfo.findByPk(1);
@@ -161,17 +233,22 @@ router.post(
 
   upload.none(),
   async (req, res, next) => {
+    let user, post;
     try {
-      let post = await Post.update(
-        {
-          title: req.body.title,
-          content: req.body.content || null,
-          thumbnail: req.body.thumbnail || null,
-          set_top: req.body.set_top || false,
-        },
-        { where: { id: req.params.postId } }
-        // { where: { id: req.params.postId, writer_id: req.user.id } }
-      );
+      user = await User.findByPk(req.user.id);
+      post = await Post.findByPk(req.params.postId);
+      await checkPermissionForUpdate(user, post);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
+    try {
+      post = await post.update({
+        title: req.body.title,
+        content: req.body.content || null,
+        thumbnail: req.body.thumbnail || null,
+        set_top: req.body.set_top || false,
+      });
       console.log("게시물 수정");
       res.json(post);
     } catch (error) {
@@ -187,11 +264,19 @@ router.delete(
   isLoggedIn,
   // checkPermission,
   async (req, res, next) => {
+    let user, post, club;
+    try {
+      user = await User.findByPk(req.user.id);
+      post = await Post.findByPk(req.params.postId);
+      club = await post.getClubInfo();
+      await checkPermissionForDelete(user, post, club);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
     try {
       console.log("게시물 삭제 전");
-      const post = await Post.destroy({
-        where: { id: req.params.postId },
-      });
+      post = await post.destroy();
       console.log("게시물 삭제");
       res.json(post);
     } catch (err) {
@@ -203,44 +288,35 @@ router.delete(
 
 // search
 // 키워드가 포함되는 게시물 모두 검색
-router.get(
-  "/search/:keyword",
-  async (req, res, next) => {
-    try {
-      let keyword = req.params.keyword;
-      let fetchCount = req.query.page;
-      let skip = 0;
-      
-      if (fetchCount > 1) {
-        skip = 15 * (fetchCount-1);
-      }
+router.get("/search/:keyword", async (req, res, next) => {
+  try {
+    let keyword = req.params.keyword;
+    let fetchCount = req.query.page;
+    let skip = 0;
 
-      let post = Post.findAll({
-        where: {
-          [Op.or]: [{
-            title: {
-              [Op.like]: "%" + keyword + "%"
-            }
-          }]
-        },
-        order: [["createAt", "DESC"]],
-        offset: skip,
-        limit: fetchCount
-      });
-      res.json(post)
-    } catch (error) {
-      console.error(error);
-      next(error);
+    if (fetchCount > 1) {
+      skip = 15 * (fetchCount - 1);
     }
+
+    let post = Post.findAll({
+      where: {
+        [Op.or]: [
+          {
+            title: {
+              [Op.like]: "%" + keyword + "%",
+            },
+          },
+        ],
+      },
+      order: [["createAt", "DESC"]],
+      offset: skip,
+      limit: fetchCount,
+    });
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
 });
-
-function checkPermission(req, res, next) {
-  ClubPost.findOne({ postId: req.params.postId }, function (err, post) {
-    if (err) return res.json(err);
-    if (post.writer_id != req.user.id) return noPermission(req, res);
-    next();
-  });
-}
 
 module.exports = router;

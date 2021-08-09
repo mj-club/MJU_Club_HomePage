@@ -39,60 +39,21 @@ exports.isLoggedIn = (req, res, next) => {
 };
 
 // permission (관리자만)
-exports.isManager = (req, res, next) => {
-  if (req.user.auth_lv > 0) {
-    next();
-  } else {
-    res.status(403).send("관리자 계정이 아님");
-    // res.redirect("/");
-    // res.json(req);
-  }
+exports.isManager = (user) => {
+  const res = user.auth_lv > 0 ? true : false;
+  return res;
 };
+
 // permission (동아리만)
-exports.isClubManager = (req, res, next) => {
-  if (req.user.auth_lv === 1) {
-    next();
-  } else {
-    res.status(403).send("동아리 관리자 계정이 아님");
-    // res.redirect("/");
-    // res.json(req);
-  }
-};
-// permission (총동연만)
-exports.isUnionManager = (req, res, next) => {
-  if (req.user.auth_lv === 2) {
-    next();
-  } else {
-    res.status(403).send("총동연 관리자 계정이 아님");
-    // res.redirect("/");
-    // res.json(req);
-  }
+exports.isClubManager = (user) => {
+  const res = user.auth_lv === 1 ? true : false;
+  return res;
 };
 
 // permission (총동연만)
-exports.canUpdate = (userId, postId) => {
-  const user = await User.findByPk(userId);
-  const post = await Post.findByPk(postId);
-  if (user.hasPost(post)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-// permission (for delete)
-exports.canDelete = async (userId, postId) => {
-  const user = await User.findByPk(userId);
-  const post = await Post.findByPk(postId);
-  const club = await post.getClubInfo();
-  if (user.auth_lv === 2) {
-    return true;
-  } else if (user.hasPost(post)) {
-    return true;
-  } else if (user.auth_lv === 1 || user.hasClubInfo(club)) {
-    return true;
-  } else {
-    return false;
-  }
+exports.isUnionManager = (user) => {
+  const res = user.auth_lv === 2 ? true : false;
+  return res;
 };
 
 exports.fileSize = function (bytes) {
