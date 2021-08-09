@@ -20,6 +20,7 @@ import BlogTag from './pages/BlogTag';
 
 import LogIn from './pages/LogIn';
 import FindPassword from './pages/Find/FindPassword';
+import ResetPassword from "./pages/Reset/ResetPw";
 import findEmail from "./pages/Find/FindEmail";
 import Join from './pages/Join';
 
@@ -63,6 +64,7 @@ function App() {
             {/* <Route component ={NotFound} /> */}
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
+            <Route path={`${process.env.PUBLIC_URL + "/resetPW"}`} component ={ResetPassword} />
           </Switch>
         </NavScrollTop>
       </Router>
