@@ -11,8 +11,6 @@ const { isLoggedIn } = require("./middlewares");
 // 게시물별 전체 댓글
 router.get(
   "/read/:postId", // category: announcement[공지사항],faq[문의게시판]
-  // isLoggedIn,
-  // upload.none(),
   async (req, res, next) => {
     try {
       const comments = await Comment.findAll({
@@ -31,7 +29,7 @@ router.get(
 // Create
 router.post(
   "/create/:postId",
-  // isLoggedIn,
+  isLoggedIn,
   multer().none(),
   async (req, res, next) => {
     try {
@@ -54,7 +52,7 @@ router.post(
 // Update
 router.post(
   "/update/:commentId",
-  // isLoggedIn,
+  isLoggedIn,
   multer().none(),
   async (req, res, next) => {
     try {
@@ -78,8 +76,7 @@ router.post(
 // Delete
 router.delete(
   "/delete/:commentId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const comment = await Comment.destroy({

@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import { useForm } from "react-hook-form";
-
+import {findPassword} from "../../actions";
 import { useDispatch } from "react-redux";
 import { emailLogin } from "../../actions";
 
@@ -12,8 +12,11 @@ const FindPasswordForm = () => {
 
   const onSubmit = (data) => {
     const body = data;
+    dispatch(findPassword(body));
     dispatch(emailLogin(body));
   }
+
+
     
   return (
     <Fragment>
@@ -39,7 +42,7 @@ const FindPasswordForm = () => {
           <input type="text" placeholder="핸드폰 번호 *" name="phone" ref={register({
             required: 'Phone Number is required',
             pattern: {
-              value: /^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$/i,
+              value: /^\d{3}\d{3,4}\d{4}$/,
               message: "invalid phone number"
             }
           })} />

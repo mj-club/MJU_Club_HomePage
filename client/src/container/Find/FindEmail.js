@@ -1,9 +1,9 @@
 import React from 'react';
 import SectionTitle from '../../components/SectionTitles/SectionTitle';
-import IdFindForm from '../../components/LogInForm/IdFindForm';
+import IdFindForm from '../../components/FindForm/FindEmailForm';
 import WhiteBox from '../../components/WhiteBox/WhiteBox';
 
-export default function IdFind() {
+export default function FindEmail() {
   return(
     <>
       <style>
@@ -27,18 +27,18 @@ export default function IdFind() {
             <SectionTitle
               titleOption="section-title text-center mb-7"
               headingOption="title fz-28"
-              title="Email 찾기"
+              title="이메일 찾기"
               subTitle=""
             />
             <IdFindForm/>
             <div className="LogInForm_hr"></div>
             <div className="LogInForm_foot-lnk">
               <div className='row'>
-                <div className="col" data-aos="fade-up">
-                  <a href="/contact">뒤로가기</a>
+                <div className="col-5" data-aos="fade-up">
+                  <a href="/logIn">로그인</a>
                 </div>
-                <div className="col" data-aos="fade-up">
-                  <a href="#forgot">PW 찾기</a>
+                <div className="col-7" data-aos="fade-up">
+                  <a href="/findPassword">비밀번호 찾기</a>
                 </div>
               </div>
             </div>
