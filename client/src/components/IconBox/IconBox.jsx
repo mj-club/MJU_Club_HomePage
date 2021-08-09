@@ -5,16 +5,15 @@ import {Link} from "react-router-dom";
 
 const IconBox = ({ data, classOption }) => {
 
-    // const clubList = () => {
-    //     clubDatas.map((clubData) => {
-    //         clubData.pageLink.map(function(club, index) {
-    //             return <Link key={index} to={club} className="link">{clubData.link}</Link>
-    //         });
-    //     })
-        
-    // }
-
     return (
+        <>
+        <style>
+            {`
+                .icon-box{
+                    height: 100%;
+                }
+            `}
+        </style>
         <div className={`icon-box text-center ${classOption}`}>
             <div className="icon">
                 <ReactVivus
@@ -38,6 +37,7 @@ const IconBox = ({ data, classOption }) => {
                 }
             </div>
         </div>
+        </>
     )
 }
 
