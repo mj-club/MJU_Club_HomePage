@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { join, emailCheck } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 // action, reducer
 // 전화번호placeholder, text - ok
 // 학과선택 readonly - ok
-// 대학 선택하면 해당 대학 학과만 보이게
+// 대학 선택하면 해당 대학 학과만 보이게 - ok
 // 전화번호 - 들어가면 에러 - ok
+// 명지대 학생 체크 - ok
 
 const JoinForm = () => {
   //validation
@@ -46,10 +47,10 @@ const JoinForm = () => {
   } //왜 ;쓰면 안돼지?
 
   function onPhCheck() {
-    
+
   }
 
-  function onStudentIdCheck(){
+  function onStudentIdCheck() {
 
   }
 
@@ -60,7 +61,17 @@ const JoinForm = () => {
     //href="/welcome"으로 이동
     const body = { email, name, password, phNumber, department, schoolYear, studentId, major };
     dispatch(join(body));
+
   }
+
+  // <option value={value}>{value}</option>
+  // function createOptions() {
+  //   const liberalArts = ["국어국문학과","중어중문학과","일어일문학과"];
+
+  //   liberalArts.forEach((value, index) => {
+  //     return <option key={index} value={value}>{value}</option>  
+  //   })
+  // }
 
   return (
     <>
@@ -153,24 +164,24 @@ const JoinForm = () => {
 
           </div>
           <div className="col-md-12 col-12 mb-4">
-            <input type="password" placeholder="Check Pssword *" name="checkPassword" 
+            <input type="password" placeholder="Check Pssword *" name="checkPassword"
               ref={register({
-                required: "비밀번호를 다시 한번 입력해주세요"               
+                required: "비밀번호를 다시 한번 입력해주세요"
               })}
               onBlur={({ target: { value } }) => {
                 const password = document.getElementsByName("password")[0].value;
                 console.log("passwrd", password);
                 console.log("check-password", value);
-                const isSamePw = password==value;
+                const isSamePw = password == value;
                 console.log(isSamePw);
-                if(!isSamePw){
+                if (!isSamePw) {
                   setError("checkPassword", {
                     type: "isSame",
                     message: "비밀번호가 다릅니다",
                   });
                 }
               }}
-                />
+            />
             {errors.checkPassword && <p>{errors.checkPassword.message}</p>}
           </div>
 
@@ -189,8 +200,8 @@ const JoinForm = () => {
                 required: "핸드폰 번호를 입력해주세요",
                 maxLength: 11,
                 pattern: {
-                  value :  /[0-9]$/g,
-                  message:"숫자만 입력해주세요"
+                  value: /[0-9]$/g,
+                  message: "숫자만 입력해주세요"
                 }
               })}
               onChange={
@@ -210,16 +221,45 @@ const JoinForm = () => {
           </div>
 
           <p className="is-student">
-            <input type="checkbox" name="isStudent" onChange={({ target: { value } }) => setIsStudent(value)} />
+            <input type="checkbox" name="isStudent" defaultChecked={true} onClick={() =>
+             {
+              if(isStudent){
+                setIsStudent(false);
+              } else {
+                setIsStudent(true);
+              }
+              console.log(isStudent);
+             }
+             }  />
             <label>&nbsp;명지대 학생입니다</label>
           </p>
-          {isStudent /*가 true면 밑에내용보여줌  */}
+          {isStudent ?
+            <style type="text/css">
+              {`
+              #student-info {
+                display:none;
+              }
+              `}
+            </style>
 
+            :
+
+            <style type="text/css">
+              {`
+              #student-info {
+                visibility: visible;
+              }
+              `}
+            </style>
+          }
+
+          <div id="student-info">
           <p>학생정보</p>
           <div className="col-md-12 col-12 mb-4">
             {/* 단과대학 */}
-            <select className="form-select" onChange={({ target: { value } }) => setDepartment(value)}>
-              <option disabled="disabled" value="null" selected>단과대학 선택</option>
+            <select className="form-select" value="null"
+              onChange={({ target: { value } }) => setDepartment(value)}>
+              <option disabled="disabled" value="null">단과대학 선택</option>
               <option value="인문대학">인문대학</option>
               <option value="사회과학대학">사회과학대학</option>
               <option value="경영대학">경영대학</option>
@@ -232,57 +272,89 @@ const JoinForm = () => {
 
           <div className="col-md-12 col-12 mb-4">
             {/* 학과 */}
-            <select id="select-major" className="form-select" onChange={({ target: { value } }) => setMajor(value)}>
-            {department === "인문대학" && 
-              document.getElementById("select-major").append(`
-                <option value="null" selected>학과</option>
-                <option value="국어국문학과">국어국문학과</option>
-                `)}
+            <select id="select-major" className="form-select" value="null"
+              onChange={({ target: { value } }) => setMajor(value)}>
+                <option disabled="disabled" value="null">학과</option>{/*placeholder*/}
+              {department === "인문대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="국어국문학과">국어국문학과</option>
+                  <option value="중어중문학과">중어중문학과</option>
+                  <option value="일어일문학과">일어일문학과</option>
+                  <option value="영어영문학과">영어영문학과</option>
+                  <option value="사학과">사학과</option>
+                  <option value="문헌정보학과">문헌정보학과</option>
+                  <option value="아랍지역학과">아랍지역학과</option>
+                  <option value="미술사학과">미술사학과</option>
+                  <option value="철학과">철학과</option>
+                  <option value="문예창작과">문예창작과</option>
+                </>
+              }
+              {department === "사회과학대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="행정학과">행정학과</option>
+                  <option value="경제학과">경제학과</option>
+                  <option value="정치외교학과">정치외교학과</option>
+                  <option value="디지털미디어학과">디지털미디어학과</option>
+                  <option value="아동학과">아동학과</option>
+                  <option value="청소년지도학과">청소년지도학과</option>
+                </>
+              }
+              {department === "경영대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="경영학과">경영학과</option>
+                  <option value="국제통상학과">국제통상학과</option>
+                  <option value="경영정보학과">경영정보학과</option>
+                  <option value="부동산학과">부동산학과</option>
+                </>
+              }
 
+              {department === "법과대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="법학과">법학과</option>
+                  <option value="법무정책학과">법무정책학과</option>
+                </>
+              }
+              {department === "ICT융합대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="디지털콘텐츠디자인학과">디지털콘텐츠디자인학과</option>
+                  <option value="융합소프트웨어학과">융합소프트웨어학과</option>
+                </>
+              }
+              {department === "미래융합대학" &&
+                <>
+                    <option disabled="disabled" value="null">학과</option>
+                    <option value="창의융합인재학부">창의융합인재학부</option>
+                    <option value="사회복지학과">사회복지학과</option>
+                    <option value="부동산학과">부동산학과</option>
+                    <option value="법무행정학과">법무행정학과</option>
+                    <option value="심리치료학과">심리치료학과</option>
+                    <option value="미래융합경영학과">미래융합경영학과</option>
+                    <option value="멀티디자인학과">멀티디자인학과</option>
+                    <option value="계약학과">계약학과</option>
+                </>
+              }
+              {department === "방목기초교육대학" &&
+                <>
+                  <option disabled="disabled" value="null">학과</option>
+                  <option value="전공자유학부">전공자유학부</option>
+                  <option value="융합전공학부">융합전공학부</option>
+                </>
+              }
 
-              {/* <option disabled="disabled" value="null">학과</option>
-              <option value="국어국문학과">국어국문학과</option>
-              <option value="중어중문학과">중어중문학과</option>
-              <option value="일어일문학과">일어일문학과</option>
-              <option value="영어영문학과">영어영문학과</option>
-              <option value="사학과">사학과</option>
-              <option value="문헌정보학과">문헌정보학과</option>
-              <option value="아랍지역학과">아랍지역학과</option>
-              <option value="미술사학과">미술사학과</option>
-              <option value="철학과">철학과</option>
-              <option value="문예창작과">문예창작과</option>
-              <option value="행정학과">행정학과</option>
-              <option value="경제학과">경제학과</option>
-              <option value="정치외교학과">정치외교학과</option>
-              <option value="디지털미디어학과">디지털미디어학과</option>
-              <option value="아동학과">아동학과</option>
-              <option value="청소년지도학과">청소년지도학과</option>
-              <option value="경영학과">경영학과</option>
-              <option value="국제통상학과">국제통상학과</option>
-              <option value="경영정보학과">경영정보학과</option>
-              <option value="부동산학과">부동산학과</option>
-              <option value="법학과">법학과</option>
-              <option value="법무정책학과">법무정책학과</option>
-              <option value="디지털콘텐츠디자인학과">디지털콘텐츠디자인학과</option>
-              <option value="융합소프트웨어학과">융합소프트웨어학과</option>
-              <option value="창의융합인재학부">창의융합인재학부</option>
-              <option value="사회복지학과">사회복지학과</option>
-              <option value="부동산학과">부동산학과</option>
-              <option value="법무행정학과">법무행정학과</option>
-              <option value="심리치료학과">심리치료학과</option>
-              <option value="미래융합경영학과">미래융합경영학과</option>
-              <option value="멀티디자인학과">멀티디자인학과</option>
-              <option value="전공자유학부">전공자유학부</option>
-              <option value="융합전공학부">융합전공학부</option> */}
             </select>
           </div>
           {/* 학년 */}
           <div className="col-md-12 col-12 mb-4" onChange={({ target: { value } }) => setSchoolYear(value)}>
             <select className="form-select">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
             </select>
           </div>
 
@@ -298,6 +370,7 @@ const JoinForm = () => {
                 }
                 }>중복확인</button>
             </div>
+          </div>
           </div>
 
           {/* submit   */}
