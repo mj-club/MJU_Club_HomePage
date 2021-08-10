@@ -94,7 +94,7 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
-      console.log("~!@~!");
+      console.log("(ノ^∇^)");
       try {
         let postList = await Post.findAll({
           where: { union_id: 1, category: req.params.category },
@@ -250,7 +250,6 @@ router.post(
 router.delete(
   "/delete/:postId",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
     let user, post, club;
     try {
