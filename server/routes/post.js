@@ -94,7 +94,7 @@ router.get(
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
-      console.log("~!@~!");
+      console.log("(ノ^∇^)");
       try {
         let postList = await Post.findAll({
           where: { union_id: 1, category: req.params.category },
@@ -160,6 +160,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     if (req.params.clubName === "union") {
       try {
@@ -227,6 +228,7 @@ router.post(
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       post = await post.update({
@@ -248,17 +250,17 @@ router.post(
 router.delete(
   "/delete/:postId",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
     let user, post, club;
     try {
       user = await User.findByPk(req.user.id);
       post = await Post.findByPk(req.params.postId);
       club = await post.getClubInfo();
-      await checkPermissionForDelete(user, post, club);
+      await checkPermissionForDelete(user, post, club.name);
     } catch (error) {
       console.error(error);
       res.status(403).send(error);
+      return;
     }
     try {
       console.log("게시물 삭제 전");

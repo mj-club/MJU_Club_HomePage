@@ -38,9 +38,10 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       department,
       school_year,
       student_id,
-      auth_lv: 0,
+      auth_lv: 1,
       major,
       snsId,
+      accessible_club: "blue"
     });
     return res.json(user);
   } catch (error) {
@@ -98,23 +99,52 @@ router.post(
         attributes: ["student_id"],
         where: { student_id: userId },
       });
-
-      if (!infoEmail) {
+      
+      if (!infoEmail) { // 사용가능한 이메일입니다.
         if (!infoPH) {
           if (!infoId) {
             console.log("모두 사용가능해요!");
             message = encodeURIComponent("모두 사용가능해요!");
           } else if (infoId && infoId.student_id == userId) {
             console.log("이미 사용중인 학번이에요!");
-            message = encodeURIComponent("이미 사용중인 학번이에요!");
+            message = encodeURIComponent("이미 사용중인 학번입니다.");
           }
         } else if (infoPH && infoPH.ph_number == userPH) {
           console.log("이미 사용중인 번호에요!");
-          message = encodeURIComponent("이미 사용중인 번호에요!");
-        }
+          message = encodeURIComponent("이미 사용중인 번호입니다.");
+        } 
       } else if (infoEmail && infoEmail.email == userEmail) {
         console.log("이미 사용중인 이메일이에요!");
-        message = encodeURIComponent("이미 사용중인 이메일이에요!");
+        message = encodeURIComponent("이미 사용중인 이메일입니다.");
+      }
+      res.json(message);
+    } catch {
+      console.error(error);
+      res.send(error);
+    }
+  }
+);
+// 개별 중복확인
+router.post(
+  "/checkEmail",
+  isNotLoggedIn,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      let message = "";
+      const userEmail = req.body.email;
+      const infoEmail = await User.findOne({
+        attributes: ["email"],
+        where: { email: userEmail },
+      });
+      
+      
+      if (!infoEmail) {
+        console.log("사용가능한 이메일입니다.");
+        message = encodeURIComponent("사용가능한 이메일입니다.");
+      } else if (infoEmail && infoEmail.email == userEmail) {
+        console.log("이미 사용중인 이메일입니다.");
+        message = encodeURIComponent("이미 사용중인 이메일입니다.");
       }
 
       res.json(message);
@@ -125,6 +155,66 @@ router.post(
   }
 );
 
+router.post(
+  "/checkPh",
+  isNotLoggedIn,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      let message = "";
+      const userPH = req.body.ph_number;
+      const infoPH = await User.findOne({
+        attributes: ["ph_number"],
+        where: { ph_number: userPH },
+      });
+      
+      if (!infoPH) {
+        console.log("사용가능한 번호입니다.");
+        message = encodeURIComponent("사용가능한 번호입니다.");
+      } else if (infoPH && infoPH.ph_number == userPH) {
+        console.log("이미 사용중인 번호입니다.");
+        message = encodeURIComponent("이미 사용중인 번호입니다.");
+      }
+
+      res.json(message);
+    } catch {
+      console.error(error);
+      res.send(error);
+    }
+  }
+);
+
+router.post(
+  "/checkId",
+  isNotLoggedIn,
+  multer().none(),
+  async (req, res, next) => {
+    try {
+      let message = "";
+      const userId = req.body.student_id;
+      const infoId = await User.findOne({
+        attributes: ["student_id"],
+        where: { student_id: userId },
+      });
+      
+      
+      if (!infoId) {
+        console.log("사용가능한 학번입니다.");
+        message = encodeURIComponent("사용가능한 학번입니다.");
+      } else if (infoId && infoId.student_id == userId) {
+        console.log("이미 사용중인 학번입니다.");
+        message = encodeURIComponent("이미 사용중인 학번입니다.");
+      }
+
+      res.json(message);
+    } catch {
+      console.error(error);
+      res.send(error);
+    }
+  }
+);
+
+// 이메일 찾기
 router.post(
   "/findEmail",
   isNotLoggedIn,
@@ -242,6 +332,11 @@ router.post("/findPW", multer().none(), async (req, res) => {
 });
 
 router.post("/resetPW", multer().none(), async (req, res) => {
+  
+  if (req.body.password === "") {
+    res.status(400).send("new password required");
+  }
+  
   // 입력받은 token 값이 Auth 테이블에 존재하며 아직 유효한지 확인
   try {
     const auth = await Auth.findOne({

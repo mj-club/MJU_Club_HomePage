@@ -181,7 +181,6 @@ router.delete(
 router.post(
   "/create",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -204,7 +203,6 @@ router.post(
 router.post(
   "/update/:itemId",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -229,7 +227,6 @@ router.post(
 router.delete(
   "/delete/:itemId",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
     try {
       const rental = await RentalInfo.destroy({

@@ -8,52 +8,73 @@ const router = express.Router();
 
 const upload = multer();
 
+// -----------permission------------
+
+function checkPermissionForCreate(user) {
+  // user: req.user
+  if (!isUnionManager(user)) {
+    const err = new Error("총동연 관리자 계정이 아닙니다.");
+    err.name = "IsNotAdminAccount";
+    throw err;
+  }
+}
+async function checkPermissionForUpdate(user) {
+  if (!isUnionManager(user)) {
+    const err = new Error("총동연 관리자 계정이 아닙니다.");
+    err.name = "IsNotAdminAccount";
+    throw err;
+  }
+}
+async function checkPermissionForDelete(user) {
+  if (!isUnionManager(user)) {
+    const err = new Error("총동연 관리자 계정이 아닙니다.");
+    err.name = "IsNotAdminAccount";
+    throw err;
+  }
+}
+
+// -----------event------------
+
 // Read
 // 개별 이벤트 상세
-router.get(
-  "/read/:eventId",
-  async (req, res, next) => {
-    try {
-      let eventInfo = await EventInfo.findOne({
-        where: { id: req.params.eventId },
-      });
-      res.json(eventInfo);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+router.get("/read/:eventId", async (req, res, next) => {
+  try {
+    let eventInfo = await EventInfo.findOne({
+      where: { id: req.params.eventId },
+    });
+    res.json(eventInfo);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-);
+});
 
 // 전체 이벤트 목록
-router.get(
-  "/readAll",
-  async (req, res, next) => {
-    try {
-      let eventInfo = await EventInfo.findAll({
-        attributes: [
-          "title",
-          "event_term",
-          "event_start",
-          "event_end",
-        ],
-        order: [["event_Start", "ASC"]],
-      });
-      res.json(eventInfo);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+router.get("/readAll", async (req, res, next) => {
+  try {
+    let eventInfo = await EventInfo.findAll({
+      attributes: ["title", "event_term", "event_start", "event_end"],
+      order: [["event_Start", "ASC"]],
+    });
+    res.json(eventInfo);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-);
+});
 
 // Create
 router.post(
   "/create",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
+    try {
+      checkPermissionForCreate(req.user);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
     try {
       let eventInfo = await EventInfo.create({
         event_name: req.body.event_name,
@@ -78,9 +99,14 @@ router.post(
 router.post(
   "/update/:eventId",
   isLoggedIn,
-  isUnionManager,
   upload.none(),
   async (req, res, next) => {
+    try {
+      checkPermissionForUpdate(req.user);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
     try {
       let eventInfo = await EventInfo.update(
         {
@@ -109,8 +135,13 @@ router.post(
 router.delete(
   "/delete/:eventId",
   isLoggedIn,
-  isUnionManager,
   async (req, res, next) => {
+    try {
+      checkPermissionForDelete(req.user);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+    }
     try {
       const eventInfo = await EventInfo.destroy({
         where: { id: req.params.eventId },
