@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { join, emailCheck } from "../../actions";
+import { join, emailCheck, phCheck, studentIdCheck } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 //TODO
@@ -30,28 +30,43 @@ const JoinForm = () => {
   const [schoolYear, setSchoolYear] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [major, setMajor] = useState(null);
-  const [isEmailExist, setIsEmailExist] = useState(false); // check duplicate
 
-  const emailCheckedMessage = useSelector((state) => state.authReducer.message);
+  const [isEmailExist, setIsEmailExist] = useState(true); // check duplicate
+  const [isPhExist, setIsPhExist] = useState(true); // check duplicate
+  const [isIdExist, setIsIdExist] = useState(true); // check duplicate
+
+  const message = useSelector((state) => state.authReducer.message);
 
   function onEmailCheck() {
     //emailCheck구현하기
     dispatch(emailCheck(email));
-    //emailCheck가 잘 되면 isEmailchecked true로 설정하기
-    if (emailCheckedMessage == "사용가능한 이메일입니다") {
+    //중복이 아니면 isEmailExist true로 설정하기
+    if (message == "사용가능한 이메일입니다") {
       setIsEmailExist(false);
     } else {
       setIsEmailExist(true);
     }
     console.log(isEmailExist);
-  } //왜 ;쓰면 안돼지?
+  }
 
   function onPhCheck() {
-
+    dispatch(phCheck(phNumber));
+    if (message == "사용가능한 번호입니다.") {
+      setIsPhExist(false);
+    } else {
+      setIsPhExist(true);
+    }
+    console.log(isPhExist);
   }
 
   function onStudentIdCheck() {
-
+    dispatch(studentIdCheck(studentId));
+    if (message == "사용가능한 학번입니다.") {
+      setIsIdExist(false);
+    } else {
+      setIsIdExist(true);
+    }
+    console.log(isIdExist);
   }
 
   const dispatch = useDispatch();
@@ -60,18 +75,14 @@ const JoinForm = () => {
     //Form에 적절한 값이 들어가면 
     //href="/welcome"으로 이동
     const body = { email, name, password, phNumber, department, schoolYear, studentId, major };
-    dispatch(join(body));
+    try{
+      dispatch(join(body));
+    } catch (err) {
+      console.log(err);
+    }
 
+    // window.location.href="/welcome";
   }
-
-  // <option value={value}>{value}</option>
-  // function createOptions() {
-  //   const liberalArts = ["국어국문학과","중어중문학과","일어일문학과"];
-
-  //   liberalArts.forEach((value, index) => {
-  //     return <option key={index} value={value}>{value}</option>  
-  //   })
-  // }
 
   return (
     <>
@@ -116,7 +127,7 @@ const JoinForm = () => {
         {/* css - 글자 색이 조금 다른 부분 더 똑같이 고치기 */}
       </style>
       <Fragment>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form action="/welcome" onSubmit={handleSubmit(onSubmit)}>
           <div className="col-md-12 col-12 mb-4">
             <p>이메일</p>
             <input type="email" placeholder="Email *" name="email" ref={register({
@@ -136,7 +147,7 @@ const JoinForm = () => {
                 }
                 }>중복확인</button>
             </div>
-
+            {isEmailExist && <p>{message}</p>}
             {errors.email && <p>{errors.email.message}</p>}
 
 
@@ -214,23 +225,22 @@ const JoinForm = () => {
                 }
                 }>중복확인</button>
             </div>
-
+            {isPhExist && <p>{message}</p>}
             {errors.ph && <p>{errors.ph.message}</p>}
 
 
           </div>
 
           <p className="is-student">
-            <input type="checkbox" name="isStudent" defaultChecked={true} onClick={() =>
-             {
-              if(isStudent){
+            <input type="checkbox" name="isStudent" defaultChecked={true} onClick={() => {
+              if (isStudent) {
                 setIsStudent(false);
               } else {
                 setIsStudent(true);
               }
               console.log(isStudent);
-             }
-             }  />
+            }
+            } />
             <label>&nbsp;명지대 학생입니다</label>
           </p>
           {isStudent ?
@@ -254,80 +264,80 @@ const JoinForm = () => {
           }
 
           <div id="student-info">
-          <p>학생정보</p>
-          <div className="col-md-12 col-12 mb-4">
-            {/* 단과대학 */}
-            <select className="form-select" value="null"
-              onChange={({ target: { value } }) => setDepartment(value)}>
-              <option disabled="disabled" value="null">단과대학 선택</option>
-              <option value="인문대학">인문대학</option>
-              <option value="사회과학대학">사회과학대학</option>
-              <option value="경영대학">경영대학</option>
-              <option value="법과대학">법과대학</option>
-              <option value="ICT융합대학">ICT융합대학</option>
-              <option value="미래융합대학">미래융합대학</option>
-              <option value="방목기초교육대학">방목기초교육대학</option>
-            </select>
-          </div>
+            <p>학생정보</p>
+            <div className="col-md-12 col-12 mb-4">
+              {/* 단과대학 */}
+              <select className="form-select" defaultValue="null"
+                onChange={({ target: { value } }) => setDepartment(value)}>
+                <option disabled="disabled" value="null">단과대학 선택</option>
+                <option value="인문대학">인문대학</option>
+                <option value="사회과학대학">사회과학대학</option>
+                <option value="경영대학">경영대학</option>
+                <option value="법과대학">법과대학</option>
+                <option value="ICT융합대학">ICT융합대학</option>
+                <option value="미래융합대학">미래융합대학</option>
+                <option value="방목기초교육대학">방목기초교육대학</option>
+              </select>
+            </div>
 
-          <div className="col-md-12 col-12 mb-4">
-            {/* 학과 */}
-            <select id="select-major" className="form-select" value="null"
-              onChange={({ target: { value } }) => setMajor(value)}>
+            <div className="col-md-12 col-12 mb-4">
+              {/* 학과 */}
+              <select id="select-major" className="form-select" defaultValue="null"
+                onChange={({ target: { value } }) => setMajor(value) }>
                 <option disabled="disabled" value="null">학과</option>{/*placeholder*/}
-              {department === "인문대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="국어국문학과">국어국문학과</option>
-                  <option value="중어중문학과">중어중문학과</option>
-                  <option value="일어일문학과">일어일문학과</option>
-                  <option value="영어영문학과">영어영문학과</option>
-                  <option value="사학과">사학과</option>
-                  <option value="문헌정보학과">문헌정보학과</option>
-                  <option value="아랍지역학과">아랍지역학과</option>
-                  <option value="미술사학과">미술사학과</option>
-                  <option value="철학과">철학과</option>
-                  <option value="문예창작과">문예창작과</option>
-                </>
-              }
-              {department === "사회과학대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="행정학과">행정학과</option>
-                  <option value="경제학과">경제학과</option>
-                  <option value="정치외교학과">정치외교학과</option>
-                  <option value="디지털미디어학과">디지털미디어학과</option>
-                  <option value="아동학과">아동학과</option>
-                  <option value="청소년지도학과">청소년지도학과</option>
-                </>
-              }
-              {department === "경영대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="경영학과">경영학과</option>
-                  <option value="국제통상학과">국제통상학과</option>
-                  <option value="경영정보학과">경영정보학과</option>
-                  <option value="부동산학과">부동산학과</option>
-                </>
-              }
+                {department === "인문대학" &&
+                  <>
+                    
+                    <option value="국어국문학과">국어국문학과</option>
+                    <option value="중어중문학과">중어중문학과</option>
+                    <option value="일어일문학과">일어일문학과</option>
+                    <option value="영어영문학과">영어영문학과</option>
+                    <option value="사학과">사학과</option>
+                    <option value="문헌정보학과">문헌정보학과</option>
+                    <option value="아랍지역학과">아랍지역학과</option>
+                    <option value="미술사학과">미술사학과</option>
+                    <option value="철학과">철학과</option>
+                    <option value="문예창작과">문예창작과</option>
+                  </>
+                }
+                {department === "사회과학대학" &&
+                  <>
+                    
+                    <option value="행정학과">행정학과</option>
+                    <option value="경제학과">경제학과</option>
+                    <option value="정치외교학과">정치외교학과</option>
+                    <option value="디지털미디어학과">디지털미디어학과</option>
+                    <option value="아동학과">아동학과</option>
+                    <option value="청소년지도학과">청소년지도학과</option>
+                  </>
+                }
+                {department === "경영대학" &&
+                  <>
+                    
+                    <option value="경영학과">경영학과</option>
+                    <option value="국제통상학과">국제통상학과</option>
+                    <option value="경영정보학과">경영정보학과</option>
+                    <option value="부동산학과">부동산학과</option>
+                  </>
+                }
 
-              {department === "법과대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="법학과">법학과</option>
-                  <option value="법무정책학과">법무정책학과</option>
-                </>
-              }
-              {department === "ICT융합대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="디지털콘텐츠디자인학과">디지털콘텐츠디자인학과</option>
-                  <option value="융합소프트웨어학과">융합소프트웨어학과</option>
-                </>
-              }
-              {department === "미래융합대학" &&
-                <>
-                    <option disabled="disabled" value="null">학과</option>
+                {department === "법과대학" &&
+                  <>
+                    
+                    <option value="법학과">법학과</option>
+                    <option value="법무정책학과">법무정책학과</option>
+                  </>
+                }
+                {department === "ICT융합대학" &&
+                  <>
+                    
+                    <option value="디지털콘텐츠디자인학과">디지털콘텐츠디자인학과</option>
+                    <option value="융합소프트웨어학과">융합소프트웨어학과</option>
+                  </>
+                }
+                {department === "미래융합대학" &&
+                  <>
+                    
                     <option value="창의융합인재학부">창의융합인재학부</option>
                     <option value="사회복지학과">사회복지학과</option>
                     <option value="부동산학과">부동산학과</option>
@@ -336,55 +346,83 @@ const JoinForm = () => {
                     <option value="미래융합경영학과">미래융합경영학과</option>
                     <option value="멀티디자인학과">멀티디자인학과</option>
                     <option value="계약학과">계약학과</option>
-                </>
-              }
-              {department === "방목기초교육대학" &&
-                <>
-                  <option disabled="disabled" value="null">학과</option>
-                  <option value="전공자유학부">전공자유학부</option>
-                  <option value="융합전공학부">융합전공학부</option>
-                </>
-              }
-
-            </select>
-          </div>
-          {/* 학년 */}
-          <div className="col-md-12 col-12 mb-4" onChange={({ target: { value } }) => setSchoolYear(value)}>
-            <select className="form-select">
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-            </select>
-          </div>
-
-          <div className="col-md-12 col-12 mb-4">
-            <input type="text" placeholder="학번 * ex)60123456" name="school-id"
-              onChange={({ target: { value } }) => setStudentId(value)}
-            />
-
-            <div className="text-end">
-              <button className="btn btn-primary btn-hover-secondary emailcheck"
-                onClick={() => {
-                  onStudentIdCheck();
+                  </>
                 }
-                }>중복확인</button>
+                {department === "방목기초교육대학" &&
+                  <>
+                    
+                    <option value="전공자유학부">전공자유학부</option>
+                    <option value="융합전공학부">융합전공학부</option>
+                  </>
+                }
+
+              </select>
             </div>
-          </div>
+            {/* 학년 */}
+            <div className="col-md-12 col-12 mb-4" onChange={({ target: { value } }) => setSchoolYear(value)}>
+              <select className="form-select">
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+              </select>
+            </div>
+
+            <div className="col-md-12 col-12 mb-4">
+              <input type="text" placeholder="학번 * ex)60123456" name="schoolId"
+                onChange={({ target: { value } }) => setStudentId(value)}
+              />
+
+              <div className="text-end">
+                <button className="btn btn-primary btn-hover-secondary emailcheck"
+                  ref={register({
+                    required: "학번을 입력해주세요",
+                    maxLength: 8,
+                    pattern: {
+                      value: /[0-9]$/g,
+                      message: "숫자만 입력해주세요"
+                    }
+                  })}
+                  onClick={() => {
+                    onStudentIdCheck();
+                  }
+                  }>중복확인</button>
+              </div>
+            </div>
+            {errors.schoolId && <p>{errors.schoolId.message}</p>}
+            {isEmailExist && <p>{message}</p>}
+            { }
           </div>
 
           {/* submit   */}
           <div className="col-12 text-center mb-4">
             <button className="btn btn-primary btn-hover-secondary"
               onClick={() => {
-                if (isEmailExist == false) {
-                  onJoin();
+                if (isStudent) {
+                  if (!isEmailExist && !isPhExist && !isIdExist) {
+                    onJoin();
+                  } else {
+                    setError("checkDuplicate", {
+                      type: "duplicate",
+                      message: "중복 확인을 해주세요",
+                    });
+                  }
+                } else {
+                  if (!isEmailExist && !isPhExist) {
+                    onJoin();
+                  } else {
+                    setError("checkDuplicate", {
+                      type: "duplicate",
+                      message: "중복 확인을 해주세요",
+                    });
+                  }
                 }
               }
               }>회원가입</button>
+            {errors.checkDuplicate && <p>{errors.checkDuplicate.message}</p>}
+
           </div>
         </form>
-        <p className="form-messege"></p>
       </Fragment>
     </>
   )

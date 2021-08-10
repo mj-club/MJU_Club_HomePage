@@ -18,7 +18,7 @@ export function kakaoLogin() {
           payload: data,
         });
       })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         dispatch({
           type: "ERROR",
@@ -67,7 +67,7 @@ export function emailLogin(body) {
 export function emailCheck(email) {
   return (dispatch) => {
     axios
-      .get(URL + "/duplicate/" + email)
+      .post(URL + "/checkEmail", { email })
       .then((data) => {
         dispatch({
           type: "SET_MESSAGE",
@@ -83,7 +83,45 @@ export function emailCheck(email) {
   };
 }
 
-export function nameCheck(name) {
+export function phCheck(ph) {
+  return (dispatch) => {
+    axios
+      .post(URL + "/checkPh", { ph })
+      .then(data => {
+        dispatch({
+          type: "SET_MESSAGE",
+          payload: data,
+        })
+          .catch(error => {
+            dispatch({
+              type: "ERROR",
+              payload: error,
+            });
+          });
+      });
+  };
+}
+
+export function studentIdCheck(studentId){
+  return(dispatch) => {
+    axios
+    .post("/checkId", {studentId})
+    .then(data => {
+      dispatch({
+        type: "SET_MESSAGE",
+        payload: data,
+      })
+      .catch(error => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
+      });
+    });
+  };
+}
+
+export function nameCnpheck(name) {
   return (dispatch) => {
     axios
       .get(URL + "/findEmail" + name)
