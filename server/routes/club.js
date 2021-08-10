@@ -6,33 +6,49 @@ const fs = require("fs");
 const { ClubInfo, ClubMember, User, Sns, Join } = require("../models");
 const { isLoggedIn, isClubManager } = require("./middlewares");
 
-// -----------info------------
+// -----------permission------------
+function checkPermission(user, clubName) {
+  if (!isClubManager(user)) {
+    const err = new Error("동아리 관리자 계정이 아닙니다.");
+    err.name = "IsNotAdminAccount";
+    throw err;
+  }
+  if (user.accessible_club !== clubName) {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  }
+}
+// -----------club info------------
 
 // club info
 // read
-router.get(
-  "/read/:clubName",
-  async (req, res, next) => {
-    try {
-      const club = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-        include: [Sns, Join],
-      });
-      res.json(club);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
+router.get("/read/:clubName", async (req, res, next) => {
+  try {
+    const club = await ClubInfo.findOne({
+      where: { name: req.params.clubName },
+      include: [Sns, Join],
+    });
+    res.json(club);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-);
+});
 
 //create or update
 router.post(
   "/createOrUpdate/:clubName",
   isLoggedIn,
-  // isClubManager,
   multer().none(),
   async (req, res, next) => {
+    try {
+      checkPermission(req.user, req.params.clubName);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+      return;
+    }
     try {
       let clubInfo = await ClubInfo.findOne({
         where: { name: req.params.clubName },
@@ -133,21 +149,23 @@ router.post(
 );
 
 // delete
-router.delete(
-  "/delete/:clubName",
-  isLoggedIn,
-  isClubManager,
-  async (req, res, next) => {
-    try {
-      let clubInfo = await ClubInfo.destroy({
-        where: { name: req.params.clubName },
-      });
-      res.json(clubInfo);
-    } catch (err) {
-      console.error(err);
-    }
+router.delete("/delete/:clubName", isLoggedIn, async (req, res, next) => {
+  try {
+    checkPermission(req.user, req.params.clubName);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
   }
-);
+  try {
+    let clubInfo = await ClubInfo.destroy({
+      where: { name: req.params.clubName },
+    });
+    res.json(clubInfo);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 // -----------members------------
 
