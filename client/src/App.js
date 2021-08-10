@@ -22,6 +22,7 @@ import FindPassword from './pages/Find/FindPassword';
 import ResetPassword from "./pages/Reset/ResetPw";
 import findEmail from "./pages/Find/FindEmail";
 import Join from './pages/Join';
+import ClubManagement from "./pages/ClubManagement";
 
 
 // CSS File Here
@@ -75,6 +76,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
             <Route path={`${process.env.PUBLIC_URL + "/resetPW"}`} component ={ResetPassword} />
+            <Route path={`${process.env.PUBLIC_URL + "/clubManagment"}`} component ={ClubManagement} />
           </Switch>
         </NavScrollTop>
       </Router>
