@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import contactData from '../../data/contactInfo/contactInfo.json';
 import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import ContactInfoItem from '../../components/ContactInfo/ContactInfoItem.jsx';
