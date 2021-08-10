@@ -18,14 +18,22 @@ const ServiceIconBoxTwo = ({ classOption }) => {
 
     }, [])
     return (
+        <>
+        <style>
+            {`
+            
+
+                
+            
+            `}
+        </style>
         <div className={`section section-padding-t90 section-padding-bottom ${classOption}`}>
             <div className="container">
 
                 <SectionTitle
                     headingOption="fz-32"
-                    title="Services that create identities, build brands, and get results"
-                    subTitle="We produce beautifully crafted creative solutions that transcend business goals.
-                    We provide the exceptional service we’d want to experience ourselves!"
+                    title="7개의 분과가 있습니다"
+                    subTitle="각 분과 카드를 눌러 동아리들을 둘러보세요"
                 />
 
                 <div className="row row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 mb-n6 icon-box-shape-animation">
@@ -46,6 +54,7 @@ const ServiceIconBoxTwo = ({ classOption }) => {
 
             </div>
         </div>
+        </>
     )
 }
 

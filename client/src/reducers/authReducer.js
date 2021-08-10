@@ -6,6 +6,7 @@ const initialState = {
   error: null,
   user_email: null,
   message: null,
+  find_email: null
 };
 
 const authReducer = produce((state, action) => {
@@ -33,6 +34,18 @@ const authReducer = produce((state, action) => {
     case "SET_MESSAGE":
       state.message = action.payload;
       break;
+    case "FIND_EMAIL":
+      state.loading = false;
+      state.find_email = action.payload;
+      state.error = null;
+      break;
+      
+    case "FIND_PASSWORD":
+      state.loading = false;
+      state.find_password = action.payload;
+      state.error = null;
+      break;
+      
     default:
       break;
   }

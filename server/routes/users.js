@@ -13,8 +13,7 @@ router.get('/', function(req, res, next) {
 // read
 router.get(
   "/read", 
-  // isLoggedIn, 
-  // checkPermission, 
+  isLoggedIn, 
   async (req, res, next) => {
     try {
 
@@ -23,7 +22,6 @@ router.get(
           "email",
           "name",
           "ph_number",
-          "sex",
           "department",
           "school_year",
           "student_id",
@@ -43,8 +41,7 @@ router.get(
 // update
 router.get(
   "/update", 
-  // isLoggedIn, 
-  // checkPermission, 
+  isLoggedIn, 
   async (req, res, next) => {
     try {
       const {
@@ -52,7 +49,6 @@ router.get(
         name,
         password,
         ph_number,
-        sex,
         department,
         school_year,
         student_id,
@@ -65,7 +61,6 @@ router.get(
         name,
         password: hash,
         ph_number,
-        sex,
         department,
         school_year,
         student_id,
@@ -87,7 +82,6 @@ router.get(
 router.delete(
   "/delete",
   isLoggedIn,
-  // checkPermission,
   async (req, res, next) => {
     try {
       const userInfo = await User.destroy({

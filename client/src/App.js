@@ -4,6 +4,7 @@ import AOS from "aos";
 import NavScrollTop from './components/NavScrollTop';
 import HomeOne from './pages/HomeOne';
 import HomeTwo from './pages/HomeTwo';
+// import MjuClubPage from "./pages/MjuClubPage";
 import HomeThree from './pages/HomeThree';
 import About from './pages/About';
 import Service from './pages/Service';
@@ -19,6 +20,11 @@ import BlogTag from './pages/BlogTag';
 import LogIn from './pages/LogIn';
 import JoinTerm from './pages/JoinTerm';
 import Welcome from './pages/Welcome';
+import FindPassword from './pages/Find/FindPassword';
+import ResetPassword from "./pages/Reset/ResetPw";
+import findEmail from "./pages/Find/FindEmail";
+import Join from './pages/Join';
+
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -38,6 +44,17 @@ function App() {
     
   }, [])
   return (
+      <>
+      {/* 메인 css가 안먹어서 홈페이지에 적용될 모든 a태그에 대한 스타일만 따로 지정해줌 */}
+      <style>  
+        {`
+          a {
+            color: gray;
+            text-decoration: none; }
+            a:hover {
+              color: #A99371; }
+        `}
+      </style>
       <Router>
         <NavScrollTop>
           <Switch>
@@ -57,10 +74,16 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
             <Route path={`${process.env.PUBLIC_URL + "/jointerm"}`} component ={JoinTerm} />
             <Route path={`${process.env.PUBLIC_URL + "/welcome"}`} component ={Welcome} />
+            <Route path={`${process.env.PUBLIC_URL + "/logIn"}`} component ={LogIn} />
+            <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
             {/* <Route component ={NotFound} /> */}
+            <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
+            <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
+            <Route path={`${process.env.PUBLIC_URL + "/resetPW"}`} component ={ResetPassword} />
           </Switch>
         </NavScrollTop>
       </Router>
+      </>
   );
 }
 

@@ -4,44 +4,51 @@ const multer = require("multer");
 const fs = require("fs");
 
 const { ClubInfo, ClubMember, User, Sns, Join } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isClubManager } = require("./middlewares");
 
-// -----------info------------
+// -----------permission------------
+function checkPermission(user, clubName) {
+  if (!isClubManager(user)) {
+    const err = new Error("동아리 관리자 계정이 아닙니다.");
+    err.name = "IsNotAdminAccount";
+    throw err;
+  }
+  if (user.accessible_club !== clubName) {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  }
+}
+// -----------club info------------
 
 // club info
 // read
-router.get(
-  "/read/:clubName",
-  // isLoggedIn,
-  // checkPermission,
-  async (req, res, next) => {
-    try {
-      const club = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-        include: [Sns, Join],
-      });
-      res.json(club);
-    } catch (error) {
-      console.error(error);
-      next(error);
-    }
-    // ClubInfo.findOne(
-    //   { where: { name: req.params.clubName } },
-    // function (err, get) {
-    //   if (err) return res.json(err);
-    //   return res.json(get);
-    // }
-    // );
+router.get("/read/:clubName", async (req, res, next) => {
+  try {
+    const club = await ClubInfo.findOne({
+      where: { name: req.params.clubName },
+      include: [Sns, Join],
+    });
+    res.json(club);
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-);
+});
 
 //create or update
 router.post(
   "/createOrUpdate/:clubName",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
   multer().none(),
   async (req, res, next) => {
+    try {
+      checkPermission(req.user, req.params.clubName);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+      return;
+    }
     try {
       let clubInfo = await ClubInfo.findOne({
         where: { name: req.params.clubName },
@@ -142,29 +149,31 @@ router.post(
 );
 
 // delete
-router.delete(
-  "/delete/:clubName",
-  // isLoggedIn,
-  // checkPermission,
-  async (req, res, next) => {
-    try {
-      let clubInfo = await ClubInfo.destroy({
-        where: { name: req.params.clubName },
-      });
-      res.json(clubInfo);
-    } catch (err) {
-      console.error(err);
-    }
+router.delete("/delete/:clubName", isLoggedIn, async (req, res, next) => {
+  try {
+    checkPermission(req.user, req.params.clubName);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
   }
-);
+  try {
+    let clubInfo = await ClubInfo.destroy({
+      where: { name: req.params.clubName },
+    });
+    res.json(clubInfo);
+  } catch (err) {
+    console.error(err);
+  }
+});
 
 // -----------members------------
 
 // read (member list)
 router.get(
   "/readMembers/:clubId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   async (req, res, next) => {
     try {
       const clubMembers = await ClubMember.findAll({
@@ -182,8 +191,8 @@ router.get(
 router.post(
   "/addMember/:clubId",
   multer().none(),
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findByPk(req.params.clubId);
@@ -206,8 +215,8 @@ router.post(
 // delete (member)
 router.delete(
   "/deleteMember/:clubId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
+  isClubManager,
   multer().none(),
   async (req, res, next) => {
     try {

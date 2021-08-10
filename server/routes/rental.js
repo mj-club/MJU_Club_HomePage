@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 
 const { RentalInfo, RentalApply, User } = require("../models");
-const { isLoggedIn } = require("./middlewares");
+const { isLoggedIn, isUnionManager } = require("./middlewares");
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const upload = multer();
 // 개인 신청 내역 조회 (상세)
 router.get(
   "/my-application/read/:itemId",
-  // isLoggedIn,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const myRental = await RentaApply.findOne({
@@ -30,7 +30,7 @@ router.get(
 // 개인 신청 내역 전체 조회
 router.get(
   "/my-application/readAll",
-  // isLoggedIn,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const myRental = await RentalApply.findAll({
@@ -48,7 +48,7 @@ router.get(
 // 대여 공간 및 물품 상세 조회 (게시판에서)
 router.get(
   "/read/:itemId",
-  // isLoggedIn,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const rental = await RentalInfo.findOne({
@@ -65,8 +65,6 @@ router.get(
 // 대여 공간 및 물품 전체 조회 (게시판에서)
 router.get(
   "/readAll",
-  // isLoggedIn,
-  // upload.none(),
   async (req, res, next) => {
     try {
       const rental = await RentalInfo.findAll({
@@ -93,7 +91,7 @@ router.get(
 
 router.post(
   "/application/:itemId",
-  // isLoggedIn,
+  isLoggedIn,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -131,7 +129,7 @@ router.post(
 // 신청 수정 
 router.post(
   "/application/update/:itemId",
-  // isLoggedIn,
+  isLoggedIn,
   // apply_state -> 0,1,2에 따른 구분 설정 추가 필요
   upload.none(),
   async (req, res, next) => {
@@ -162,8 +160,7 @@ router.post(
 // 신청 취소(사용자)
 router.delete(
   "/application/delete/:itemId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const rental = await RentalApply.destroy({
@@ -183,7 +180,7 @@ router.delete(
 // Create
 router.post(
   "/create",
-  // isLoggedIn,
+  isLoggedIn,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -205,7 +202,7 @@ router.post(
 // 대여서비스 공간 또는 물품 수정(관리자)
 router.post(
   "/update/:itemId",
-  // isLoggedIn,
+  isLoggedIn,
   upload.none(),
   async (req, res, next) => {
     try {
@@ -229,8 +226,7 @@ router.post(
 // 대여서비스 공간 또는 물품 삭제(관리자)
 router.delete(
   "/delete/:itemId",
-  // isLoggedIn,
-  // checkPermission,
+  isLoggedIn,
   async (req, res, next) => {
     try {
       const rental = await RentalInfo.destroy({

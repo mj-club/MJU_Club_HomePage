@@ -1,12 +1,14 @@
-exports.isLoggedIn = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    next();
-  } else {
-    res.status(403).send("로그인 필요");
-    // res.redirect("/");
-    // res.json(req);
-  }
-};
+// exports.isLoggedIn = (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     next();
+//   } else {
+//     res.status(403).send("로그인 필요");
+//     // res.redirect("/");
+//     // res.json(req);
+//   }
+// };
+
+const { User, Post } = require("../models");
 
 exports.isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -23,6 +25,35 @@ exports.noPermission = function (req, res) {
   const message = encodeURIComponent("권한이 없습니다.:");
   req.logout();
   res.json(req);
+};
+
+// permission (로그인)
+exports.isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.status(403).send("로그인 필요");
+    // res.redirect("/");
+    // res.json(req);
+  }
+};
+
+// permission (관리자만)
+exports.isManager = (user) => {
+  const res = user.auth_lv > 0 ? true : false;
+  return res;
+};
+
+// permission (동아리만)
+exports.isClubManager = (user) => {
+  const res = user.auth_lv === 1 ? true : false;
+  return res;
+};
+
+// permission (총동연만)
+exports.isUnionManager = (user) => {
+  const res = user.auth_lv === 2 ? true : false;
+  return res;
 };
 
 exports.fileSize = function (bytes) {
