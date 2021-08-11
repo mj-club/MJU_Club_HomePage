@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import NewsletterForm from '../../components/Newsletter/NewsletterForm.jsx';
 import Parallax from 'parallax-js';

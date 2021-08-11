@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { resetPW } from '../../actions';
 import { useDispatch } from "react-redux";
@@ -16,7 +16,12 @@ const ResetPWForm = () => {
     dispatch(resetPW(token, body));
   }
 
-  
+
+  const [firstPW, setFirstPW] = useState(null);
+  const [secondPW, setSecondPW] = useState(null);
+
+ 
+
   return(
     <Fragment>
     <form onSubmit = {handleSubmit(onSubmit)}>
@@ -28,7 +33,9 @@ const ResetPWForm = () => {
               value: /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/,
               message: "please input the password using numbers, alphabets and symbols"
             }
-          })} />
+          })} onChange={
+            ({ target: { value } }) => setFirstPW(value)}
+          />
             {errors.newPW && <p>{errors.newPW.message}</p>}
         </div>
         <div className = "col-md-12 col-12 mb-4">
@@ -38,12 +45,18 @@ const ResetPWForm = () => {
               value: /^(?=.*[a-zA-Z])((?=.*\d)|(?=.*\W)).{6,20}$/,
               message: "please input the password again",
             }
-          })} />
+          })} onChange={
+            ({ target: { value } }) => setSecondPW(value)}
+          />
             {errors.newPW_2 && <p>{errors.newPW_2.message}</p>}
+            {firstPW !== secondPW && <p>please input the same password</p>}
         </div>
         <div className="col-12 text-center mb-4">
-          <button className="btn btn-primary btn-hover-secondary">비밀번호 재설정</button>
+          <button className="btn btn-primary btn-hover-secondary" >
+            비밀번호 재설정
+            </button>
         </div>
+
       </div>
     </form>
     <p className="form-messege"></p>
@@ -51,4 +64,5 @@ const ResetPWForm = () => {
   )
 }
 
+export default ResetPWForm;
 export default ResetPWForm;
