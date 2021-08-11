@@ -5,7 +5,9 @@ const initialState = {
   loading: false,
   error: null,
   user_email: null,
-  message: null,
+  check_email_message: null,
+  check_ph_message: null,
+  check_studentid_message: null,
   find_email: null
 };
 
@@ -31,21 +33,27 @@ const authReducer = produce((state, action) => {
     case "SET_USER_EMAIL":
       state.user_email = action.payload;
       break;
-    case "SET_MESSAGE":
-      state.message = action.payload;
+    case "SET_EMAIL_MESSAGE":
+      state.check_email_message = action.payload;
+      break;
+    case "SET_STUDENTID_MESSAGE":
+      state.check_studentid_message = action.payload;
+      break;
+    case "SET_PH_MESSAGE":
+      state.check_ph_message = action.payload;
       break;
     case "FIND_EMAIL":
       state.loading = false;
       state.find_email = action.payload;
       state.error = null;
       break;
-      
+
     case "FIND_PASSWORD":
       state.loading = false;
       state.find_password = action.payload;
       state.error = null;
       break;
-      
+
     default:
       break;
   }
