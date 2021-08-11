@@ -2,16 +2,18 @@ import React, {Fragment, useState } from 'react';
 import { useForm } from "react-hook-form";
 import { resetPW } from '../../actions';
 import { useDispatch } from "react-redux";
+import { useParams } from 'react-router';
 
 const ResetPWForm = () => {
   const dispatch = useDispatch();
+  const {token} = useParams();
   const { register, handleSubmit, errors} = useForm({
     mode: "onBlur"
   });
 
   const onSubmit = (data) => {
     const body = data;
-    dispatch(resetPW(body));
+    dispatch(resetPW(token, body));
   }
 
 

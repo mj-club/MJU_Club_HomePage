@@ -89,5 +89,10 @@ module.exports = class User extends Sequelize.Model {
       foreignKey: "user_id",
       sourceKey: "id",
     });
+    // User - Schedule (1:n)
+    db.User.hasMany(db.Schedule, {
+      foreignKey: "user_id",
+      sourceKey: "id",
+    });
   }
 };
