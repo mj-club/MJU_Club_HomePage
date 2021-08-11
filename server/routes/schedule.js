@@ -10,7 +10,7 @@ const { isLoggedIn, isClubManager } = require("./middlewares");
 // -----------동아리, 개인 일정 모두 불러오기------------------
 router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
   try {
-    // 일정 불러오기
+    // 불러올 날짜 조회
     const paramDate = req.params.date;
     let startDate =
       paramDate.substr(0, 4) + "-" + paramDate.substr(4, 2) + "-01";
@@ -37,16 +37,49 @@ router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
       ]
     */
    // 와 같이 name만 불러오지 않는 문제 해결 필요
+   
+   let data = [];
+
+    // 개인 일정
+    const userSchedule = await Schedule.findAll({
+      attributes: ["title", "description", "start", "end", "allDayLong"],
+      where: {
+        user_id: req.user.id,
+        start: {
+          [Op.gte]: Date.parse(startDate),
+          [Op.lt]: Date.parse(endDate),
+        },
+      },
+      order: [["start", "DESC"]],
+    });
+    // console.log(">>", userSchedule);
+
+    data.push({scheduleType: "userSchedule", scheduleList: userSchedule});
     
     const user = await User.findByPk(req.user.id , {include: [{ model: ClubInfo, attributes: ["name"] }] });
-    let data = [];
+    // console.log(user.ClubInfos);
     try {
-      user.ClubInfos.map( async (club) => {
-        let clubSchedule = await ClubInfo.findOne({
+      await Promise.all(user.ClubInfos.map( async (club) => {
+        let userClub = await ClubInfo.findOne({
           where: {name: club.name}
-        }).getSchedule();
-        data.push({clubName: club.name, clubSchedule})
-      })
+        })
+        let clubSchedule = await userClub.getSchedules(
+          {
+            where: {
+              start: {
+                [Op.gte]: Date.parse(startDate),
+                [Op.lt]: Date.parse(endDate),
+              },
+            },
+            order: [["start", "DESC"]]
+          }
+        );
+        // console.log(scheduleList);
+        data.push({scheduleType: club.name, scheduleList: clubSchedule});
+        // console.log(data);
+      }
+      ));
+      // console.log(data);
       res.json(data);
     } catch(error) {
       res.send(error);
@@ -55,32 +88,6 @@ router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
 
     
 
-    // // 개인 일정
-    // const userSchedule = Schedule.findAll({
-    //   attributes: ["title", "description", "start", "end", "allDayLong"],
-    //   where: {
-    //     id: req.user.id,
-    //     start: {
-    //       [Op.gte]: Date.parse(startDate),
-    //       [Op.lt]: Date.parse(endDate),
-    //     },
-    //   },
-    //   order: [["start", "DESC"]],
-    // });
-
-    // // 동아리 일정
-    // const schedule = await Schedule.findAll({
-    //   attributes: ["title", "description", "start", "end", "allDayLong"],
-    //   where: {
-    //     club_id: clubId,
-    //     start: {
-    //       [Op.gte]: Date.parse(startDate),
-    //       [Op.lt]: Date.parse(endDate),
-    //     },
-    //   },
-    //   order: [["start", "DESC"]],
-    // });
-    // res.json({ schedule, userSchedule });
   } catch (error) {
     console.error(error);
     next(error);
@@ -210,7 +217,7 @@ router.delete(
 // -----------개인 일정------------------
 // Read
 // 월별 일정 ( date param 에는 20210101 형식으로 접근)
-router.get("/read/my/:date", isLoggedIn, async (req, res, next) => {
+router.get("/readMy/:date", isLoggedIn, async (req, res, next) => {
   try {
     // 월별 - 20210808이면 8월
     // req.params.date; -> 20210808
@@ -250,7 +257,7 @@ router.get("/read/my/:date", isLoggedIn, async (req, res, next) => {
 
 // Create
 router.post(
-  "/create/my",
+  "/createMy",
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -277,7 +284,7 @@ router.post(
 
 // Update
 router.post(
-  "/update/my/:scheduleId",
+  "/updateMy/:scheduleId",
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -302,7 +309,7 @@ router.post(
 );
 
 // Delete
-router.delete("/delete/my/:scheduleId", isLoggedIn, async (req, res, next) => {
+router.delete("/deleteMy/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
     const schedule = await Schedule.destroy({
       where: { id: req.params.scheduleId },
