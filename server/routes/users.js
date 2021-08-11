@@ -97,11 +97,4 @@ router.delete(
   }
 );
 
-// function checkPermission(req, res, next){
-//   User.findOne({userid: req.user.id}, function(err, user){
-//     if (err) return res.json(err);
-//     if (user.id != req.user.id) return noPermission(req, res);
-//     next();
-//   });
-// }
 module.exports = router;
