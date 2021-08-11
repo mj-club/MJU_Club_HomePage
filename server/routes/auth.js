@@ -103,18 +103,18 @@ router.post(
         if (!infoPH) {
           if (!infoId) {
             console.log("모두 사용가능해요!");
-            message = encodeURIComponent("모두 사용가능해요!");
+            message = "모두 사용가능해요!";
           } else if (infoId && infoId.student_id == userId) {
             console.log("이미 사용중인 학번이에요!");
-            message = encodeURIComponent("이미 사용중인 학번입니다.");
+            message = "이미 사용중인 학번입니다.";
           }
         } else if (infoPH && infoPH.ph_number == userPH) {
           console.log("이미 사용중인 번호에요!");
-          message = encodeURIComponent("이미 사용중인 번호입니다.");
+          message = "이미 사용중인 번호입니다.";
         } 
       } else if (infoEmail && infoEmail.email == userEmail) {
         console.log("이미 사용중인 이메일이에요!");
-        message = encodeURIComponent("이미 사용중인 이메일입니다.");
+        message = "이미 사용중인 이메일입니다.";
       }
       res.json(message);
     } catch {
@@ -140,10 +140,10 @@ router.post(
       
       if (!infoEmail) {
         console.log("사용가능한 이메일입니다.");
-        message = encodeURIComponent("사용가능한 이메일입니다.");
+        message = "사용가능한 이메일입니다.";
       } else if (infoEmail && infoEmail.email == userEmail) {
         console.log("이미 사용중인 이메일입니다.");
-        message = encodeURIComponent("이미 사용중인 이메일입니다.");
+        message = "이미 사용중인 이메일입니다.";
       }
 
       res.json(message);
@@ -169,10 +169,10 @@ router.post(
       
       if (!infoPH) {
         console.log("사용가능한 번호입니다.");
-        message = encodeURIComponent("사용가능한 번호입니다.");
+        message = "사용가능한 번호입니다.";
       } else if (infoPH && infoPH.ph_number == userPH) {
         console.log("이미 사용중인 번호입니다.");
-        message = encodeURIComponent("이미 사용중인 번호입니다.");
+        message = "이미 사용중인 번호입니다.";
       }
 
       res.json(message);
@@ -199,10 +199,10 @@ router.post(
       
       if (!infoId) {
         console.log("사용가능한 학번입니다.");
-        message = encodeURIComponent("사용가능한 학번입니다.");
+        message = "사용가능한 학번입니다.";
       } else if (infoId && infoId.student_id == userId) {
         console.log("이미 사용중인 학번입니다.");
-        message = encodeURIComponent("이미 사용중인 학번입니다.");
+        message = "이미 사용중인 학번입니다.";
       }
 
       res.json(message);
