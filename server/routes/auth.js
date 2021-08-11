@@ -41,7 +41,7 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       auth_lv: 1,
       major,
       snsId,
-      accessible_club: "blue"
+      accessible_club: "blue",
     });
     return res.json(user);
   } catch (error) {
@@ -99,8 +99,9 @@ router.post(
         attributes: ["student_id"],
         where: { student_id: userId },
       });
-      
-      if (!infoEmail) { // 사용가능한 이메일입니다.
+
+      if (!infoEmail) {
+        // 사용가능한 이메일입니다.
         if (!infoPH) {
           if (!infoId) {
             console.log("모두 사용가능해요!");
@@ -112,7 +113,7 @@ router.post(
         } else if (infoPH && infoPH.ph_number == userPH) {
           console.log("이미 사용중인 번호에요!");
           message = encodeURIComponent("이미 사용중인 번호입니다.");
-        } 
+        }
       } else if (infoEmail && infoEmail.email == userEmail) {
         console.log("이미 사용중인 이메일이에요!");
         message = encodeURIComponent("이미 사용중인 이메일입니다.");
@@ -137,8 +138,7 @@ router.post(
         attributes: ["email"],
         where: { email: userEmail },
       });
-      
-      
+
       if (!infoEmail) {
         console.log("사용가능한 이메일입니다.");
         message = encodeURIComponent("사용가능한 이메일입니다.");
@@ -167,7 +167,7 @@ router.post(
         attributes: ["ph_number"],
         where: { ph_number: userPH },
       });
-      
+
       if (!infoPH) {
         console.log("사용가능한 번호입니다.");
         message = encodeURIComponent("사용가능한 번호입니다.");
@@ -196,8 +196,7 @@ router.post(
         attributes: ["student_id"],
         where: { student_id: userId },
       });
-      
-      
+
       if (!infoId) {
         console.log("사용가능한 학번입니다.");
         message = encodeURIComponent("사용가능한 학번입니다.");
@@ -281,7 +280,7 @@ router.post("/findPW", multer().none(), async (req, res) => {
       // 데이터 정리
       token,
       user_id: user.id,
-      ttl: 300, // ttl 값 설정 (5분)
+      ttl: 5000, // ttl 값 설정 (5분)
     };
     console.log(data);
     const auth = await Auth.create(data);
@@ -332,11 +331,10 @@ router.post("/findPW", multer().none(), async (req, res) => {
 });
 
 router.post("/resetPW", multer().none(), async (req, res) => {
-  
   if (req.body.password === "") {
     res.status(400).send("new password required");
   }
-  
+
   // 입력받은 token 값이 Auth 테이블에 존재하며 아직 유효한지 확인
   try {
     const auth = await Auth.findOne({
