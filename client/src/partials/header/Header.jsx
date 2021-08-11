@@ -61,6 +61,21 @@ const Header = () => {
                     background-color: #A99371;
                     color: #ffffff;
                 }
+
+                
+                
+                .btn-outline-white {
+                    border-color: transparent;
+                    color: #A99371;
+                    border-color: #fff;
+                    border-radius: 8px;
+                    
+                }
+
+                .btn-outline-white:hover {
+                    background-color: #A99371;
+                    
+                }
                     
             `
             }

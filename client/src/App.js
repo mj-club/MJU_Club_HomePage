@@ -4,7 +4,7 @@ import AOS from "aos";
 import NavScrollTop from './components/NavScrollTop';
 import HomeOne from './pages/HomeOne';
 import HomeTwo from './pages/HomeTwo';
-// import MjuClubPage from "./pages/MjuClubPage";
+import MjuClubPage from "./pages/MjuClubPage";
 import HomeThree from './pages/HomeThree';
 import About from './pages/About';
 import Service from './pages/Service';
@@ -70,6 +70,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
             <Route path={`${process.env.PUBLIC_URL + "/logIn"}`} component ={LogIn} />
             <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
+            <Route path={`${process.env.PUBLIC_URL + "/mjuclubpage/:clubName"}`} component ={MjuClubPage} />
             {/* <Route component ={NotFound} /> */}
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
