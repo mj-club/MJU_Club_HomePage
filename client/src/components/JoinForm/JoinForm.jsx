@@ -102,7 +102,7 @@ const JoinForm = () => {
 
     if(body){
       dispatch(join(body));
-      // window.location.href="/welcome";
+      window.location.href="/welcome";
     } else {
       console.log("onJoin(body) body :", body);
     }
