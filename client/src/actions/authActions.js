@@ -69,9 +69,10 @@ export function emailCheck(email) {
     axios
       .post(URL + "/checkEmail", { email })
       .then((data) => {
+        console.log("checkEmail data : ", data);
         dispatch({
           type: "SET_MESSAGE",
-          payload: data,
+          payload: data.data,
         });
       })
       .catch((error) => {
@@ -90,7 +91,7 @@ export function phCheck(ph) {
       .then(data => {
         dispatch({
           type: "SET_MESSAGE",
-          payload: data,
+          payload: data.data,
         })
           .catch(error => {
             dispatch({
@@ -109,7 +110,7 @@ export function studentIdCheck(studentId){
     .then(data => {
       dispatch({
         type: "SET_MESSAGE",
-        payload: data,
+        payload: data.data,
       })
       .catch(error => {
         dispatch({

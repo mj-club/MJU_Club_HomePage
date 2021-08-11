@@ -4,8 +4,8 @@ import { join, emailCheck, phCheck, studentIdCheck } from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 //TODO
-// 이미 가입된 이메일입니다
-// action, reducer
+// 이미 가입된 이메일입니다 - ok
+// action, reducer -ok
 // 전화번호placeholder, text - ok
 // 학과선택 readonly - ok
 // 대학 선택하면 해당 대학 학과만 보이게 - ok
@@ -44,6 +44,7 @@ const JoinForm = () => {
     if (message == "사용가능한 이메일입니다") {
       setIsEmailExist(false);
     } else {
+      console.log(message);
       setIsEmailExist(true);
     }
     console.log(isEmailExist);
@@ -54,6 +55,7 @@ const JoinForm = () => {
     if (message == "사용가능한 번호입니다.") {
       setIsPhExist(false);
     } else {
+      console.log(message);
       setIsPhExist(true);
     }
     console.log(isPhExist);
@@ -64,6 +66,7 @@ const JoinForm = () => {
     if (message == "사용가능한 학번입니다.") {
       setIsIdExist(false);
     } else {
+      console.log(message);
       setIsIdExist(true);
     }
     console.log(isIdExist);
@@ -74,13 +77,13 @@ const JoinForm = () => {
   function onJoin() {
     //Form에 적절한 값이 들어가면 
     //href="/welcome"으로 이동
-    const body = { email, name, password, phNumber, department, schoolYear, studentId, major };
-    try{
-      dispatch(join(body));
-    } catch (err) {
-      console.log(err);
+    let body = null;
+    if(isStudent){
+      body = { email, name, password, phNumber, department, schoolYear, studentId, major };
+    } else {
+      body = {email, name, password, phNumber}
     }
-
+    dispatch(join(body));
     // window.location.href="/welcome";
   }
 
@@ -402,6 +405,7 @@ const JoinForm = () => {
                   if (!isEmailExist && !isPhExist && !isIdExist) {
                     onJoin();
                   } else {
+                    console.log("eamilexist", isEmailExist, "isphExist", isPhExist, "isIdExist", isIdExist);
                     setError("checkDuplicate", {
                       type: "duplicate",
                       message: "중복 확인을 해주세요",
@@ -411,6 +415,7 @@ const JoinForm = () => {
                   if (!isEmailExist && !isPhExist) {
                     onJoin();
                   } else {
+                    console.log("eamilexist", isEmailExist, "isphExist", isPhExist, "isIdExist", isIdExist);
                     setError("checkDuplicate", {
                       type: "duplicate",
                       message: "중복 확인을 해주세요",
