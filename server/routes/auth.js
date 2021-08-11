@@ -342,7 +342,7 @@ router.post("/resetPW/:token", multer().none(), async (req, res) => {
       where: {
         token: req.params.token,
         createdAt: {
-          [Op.gt]: new Date(new Date() - 5000)
+          [Op.gt]: new Date(new Date() - (5 * 60 * 1000))
         },
       },
     });
