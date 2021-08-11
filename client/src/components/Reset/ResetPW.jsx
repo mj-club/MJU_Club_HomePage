@@ -65,4 +65,3 @@ const ResetPWForm = () => {
 }
 
 export default ResetPWForm;
-export default ResetPWForm;
