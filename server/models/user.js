@@ -36,7 +36,7 @@ module.exports = class User extends Sequelize.Model {
         },
         auth_lv: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true, // 임시
         },
         major: {
           type: Sequelize.STRING(45),
