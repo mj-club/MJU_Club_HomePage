@@ -7,9 +7,9 @@ const nodemailer = require("nodemailer");
 
 const { isLoggedIn, isNotLoggedIn } = require("./middlewares");
 const { User, Auth } = require("../models");
-const { getMaxListeners } = require("process");
 
 const router = express.Router();
+const { Op } = (Sequelize = require("sequelize"));
 
 router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
   const {
@@ -23,7 +23,6 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
     major,
     snsId,
   } = req.body;
-  let auth_lv = student_id ? 1 : 0;
   try {
     const exUser = await User.findOne({ where: { email } });
     if (exUser) {
@@ -38,10 +37,10 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       department,
       school_year,
       student_id,
-      auth_lv: 1,
+      auth_lv: req.body.auth_lv,
       major,
       snsId,
-      accessible_club: "blue"
+      accessible_club: req.body.accessible_club
     });
     return res.json(user);
   } catch (error) {
@@ -281,7 +280,7 @@ router.post("/findPW", multer().none(), async (req, res) => {
       // 데이터 정리
       token,
       user_id: user.id,
-      ttl: 300, // ttl 값 설정 (5분)
+      ttl: 5000, // ttl 값 설정 (5분)
     };
     console.log(data);
     const auth = await Auth.create(data);
@@ -304,8 +303,8 @@ router.post("/findPW", multer().none(), async (req, res) => {
     console.log(user.email, user.password);
     const resetPWLink =
       process.env.NODE_ENV === "production"
-        ? `http://13.209.214.244:8080/reset/${token}`
-        : `<a href="http://localhost/reset/${token}">http://localhost/reset/${token}</a>`;
+        ? `http://13.209.214.244:8080/resetPW/${token}`
+        : `<a href="http://localhost:3001/resetPW/${token}">http://localhost/resetPW</a>`;
     const emailOptions = {
       // 옵션값 설정
       from: "명지대학교 인문캠퍼스 총동아리연합회",
@@ -331,9 +330,9 @@ router.post("/findPW", multer().none(), async (req, res) => {
   }
 });
 
-router.post("/resetPW", multer().none(), async (req, res) => {
+router.post("/resetPW/:token", multer().none(), async (req, res) => {
   
-  if (req.body.password === "") {
+  if (req.body.newPW === undefined) {
     res.status(400).send("new password required");
   }
   
@@ -341,18 +340,21 @@ router.post("/resetPW", multer().none(), async (req, res) => {
   try {
     const auth = await Auth.findOne({
       where: {
-        token: {
-          like: req.body.token,
-        },
-        created: {
-          greater: new Date.now() - ttl,
+        token: req.params.token,
+        createdAt: {
+          [Op.gt]: new Date(new Date() - 5000)
         },
       },
     });
-    await User.update(
-      { password: req.body.password },
-      { where: { id: auth.user_id } }
+    console.log(auth);
+    const user = await User.findByPk(auth.user_id);
+    const hash = await bcrypt.hash(req.body.newPW, 12);
+    await user.update(
+      {
+        password: hash
+      }
     );
+    console.log(user);
     res.json("complete");
   } catch (error) {
     res.send(error);

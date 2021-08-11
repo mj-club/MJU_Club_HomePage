@@ -143,11 +143,11 @@ export function findPassword(body) {
   };
 }
 
-export function resetPW(body) {
+export function resetPW(token, body) {
   return (dispatch) => {
     dispatch({ type: "LOADING" });
     axios
-      .post(URL + "/resetPW", body)
+      .post(URL + "/resetPW/" + token, body)
       .then((data) => {
         dispatch({
           type: "RESET_PASSWORD",
