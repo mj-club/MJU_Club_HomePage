@@ -29,16 +29,18 @@ export function kakaoLogin() {
 }
 
 export function join(body) {
+  console.log("redux join(body) body" ,body);
   return (dispatch) => {
-    axios.post(URL + "/join", body).then((data) => {
+    axios.post(URL + "/join", body)
+    .then((data) => {
       dispatch({
         type: "SET_USER_EMAIL", //그 뒤에 입력
         payload: data.email,
-      }).catch((error) => {
-        dispatch({
-          type: "ERROR",
-          payload: error,
-        });
+      })
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
       });
     });
   };
@@ -71,7 +73,7 @@ export function emailCheck(email) {
       .then((data) => {
         console.log("checkEmail data : ", data);
         dispatch({
-          type: "SET_MESSAGE",
+          type: "SET_EMAIL_MESSAGE",
           payload: data.data,
         });
       })
@@ -84,43 +86,43 @@ export function emailCheck(email) {
   };
 }
 
-export function phCheck(ph) {
+export function phCheck(ph_number) {
   return (dispatch) => {
     axios
-      .post(URL + "/checkPh", { ph })
+      .post(URL + "/checkPh", { ph_number })
       .then(data => {
+        console.log("redux__/checkPh data : ", data);
         dispatch({
-          type: "SET_MESSAGE",
+          type: "SET_PH_MESSAGE",
           payload: data.data,
         })
-          .catch(error => {
-            dispatch({
-              type: "ERROR",
-              payload: error,
-            });
-          });
-      });
-  };
-}
-
-export function studentIdCheck(studentId){
-  return(dispatch) => {
-    axios
-    .post("/checkId", {studentId})
-    .then(data => {
-      dispatch({
-        type: "SET_MESSAGE",
-        payload: data.data,
-      })
-      .catch(error => {
+      }).catch(error => {
         dispatch({
           type: "ERROR",
           payload: error,
         });
       });
+  };
+}
+
+export function studentIdCheck(student_id){
+  return(dispatch) => {
+    axios
+    .post(URL + "/checkId", {student_id})
+    .then(data => {
+      dispatch({
+        type: "SET_STUDENTID_MESSAGE",
+        payload: data.data,
+      })
+    }).catch(error => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
     });
   };
 }
+
 
 export function nameCnpheck(name) {
   return (dispatch) => {

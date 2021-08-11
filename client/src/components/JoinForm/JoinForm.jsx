@@ -1,16 +1,10 @@
 import React, { Fragment, useState } from 'react';
 import { useForm } from "react-hook-form";
-import { join, emailCheck, phCheck, studentIdCheck } from "../../actions";
+import { join, emailCheck, phCheck, studentIdCheck} from "../../actions";
 import { useDispatch, useSelector } from "react-redux";
 
 //TODO
-// 이미 가입된 이메일입니다 - ok
-// action, reducer -ok
-// 전화번호placeholder, text - ok
-// 학과선택 readonly - ok
-// 대학 선택하면 해당 대학 학과만 보이게 - ok
-// 전화번호 - 들어가면 에러 - ok
-// 명지대 학생 체크 - ok
+// joinForm, reducer, action - debugging한거 지우기
 
 const JoinForm = () => {
   //validation
@@ -25,66 +19,95 @@ const JoinForm = () => {
   const [password, setPassword] = useState(null);
   const [name, setName] = useState(null);
   const [phNumber, setPhNumber] = useState(null);
-  const [isStudent, setIsStudent] = useState(false);
+  const [isStudent, setIsStudent] = useState(true);
   const [department, setDepartment] = useState(null);
   const [schoolYear, setSchoolYear] = useState(null);
   const [studentId, setStudentId] = useState(null);
   const [major, setMajor] = useState(null);
 
-  const [isEmailExist, setIsEmailExist] = useState(true); // check duplicate
-  const [isPhExist, setIsPhExist] = useState(true); // check duplicate
-  const [isIdExist, setIsIdExist] = useState(true); // check duplicate
+  const [isEmailExist, setIsEmailExist] = useState(null); // check duplicate
+  const [isPhExist, setIsPhExist] = useState(null); // check duplicate
+  const [isIdExist, setIsIdExist] = useState(null); // check duplicate
 
-  const message = useSelector((state) => state.authReducer.message);
+  const emailCheckMessage = useSelector(state => state.authReducer.check_email_message);
+  const phCheckMessage = useSelector(state => state.authReducer.check_ph_message);
+  const studentIdCheckMessage = useSelector(state => state.authReducer.check_studentid_message);
+  
+  
+  const dispatch = useDispatch();
 
   function onEmailCheck() {
-    //emailCheck구현하기
-    dispatch(emailCheck(email));
-    //중복이 아니면 isEmailExist true로 설정하기
-    if (message == "사용가능한 이메일입니다") {
-      setIsEmailExist(false);
-    } else {
-      console.log(message);
-      setIsEmailExist(true);
+    if (!errors.email) {
+      //emailCheck구현하기
+      dispatch(emailCheck(email));
+      //중복이 아니면 isEmailExist true로 설정하기
+      if (emailCheckMessage == "사용가능한 이메일입니다") {
+        setIsEmailExist(false);
+      } else if (emailCheckMessage == "이미 사용중인 이메일입니다.") {
+        console.log(emailCheckMessage);
+        setIsEmailExist(true);
+      } else {
+        console.log("onemailCheck()__message : ", emailCheckMessage);
+      }
+      console.log(isEmailExist);
     }
-    console.log(isEmailExist);
   }
 
   function onPhCheck() {
-    dispatch(phCheck(phNumber));
-    if (message == "사용가능한 번호입니다.") {
-      setIsPhExist(false);
-    } else {
-      console.log(message);
-      setIsPhExist(true);
+    if (!errors.ph) {
+      console.log("onPhCheck()__phNumber : ", phNumber);
+      dispatch(phCheck(phNumber));
+      if (phCheckMessage == "사용가능한 번호입니다.") {
+        setIsPhExist(false);
+      } else if (phCheckMessage == "이미 사용중인 번호입니다.") {
+        console.log("phCheck message : ", phCheckMessage);
+        setIsPhExist(true);
+      } else {
+        console.log("onPhCheck()__message: ", phCheckMessage);
+      }
+      console.log("onPhCheck() isPhExist :", isPhExist);
     }
-    console.log(isPhExist);
   }
 
   function onStudentIdCheck() {
-    dispatch(studentIdCheck(studentId));
-    if (message == "사용가능한 학번입니다.") {
-      setIsIdExist(false);
-    } else {
-      console.log(message);
-      setIsIdExist(true);
+    if (!errors.schoolId) {
+      dispatch(studentIdCheck(studentId));
+      if (studentIdCheckMessage == "사용가능한 학번입니다.") {
+        setIsIdExist(false);
+      } else if(studentIdCheckMessage == "이미 사용중인 학번입니다.") {
+        setIsIdExist(true);
+      } else{
+        console.log("onStudentIdCheck() message :",studentIdCheckMessage);
+      }
+      console.log(isIdExist);
     }
-    console.log(isIdExist);
   }
-
-  const dispatch = useDispatch();
 
   function onJoin() {
     //Form에 적절한 값이 들어가면 
     //href="/welcome"으로 이동
     let body = null;
-    if(isStudent){
-      body = { email, name, password, phNumber, department, schoolYear, studentId, major };
+    console.log("isStudent : ", isStudent);
+    if (isStudent) {
+      if (email && name && password && phNumber && department && schoolYear && studentId && major) {
+        //값이 모두 null이 아니면 보내줌
+        console.log("in");
+        body = { email, name, password, ph_number:phNumber, department, school_year:schoolYear, student_id:studentId, major };
+      }
     } else {
-      body = {email, name, password, phNumber}
+      if (email && name && password && phNumber) { 
+        body = { email, name, password, ph_number:phNumber };
+      }
     }
-    dispatch(join(body));
-    // window.location.href="/welcome";
+
+    if(body){
+      dispatch(join(body));
+      // window.location.href="/welcome";
+    } else {
+      console.log("onJoin(body) body :", body);
+    }
+    
+    
   }
 
   return (
@@ -120,11 +143,15 @@ const JoinForm = () => {
         background-color: #F5F5F5;
       }
 
-      .emailcheck{
+      .duplicate-check{
         font-size: 12px;
         line-height: 35px;
         height: 30px;
         padding: 0 15px;
+      }
+      
+      #space{
+        display:block;
       }
       `}
         {/* css - 글자 색이 조금 다른 부분 더 똑같이 고치기 */}
@@ -144,13 +171,14 @@ const JoinForm = () => {
               ({ target: { value } }) => setEmail(value)
             } />
             <div className="float-right">
-              <button className="btn btn-primary btn-hover-secondary emailcheck"
+              <button className="btn btn-primary btn-hover-secondary duplicate-check"
+              name="check-duplicate"
                 onClick={() => {
                   onEmailCheck();
                 }
                 }>중복확인</button>
             </div>
-            {isEmailExist && <p>{message}</p>}
+            {isEmailExist ? <p>{emailCheckMessage}</p> : <p>{emailCheckMessage}</p>}
             {errors.email && <p>{errors.email.message}</p>}
 
 
@@ -203,7 +231,7 @@ const JoinForm = () => {
           {/* 이름 */}
           <div className="col-md-12 col-12 mb-4">
             <input type="text" placeholder="Your Name *" name="name"
-              ref={register({ required: 'Name is required' })}
+              ref={register({ required: '이름을 입력해주세요' })}
               onChange={({ target: { value } }) => setName(value)} />
             {errors.name && <p>{errors.name.message}</p>}
           </div>
@@ -222,13 +250,13 @@ const JoinForm = () => {
                 ({ target: { value } }) => setPhNumber(value)
               } />
             <div className="float-right">
-              <button className="btn btn-primary btn-hover-secondary emailcheck"
+              <button className="btn btn-primary btn-hover-secondary duplicate-check"
                 onClick={() => {
                   onPhCheck();
                 }
                 }>중복확인</button>
             </div>
-            {isPhExist && <p>{message}</p>}
+            {isPhExist ? <p>{phCheckMessage}</p> : <p>{phCheckMessage}</p>}
             {errors.ph && <p>{errors.ph.message}</p>}
 
 
@@ -241,26 +269,15 @@ const JoinForm = () => {
               } else {
                 setIsStudent(true);
               }
-              console.log(isStudent);
             }
             } />
             <label>&nbsp;명지대 학생입니다</label>
           </p>
-          {isStudent ?
+          {!isStudent &&
             <style type="text/css">
               {`
               #student-info {
                 display:none;
-              }
-              `}
-            </style>
-
-            :
-
-            <style type="text/css">
-              {`
-              #student-info {
-                visibility: visible;
               }
               `}
             </style>
@@ -286,11 +303,11 @@ const JoinForm = () => {
             <div className="col-md-12 col-12 mb-4">
               {/* 학과 */}
               <select id="select-major" className="form-select" defaultValue="null"
-                onChange={({ target: { value } }) => setMajor(value) }>
+                onChange={({ target: { value } }) => setMajor(value)}>
                 <option disabled="disabled" value="null">학과</option>{/*placeholder*/}
                 {department === "인문대학" &&
                   <>
-                    
+
                     <option value="국어국문학과">국어국문학과</option>
                     <option value="중어중문학과">중어중문학과</option>
                     <option value="일어일문학과">일어일문학과</option>
@@ -305,7 +322,7 @@ const JoinForm = () => {
                 }
                 {department === "사회과학대학" &&
                   <>
-                    
+
                     <option value="행정학과">행정학과</option>
                     <option value="경제학과">경제학과</option>
                     <option value="정치외교학과">정치외교학과</option>
@@ -316,7 +333,7 @@ const JoinForm = () => {
                 }
                 {department === "경영대학" &&
                   <>
-                    
+
                     <option value="경영학과">경영학과</option>
                     <option value="국제통상학과">국제통상학과</option>
                     <option value="경영정보학과">경영정보학과</option>
@@ -326,21 +343,21 @@ const JoinForm = () => {
 
                 {department === "법과대학" &&
                   <>
-                    
+
                     <option value="법학과">법학과</option>
                     <option value="법무정책학과">법무정책학과</option>
                   </>
                 }
                 {department === "ICT융합대학" &&
                   <>
-                    
+
                     <option value="디지털콘텐츠디자인학과">디지털콘텐츠디자인학과</option>
                     <option value="융합소프트웨어학과">융합소프트웨어학과</option>
                   </>
                 }
                 {department === "미래융합대학" &&
                   <>
-                    
+
                     <option value="창의융합인재학부">창의융합인재학부</option>
                     <option value="사회복지학과">사회복지학과</option>
                     <option value="부동산학과">부동산학과</option>
@@ -353,7 +370,7 @@ const JoinForm = () => {
                 }
                 {department === "방목기초교육대학" &&
                   <>
-                    
+
                     <option value="전공자유학부">전공자유학부</option>
                     <option value="융합전공학부">융합전공학부</option>
                   </>
@@ -376,8 +393,9 @@ const JoinForm = () => {
                 onChange={({ target: { value } }) => setStudentId(value)}
               />
 
-              <div className="text-end">
-                <button className="btn btn-primary btn-hover-secondary emailcheck"
+              <div className="float-right">
+                <button className="btn btn-primary btn-hover-secondary duplicate-check"
+                  name="check-duplicate"
                   ref={register({
                     required: "학번을 입력해주세요",
                     maxLength: 8,
@@ -392,14 +410,15 @@ const JoinForm = () => {
                   }>중복확인</button>
               </div>
             </div>
+            {isIdExist ? <p>{studentIdCheckMessage}</p> : <p>{studentIdCheckMessage}</p>}
             {errors.schoolId && <p>{errors.schoolId.message}</p>}
-            {isEmailExist && <p>{message}</p>}
-            { }
           </div>
 
+          <p id="space">&nbsp;</p>
           {/* submit   */}
           <div className="col-12 text-center mb-4">
             <button className="btn btn-primary btn-hover-secondary"
+            name="check-duplicate"
               onClick={() => {
                 if (isStudent) {
                   if (!isEmailExist && !isPhExist && !isIdExist) {
@@ -416,8 +435,8 @@ const JoinForm = () => {
                     onJoin();
                   } else {
                     console.log("eamilexist", isEmailExist, "isphExist", isPhExist, "isIdExist", isIdExist);
-                    setError("checkDuplicate", {
-                      type: "duplicate",
+                    setError("_checkDuplicate", {
+                      type: "_duplicate",
                       message: "중복 확인을 해주세요",
                     });
                   }
