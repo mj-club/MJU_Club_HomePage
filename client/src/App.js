@@ -1,10 +1,10 @@
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import AOS from "aos";
 import NavScrollTop from './components/NavScrollTop';
 import HomeOne from './pages/HomeOne';
 import HomeTwo from './pages/HomeTwo';
-// import MjuClubPage from "./pages/MjuClubPage";
+import MjuClubPage from "./pages/MjuClubPage";
 import HomeThree from './pages/HomeThree';
 import About from './pages/About';
 import Service from './pages/Service';
@@ -18,6 +18,8 @@ import BlogTag from './pages/BlogTag';
 // import Contact from './pages/Contact';
 
 import LogIn from './pages/LogIn';
+import JoinTerm from './pages/JoinTerm';
+import Welcome from './pages/Welcome';
 import FindPassword from './pages/Find/FindPassword';
 import ResetPassword from "./pages/Reset/ResetPw";
 import findEmail from "./pages/Find/FindEmail";
@@ -69,8 +71,12 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/tag/:slug"}`} component ={BlogTag} />
             <Route path={`${process.env.PUBLIC_URL + "/category/:slug"}`}component ={BlogCategories} />
             <Route path={`${process.env.PUBLIC_URL + "/blog-details/:id"}`}component ={BlogDetails} />
+            <Route path={`${process.env.PUBLIC_URL + "/contact"}`} component ={LogIn} />
+            <Route path={`${process.env.PUBLIC_URL + "/jointerm"}`} component ={JoinTerm} />
+            <Route path={`${process.env.PUBLIC_URL + "/welcome"}`} component ={Welcome} />
             <Route path={`${process.env.PUBLIC_URL + "/logIn"}`} component ={LogIn} />
             <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
+            <Route path={`${process.env.PUBLIC_URL + "/mjuclubpage/:clubName"}`} component ={MjuClubPage} />
             {/* <Route component ={NotFound} /> */}
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
