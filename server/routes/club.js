@@ -173,7 +173,6 @@ router.delete("/delete/:clubName", isLoggedIn, async (req, res, next) => {
 router.get(
   "/readMembers/:clubId",
   isLoggedIn,
-  isClubManager,
   async (req, res, next) => {
     try {
       const clubMembers = await ClubMember.findAll({
@@ -188,11 +187,11 @@ router.get(
 );
 
 // add (member)
+// 여러번 add시 에러 핸들링 필요
 router.post(
   "/addMember/:clubId",
   multer().none(),
   isLoggedIn,
-  isClubManager,
   async (req, res, next) => {
     try {
       const clubInfo = await ClubInfo.findByPk(req.params.clubId);
@@ -216,7 +215,6 @@ router.post(
 router.delete(
   "/deleteMember/:clubId",
   isLoggedIn,
-  isClubManager,
   multer().none(),
   async (req, res, next) => {
     try {
@@ -235,13 +233,5 @@ router.delete(
     }
   }
 );
-
-function checkPermission(req, res, next) {
-  ClubPost.findOne({ clubId: req.params.clubId }, function (err, post) {
-    if (err) return res.json(err);
-    if (post.writer_id != req.user.id) return noPermission(req, res);
-    next();
-  });
-}
 
 module.exports = router;

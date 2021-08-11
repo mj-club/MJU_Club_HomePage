@@ -1,71 +1,53 @@
-import React, { useEffect } from 'react';
-import {
-  Switch,
-  Route,
-  useRouteMatch
-} from "react-router-dom";
+import React from 'react';
 import SEO from '../components/SEO';
+import PropTypes from "prop-types";
 import Header from "../partials/header/Header";
-import Breadcrumb from "../container/Breadcrumb/Breadcrumb";
-import AboutFour from "../container/About/AboutFour";
-import AboutFive from "../container/About/AboutFive";
-import TestimonialContainer from "../container/Testimonial/TestimonialContainer";
-import CallToActionTwo from "../container/CallToAction/CallToActionTwo";
-// import Footer from "../components/Footer/FooterLinkItem";
-import ScrollToTop from "../components/ScrollToTop.jsx";
-import axios from "axios";
+import Breadcrumb from '../container/Breadcrumb/Breadcrumb';
+import Footer from '../container/Footer/Footer';
+import WorkData from "../data/work/workDetails.json";
+import WorkDetailsContainer from '../container/Work/WorkDetailsContainer';
+import ScrollToTop from '../components/ScrollToTop.jsx';
+// import WorkDetails from './WorkDetails';
+
+// import axios from 'axios';
 
 
-const MjuClubPage = () => {
-  let { path } = useRouteMatch();
+const MjuClubPage = ({match: {params: {id}}}) => {
 
-  useEffect(() => {
-    axios.get("/");
-  });
+    // const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080" : "";
 
-  // function searchApi() {
-  //   const url = "http://13.209.214.244:8080";
-  //   axios
-  //     .get(url + "/read/")
-  //     .then(function (response) {
-  //       setPhotos(response.data);
-  //       console.log("성공");
-  //     })
-  //     .catch(function (error) {
-  //       console.log("실패");
-  //     });
-  // }
+    // axios.get(URL+"/read")
 
-  // searchApi();
 
-  return (
-    <>
-      <Switch>
-        <Route exact path={path}>
-          <React.Fragment>
-            <SEO title="동아리 || {동아리이름}" />
+    const workId = parseInt(id, 10)
+    const data = WorkData.filter(work => work.id === workId);
+    return (
+        <React.Fragment>
+            <SEO title="Exomac || Work Details" />
             <Header />
-            <Breadcrumb
-              image="images/bg/breadcrumb-bg.jpg"
-              title="We are an agency located in New York"
-              content="Home"
-              contentTwo="About Us"
+            <Breadcrumb 
+                image="images/bg/breadcrumb-bg-two.jpg"
+                title={data[0]?.title}
+                content="Home"
+                contentTwo="Work"
             />
-            <AboutFour />
-            <AboutFive />
-            <TestimonialContainer classOption="bg-primary-blue" />
-            <CallToActionTwo />
+            <WorkDetailsContainer data={WorkData[0]} />
+            <Footer />
             <ScrollToTop />
-            {/* <Footer /> */}
-          </React.Fragment>
-        </Route>
-        {/* <Route path={`${path}/FAQs`}>
-          <FAQPage />
-        </Route> */}
-      </Switch>
-    </>
-  );
-};
+        </React.Fragment>
+    )
+}
+
+MjuClubPage.propTypes = {
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            id: PropTypes.oneOfType([    
+                PropTypes.string,
+                PropTypes.number
+            ])
+        })
+    })
+}
 
 export default MjuClubPage;
 
