@@ -45,6 +45,11 @@ function checkPermissionForReadAllUserSchedule(user) {
 // 조건: 로그인, 동아리 관리자 게정, 본인 동아리
 
 function checkPermissionForCreateClubSchedule(user, clubName) {
+  if (!isManager(user)) {
+    const err = new Error("관리자 계정이 아닙니다.");
+    err.name = "IsNotManagerAccount";
+    throw err;
+  }
   if (isUnionManager(user) && clubName !== "union") {
     const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
     err.name = "IsNotAccessibleAdminAccount";
