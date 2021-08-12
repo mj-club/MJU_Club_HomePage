@@ -40,7 +40,7 @@ router.post("/join", isNotLoggedIn, multer().none(), async (req, res, next) => {
       auth_lv: req.body.auth_lv,
       major,
       snsId,
-      accessible_club: req.body.accessible_club
+      accessible_club: req.body.accessible_club,
     });
     return res.json(user);
   } catch (error) {
@@ -98,8 +98,9 @@ router.post(
         attributes: ["student_id"],
         where: { student_id: userId },
       });
-      
-      if (!infoEmail) { // 사용가능한 이메일입니다.
+
+      if (!infoEmail) {
+        // 사용가능한 이메일입니다.
         if (!infoPH) {
           if (!infoId) {
             console.log("모두 사용가능해요!");
@@ -111,7 +112,7 @@ router.post(
         } else if (infoPH && infoPH.ph_number == userPH) {
           console.log("이미 사용중인 번호에요!");
           message = "이미 사용중인 번호입니다.";
-        } 
+        }
       } else if (infoEmail && infoEmail.email == userEmail) {
         console.log("이미 사용중인 이메일이에요!");
         message = "이미 사용중인 이메일입니다.";
@@ -136,8 +137,7 @@ router.post(
         attributes: ["email"],
         where: { email: userEmail },
       });
-      
-      
+
       if (!infoEmail) {
         console.log("사용가능한 이메일입니다.");
         message = "사용가능한 이메일입니다.";
@@ -166,7 +166,7 @@ router.post(
         attributes: ["ph_number"],
         where: { ph_number: userPH },
       });
-      
+
       if (!infoPH) {
         console.log("사용가능한 번호입니다.");
         message = "사용가능한 번호입니다.";
@@ -195,8 +195,7 @@ router.post(
         attributes: ["student_id"],
         where: { student_id: userId },
       });
-      
-      
+
       if (!infoId) {
         console.log("사용가능한 학번입니다.");
         message = "사용가능한 학번입니다.";
@@ -331,29 +330,26 @@ router.post("/findPW", multer().none(), async (req, res) => {
 });
 
 router.post("/resetPW/:token", multer().none(), async (req, res) => {
-  
   if (req.body.newPW === undefined) {
     res.status(400).send("new password required");
   }
-  
+
   // 입력받은 token 값이 Auth 테이블에 존재하며 아직 유효한지 확인
   try {
     const auth = await Auth.findOne({
       where: {
         token: req.params.token,
         createdAt: {
-          [Op.gt]: new Date(new Date() - (5 * 60 * 1000))
+          [Op.gt]: new Date(new Date() - 5 * 60 * 1000),
         },
       },
     });
     console.log(auth);
     const user = await User.findByPk(auth.user_id);
     const hash = await bcrypt.hash(req.body.newPW, 12);
-    await user.update(
-      {
-        password: hash
-      }
-    );
+    await user.update({
+      password: hash,
+    });
     console.log(user);
     res.json("complete");
   } catch (error) {

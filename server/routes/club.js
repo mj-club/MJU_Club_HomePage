@@ -36,6 +36,7 @@ router.get("/read/:clubName", async (req, res, next) => {
   }
 });
 
+
 //create or update
 router.post(
   "/createOrUpdate/:clubName",
