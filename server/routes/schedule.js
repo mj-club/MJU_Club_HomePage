@@ -14,14 +14,48 @@ const {
 
 // -----------permission------------------
 
-// readAll - 총동연
-// 조건: 로그인, 총동연 계정
-// 결과: 총동연 일정
+// readAll - 총동연, 동아리
+// 조건: 로그인, 관리자 계정
+// 결과: 해당 동아리 일정
+function checkPermissionForReadClubSchedule(user, clubName) {
+  if (isUnionManager(user) && clubName !== "union") {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  } else if (isClubManager(user) && user.accessible_club !== clubName) {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  }
+}
 
-// readAll -
+// readAll - 개인
+// 조건: 로그인, 사용자 계정
+// 결과: 해당 사용자 일정
+
+function checkPermissionForReadAllUserSchedule(user) {
+  if (isManager(user)) {
+    const err = new Error("관리자 계정이 요청할 수 없는 사항입니다.");
+    err.name = "NoPermission";
+    throw err;
+  }
+}
 
 // 동아리 create
 // 조건: 로그인, 동아리 관리자 게정, 본인 동아리
+
+function checkPermissionForCreateClubSchedule(user, clubName) {
+  if (isUnionManager(user) && clubName !== "union") {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  } else if (isClubManager(user) && user.accessible_club !== clubName) {
+    const err = new Error("해당 동아리에 대한 관리자 계정이 아닙니다.");
+    err.name = "IsNotAccessibleAdminAccount";
+    throw err;
+  }
+}
+
 // 동아리 update
 // 조건: 로그인, 등록자 본인
 // 동아리 delete
@@ -36,8 +70,23 @@ const {
 // 개인 delete
 // 조건: 로그인, 등록자 본인
 
+async function checkPermissionForUpdateOrDelete(user, schedule) {
+  if (!(await user.hasSchedule(schedule))) {
+    const err = new Error("해당 스케쥴에 대한 작성자 계정이 아닙니다.");
+    err.name = "IsNotScheduleOwner";
+    throw err;
+  }
+}
+
 // -----------동아리, 개인 일정 모두 불러오기------------------
 router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
+  try {
+    checkPermissionForReadAllUserSchedule(req.user);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
+  }
   try {
     // 불러올 날짜 조회
     const paramDate = req.params.date;
@@ -125,6 +174,13 @@ router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
 // 동아리별 + 월별 일정 ( date param 에는 20210101 형식으로 접근)
 router.get("/read/:clubName/:date", isLoggedIn, async (req, res, next) => {
   try {
+    checkPermissionForReadClubSchedule(req.user, req.params.clubName);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
+  }
+  try {
     const clubInfo = await ClubInfo.findOne({
       where: { name: req.params.clubName },
     });
@@ -173,6 +229,13 @@ router.post(
   multer().none(),
   async (req, res, next) => {
     try {
+      checkPermissionForCreateClubSchedule(req.user, req.params.clubName);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+      return;
+    }
+    try {
       let club = await ClubInfo.findOne({
         where: { name: req.params.clubName },
       });
@@ -202,17 +265,24 @@ router.post(
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
+    let user, schedule;
     try {
-      let schedule = await Schedule.update(
-        {
-          title: req.body.title,
-          description: req.body.description,
-          start: req.body.start,
-          end: req.body.end,
-          allDayLong: req.body.allDayLong,
-        },
-        { where: { id: req.params.scheduleId } }
-      );
+      user = await User.findByPk(req.user.id);
+      schedule = await Schedule.findByPk(req.params.id);
+      await checkPermissionForUpdateOrDelete(user, schedule);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+      return;
+    }
+    try {
+      schedule.update({
+        title: req.body.title,
+        description: req.body.description,
+        start: req.body.start,
+        end: req.body.end,
+        allDayLong: req.body.allDayLong,
+      });
       console.log("일정 수정");
       res.json(schedule);
     } catch (error) {
@@ -225,9 +295,16 @@ router.post(
 // Delete
 router.delete("/delete/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
-    const schedule = await Schedule.destroy({
-      where: { id: req.params.scheduleId },
-    });
+    user = await User.findByPk(req.user.id);
+    schedule = await Schedule.findByPk(req.params.id);
+    await checkPermissionForUpdateOrDelete(user, schedule);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
+  }
+  try {
+    schedule.destroy();
     console.log("일정 삭제");
     res.json(schedule);
   } catch (error) {
@@ -311,16 +388,22 @@ router.post(
   multer().none(),
   async (req, res, next) => {
     try {
-      let schedule = await Schedule.update(
-        {
-          title: req.body.title,
-          description: req.body.description,
-          start: req.body.start,
-          end: req.body.end,
-          allDayLong: req.body.allDayLong,
-        },
-        { where: { id: req.params.scheduleId } }
-      );
+      user = await User.findByPk(req.user.id);
+      schedule = await Schedule.findByPk(req.params.id);
+      await checkPermissionForUpdateOrDelete(user, schedule);
+    } catch (error) {
+      console.error(error);
+      res.status(403).send(error);
+      return;
+    }
+    try {
+      schedule.update({
+        title: req.body.title,
+        description: req.body.description,
+        start: req.body.start,
+        end: req.body.end,
+        allDayLong: req.body.allDayLong,
+      });
       console.log("일정 수정");
       res.json(schedule);
     } catch (error) {
@@ -333,9 +416,16 @@ router.post(
 // Delete
 router.delete("/deleteMy/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
-    const schedule = await Schedule.destroy({
-      where: { id: req.params.scheduleId },
-    });
+    user = await User.findByPk(req.user.id);
+    schedule = await Schedule.findByPk(req.params.id);
+    await checkPermissionForUpdateOrDelete(user, schedule);
+  } catch (error) {
+    console.error(error);
+    res.status(403).send(error);
+    return;
+  }
+  try {
+    schedule.destroy();
     console.log("일정 삭제");
     res.json(schedule);
   } catch (error) {
