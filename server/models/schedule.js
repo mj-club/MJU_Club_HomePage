@@ -50,5 +50,11 @@ module.exports = class Schedule extends Sequelize.Model {
       foreignKey: "club_id",
       targetKey: "id",
     });
+
+    // Schedule - UnionInfo (n:1)
+    db.Schedule.belongsTo(db.UnionInfo, {
+      foreignKey: "union_id",
+      targetKey: "id",
+    });
   }
 };

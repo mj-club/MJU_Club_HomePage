@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 // const dateUtil = require("date-utils");
 
-const { ClubInfo, Schedule, User } = require("../models");
+const { ClubInfo, Schedule, User, UnionInfo } = require("../models");
 const { Op } = (Sequelize = require("sequelize"));
 const {
   isLoggedIn,
@@ -139,6 +139,7 @@ router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
 
     data.push({ scheduleType: "userSchedule", scheduleList: userSchedule });
 
+    // 동아리 일정
     const user = await User.findByPk(req.user.id, {
       include: [{ model: ClubInfo, attributes: ["name"] }],
     });
@@ -164,10 +165,25 @@ router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
         })
       );
       // console.log(data);
-      res.json(data);
+
+      // 총동연 일정
+      const unionSchedule = await Schedule.findAll({
+        attributes: ["title", "description", "start", "end", "allDayLong"],
+        where: {
+          union_id: 1,
+          start: {
+            [Op.gte]: Date.parse(startDate),
+            [Op.lt]: Date.parse(endDate),
+          },
+        },
+        order: [["start", "DESC"]],
+      });
+      // console.log(">>", unionSchedule);
+      data.push({ scheduleType: "unionSchedule", scheduleList: unionSchedule });
     } catch (error) {
       res.send(error);
     }
+    res.json(data);
   } catch (error) {
     console.error(error);
     next(error);
@@ -186,10 +202,16 @@ router.get("/read/:clubName/:date", isLoggedIn, async (req, res, next) => {
     return;
   }
   try {
-    const clubInfo = await ClubInfo.findOne({
-      where: { name: req.params.clubName },
-    });
-    const clubId = clubInfo.id;
+    let club;
+    if (req.params.clubName == "union") {
+      club = await UnionInfo.findByPk(1);
+    }
+    else {
+      club = await ClubInfo.findOne({
+        where: { name: req.params.clubName },
+      });
+    }
+    const clubId = club.id;
 
     // 월별 조회
     const paramDate = req.params.date; // 20210101이면 올해 1월
@@ -241,10 +263,16 @@ router.post(
       return;
     }
     try {
-      let club = await ClubInfo.findOne({
-        where: { name: req.params.clubName },
-      });
       let user = await User.findByPk(req.user.id);
+      let club;
+      if (req.params.clubName == "union") {
+        club = await UnionInfo.findByPk(1);
+      }
+      else {
+        club = await ClubInfo.findOne({
+          where: { name: req.params.clubName },
+        });
+      }
       // false : 시간지정, true : 하루종일
       let schedule = await Schedule.create({
         title: req.body.title,
@@ -254,7 +282,7 @@ router.post(
         allDayLong: req.body.allDayLong, // false : 시간지정, true : 하루종일
       });
       await club.addSchedules(schedule);
-      await user.addSchedules(schedule);
+      await user.addSchedule(schedule);
       console.log("일정 등록");
       res.json(schedule);
     } catch (error) {
@@ -273,7 +301,7 @@ router.post(
     let user, schedule;
     try {
       user = await User.findByPk(req.user.id);
-      schedule = await Schedule.findByPk(req.params.id);
+      schedule = await Schedule.findByPk(req.params.scheduleId);
       await checkPermissionForUpdateOrDelete(user, schedule);
     } catch (error) {
       console.error(error);
@@ -301,7 +329,7 @@ router.post(
 router.delete("/delete/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
     user = await User.findByPk(req.user.id);
-    schedule = await Schedule.findByPk(req.params.id);
+    schedule = await Schedule.findByPk(req.params.scheduleId);
     await checkPermissionForUpdateOrDelete(user, schedule);
   } catch (error) {
     console.error(error);
@@ -394,7 +422,7 @@ router.post(
   async (req, res, next) => {
     try {
       user = await User.findByPk(req.user.id);
-      schedule = await Schedule.findByPk(req.params.id);
+      schedule = await Schedule.findByPk(req.params.scheduleId);
       await checkPermissionForUpdateOrDelete(user, schedule);
     } catch (error) {
       console.error(error);
@@ -422,7 +450,7 @@ router.post(
 router.delete("/deleteMy/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
     user = await User.findByPk(req.user.id);
-    schedule = await Schedule.findByPk(req.params.id);
+    schedule = await Schedule.findByPk(req.params.scheduleId);
     await checkPermissionForUpdateOrDelete(user, schedule);
   } catch (error) {
     console.error(error);
@@ -438,4 +466,5 @@ router.delete("/deleteMy/:scheduleId", isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
+
 module.exports = router;
