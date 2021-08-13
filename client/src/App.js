@@ -25,6 +25,7 @@ import ResetPassword from "./pages/Reset/ResetPw";
 import findEmail from "./pages/Find/FindEmail";
 import Join from './pages/Join';
 import UnionNotice from './pages/ClubUnion/UnionNotice';
+import ClubManagement from "./pages/ClubManagement";
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -82,6 +83,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
             <Route path={`${process.env.PUBLIC_URL + "/resetPW/:token"}`} component ={ResetPassword} />
             <Route path="/notice" component={UnionNotice} />
+            <Route path={`${process.env.PUBLIC_URL + "/clubManagment"}`} component ={ClubManagement} />
           </Switch>
         </NavScrollTop>
       </Router>
