@@ -40,7 +40,7 @@ const IconBox = ({ data, classOption }) => {
                 {
                     data.pageLink.map((name) => {
                         return (
-                            <Link key={name} to="/mjuclubpage" className="link">| {name} | </Link>
+                            <Link key={name} to={`/mjuclubpage/${name}`} className="link">| {name} | </Link>
                         );
                     })
                 }
