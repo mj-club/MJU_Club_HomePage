@@ -36,7 +36,7 @@ module.exports = class User extends Sequelize.Model {
         },
         auth_lv: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true, // 임시
         },
         major: {
           type: Sequelize.STRING(45),
@@ -86,6 +86,11 @@ module.exports = class User extends Sequelize.Model {
     });
     // User - RentalApply (1:n)
     db.User.hasMany(db.RentalApply, {
+      foreignKey: "user_id",
+      sourceKey: "id",
+    });
+    // User - Schedule (1:n)
+    db.User.hasMany(db.Schedule, {
       foreignKey: "user_id",
       sourceKey: "id",
     });

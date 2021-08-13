@@ -18,7 +18,7 @@ export function kakaoLogin() {
           payload: data,
         });
       })
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         dispatch({
           type: "ERROR",
@@ -29,16 +29,18 @@ export function kakaoLogin() {
 }
 
 export function join(body) {
+  console.log("redux join(body) body" ,body);
   return (dispatch) => {
-    axios.post(URL + "/join", body).then((data) => {
+    axios.post(URL + "/join", body)
+    .then((data) => {
       dispatch({
         type: "SET_USER_EMAIL", //그 뒤에 입력
         payload: data.email,
-      }).catch((error) => {
-        dispatch({
-          type: "ERROR",
-          payload: error,
-        });
+      })
+    }).catch((error) => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
       });
     });
   };
@@ -67,11 +69,12 @@ export function emailLogin(body) {
 export function emailCheck(email) {
   return (dispatch) => {
     axios
-      .get(URL + "/duplicate/" + email)
+      .post(URL + "/checkEmail", { email })
       .then((data) => {
+        console.log("checkEmail data : ", data);
         dispatch({
-          type: "SET_MESSAGE",
-          payload: data,
+          type: "SET_EMAIL_MESSAGE",
+          payload: data.data,
         });
       })
       .catch((error) => {
@@ -83,7 +86,45 @@ export function emailCheck(email) {
   };
 }
 
-export function nameCheck(name) {
+export function phCheck(ph_number) {
+  return (dispatch) => {
+    axios
+      .post(URL + "/checkPh", { ph_number })
+      .then(data => {
+        console.log("redux__/checkPh data : ", data);
+        dispatch({
+          type: "SET_PH_MESSAGE",
+          payload: data.data,
+        })
+      }).catch(error => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
+      });
+  };
+}
+
+export function studentIdCheck(student_id){
+  return(dispatch) => {
+    axios
+    .post(URL + "/checkId", {student_id})
+    .then(data => {
+      dispatch({
+        type: "SET_STUDENTID_MESSAGE",
+        payload: data.data,
+      })
+    }).catch(error => {
+      dispatch({
+        type: "ERROR",
+        payload: error,
+      });
+    });
+  };
+}
+
+
+export function nameCnpheck(name) {
   return (dispatch) => {
     axios
       .get(URL + "/findEmail" + name)
@@ -143,11 +184,11 @@ export function findPassword(body) {
   };
 }
 
-export function resetPW(body) {
+export function resetPW(token, body) {
   return (dispatch) => {
     dispatch({ type: "LOADING" });
     axios
-      .post(URL + "/resetPW", body)
+      .post(URL + "/resetPW/" + token, body)
       .then((data) => {
         dispatch({
           type: "RESET_PASSWORD",

@@ -20,7 +20,7 @@ module.exports = class Schedule extends Sequelize.Model {
           type: Sequelize.DATE,
           allowNull: false,
         },
-        allDayLong: { // 0 : 시간지정, 1 : 하루종일
+        allDayLong: { // false : 시간지정, true : 하루종일
           type: Sequelize.BOOLEAN,
           allowNull: false,
         },
@@ -48,6 +48,12 @@ module.exports = class Schedule extends Sequelize.Model {
     // Schedule - ClubInfo (n:1)
     db.Schedule.belongsTo(db.ClubInfo, {
       foreignKey: "club_id",
+      targetKey: "id",
+    });
+
+    // Schedule - UnionInfo (n:1)
+    db.Schedule.belongsTo(db.UnionInfo, {
+      foreignKey: "union_id",
       targetKey: "id",
     });
   }
