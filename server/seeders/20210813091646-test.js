@@ -45,27 +45,26 @@ module.exports = {
     // 2. 코드상 노출 X
     // 3. 우리가 확인 가능해야 함
     // DB테이블 하나 더 만들어서 암호화 되지 않은 비번을 추가로 저장
-
-    let datas = [];
-    for (let i = 0; i < 41; i++) {
-      let obj = {
-        email: code + "@mjuclub.com",
-        name: name,
-        password: code + generateRandomCode(4),
-        ph_number: "01012345678",
-        createdAt: new Date()
-          .toISOString()
-          .replace(/T/, " ")
-          .replace(/\..+/, ""),
-        updatedAt: new Date()
-          .toISOString()
-          .replace(/T/, " ")
-          .replace(/\..+/, ""),
-      };
-      datas.push(obj);
-    }
-
-    return queryInterface.bulkInsert("users", datas, {});
+    // let datas = [];
+    // for (let i = 0; i < 41; i++) {
+    //   let obj = {
+    //     email: code + "@mjuclub.com",
+    //     name: name,
+    //     password: code + generateRandomCode(4),
+    //     auth_lv: 1,
+    //     ph_number: "01012345678",
+    //     createdAt: new Date()
+    //       .toISOString()
+    //       .replace(/T/, " ")
+    //       .replace(/\..+/, ""),
+    //     updatedAt: new Date()
+    //       .toISOString()
+    //       .replace(/T/, " ")
+    //       .replace(/\..+/, ""),
+    //   };
+    //   datas.push(obj);
+    // }
+    // return queryInterface.bulkInsert("users", datas, {});
   },
 
   down: async (queryInterface, Sequelize) => {
