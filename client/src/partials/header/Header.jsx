@@ -49,7 +49,7 @@ const Header = () => {
                     display: flex !important;
                 }
 
-                .btn-primary {
+                .loginBtn {
                     border-color: #fff;
                     background-color: #fff;
                     color: #A99371;
@@ -110,7 +110,7 @@ const Header = () => {
                                 </div>
                             </div>
                             <div className="col-xl-2 col d-none d-sm-flex justify-content-end order-1 order-xl-2">
-                                <Link className="btn btn-primary btn-hover-secondary" to={process.env.PUBLIC_URL + "/logIn"}>로그인 / 회원가입</Link>
+                                <Link className="btn btn-primary btn-hover-secondary loginBtn" to={process.env.PUBLIC_URL + "/logIn"}>로그인 / 회원가입</Link>
                             </div>
                         </div>
                     </div>
