@@ -83,7 +83,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
             <Route path={`${process.env.PUBLIC_URL + "/resetPW/:token"}`} component ={ResetPassword} />
             <Route path="/notice" component={UnionNotice} />
-            <Route path={`${process.env.PUBLIC_URL + "/clubManagment"}`} component ={ClubManagement} />
+            <Route path={`${process.env.PUBLIC_URL + "/clubManagement"}`} component ={ClubManagement} />
           </Switch>
         </NavScrollTop>
       </Router>
