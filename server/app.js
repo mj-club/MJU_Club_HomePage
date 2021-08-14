@@ -65,7 +65,7 @@ if (process.env.NODE_ENV === "production") {
 // cors
 // app.use(
 //   cors({
-//     origin: "http://localhost:3000", // 허용할 도메인
+//     origin: "http://13.209.214.244:8080", // 허용할 도메인
 //     credentials: true, // 도메인 간 쿠키 공유
 //   })
 // );
@@ -91,7 +91,7 @@ const sessionOption = {
 
 if (process.env.NODE_ENV === "production") {
   sessionOption.proxy = true;
-  sessionOption.cookie.secure = true;
+  // sessionOption.cookie.secure = true; //쿠키 전송을 https로 제한
 } else {
   app.use(morgan("dev"));
 }
