@@ -34,6 +34,7 @@ const eventRouter = require("./routes/event");
 const commentRouter = require("./routes/comment");
 const fileRouter = require("./routes/file");
 const rentalRouter = require("./routes/rental");
+const searchRouter = require("./routes/search");
 const { sequelize } = require("./models");
 const passportConfig = require("./passport");
 const logger = require("./logger");
@@ -111,6 +112,7 @@ app.use("/schedule", scheduleRouter);
 app.use("/event", eventRouter);
 app.use("/file", fileRouter);
 app.use("/rental", rentalRouter);
+app.use("/search", searchRouter);
 
 // react router
 app.get("*", (req, res) => {

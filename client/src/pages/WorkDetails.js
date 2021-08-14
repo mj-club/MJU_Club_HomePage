@@ -8,7 +8,7 @@ import WorkData from "../data/work/workDetails.json";
 import WorkDetailsContainer from '../container/Work/WorkDetailsContainer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 
-
+// const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080" : "";
 
 const WorkDetails = ({match: {params: {id}}}) => {
     const workId = parseInt(id, 10)

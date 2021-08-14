@@ -9,25 +9,50 @@ import WorkDetailsContainer from '../container/Work/WorkDetailsContainer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 // import WorkDetails from './WorkDetails';
 
-// import axios from 'axios';
+import axios from 'axios';
 
 
-const MjuClubPage = ({match: {params: {id}}}) => {
+const MjuClubPage = ({match}) => {
 
-    // const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080" : "";
+    const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080/read" : ""; 
+    const clubName = match.params.clubName
 
-    // axios.get(URL+"/read")
+    async function getClubInfo() {
+        try {
+          const data = await axios.get(URL, {
+              params: { 
+                  clubName: clubName 
+                }
+          })
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    
+    // axios.get(URL, {
+    //     params: {
+    //         clubName: clubName
+    //     }
+    // })
+    // .then(function (response) {
+    //     console.log(response)
+    // }).catch(function(error) {
+    //     console.log("error")
+    // }).then(function(){
+    //     console.log("done")
+    // });
 
-
-    const workId = parseInt(id, 10)
-    const data = WorkData.filter(work => work.id === workId);
+    const data = getClubInfo();
+    // const workId = parseInt(id, 10)
+    // const data = WorkData.filter(work => work.id === workId);
     return (
         <React.Fragment>
             <SEO title="Exomac || Work Details" />
             <Header />
             <Breadcrumb 
                 image="images/bg/breadcrumb-bg-two.jpg"
-                title={data[0]?.title}
+                title={data[0]?.name}
                 content="Home"
                 contentTwo="Work"
             />
@@ -41,6 +66,7 @@ const MjuClubPage = ({match: {params: {id}}}) => {
 MjuClubPage.propTypes = {
     match: PropTypes.shape({
         params: PropTypes.shape({
+            clubName: PropTypes.string,
             id: PropTypes.oneOfType([    
                 PropTypes.string,
                 PropTypes.number
