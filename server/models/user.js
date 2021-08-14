@@ -4,53 +4,53 @@ module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        email: {
+        email: { // 이메일
           type: Sequelize.STRING(45),
           allowNull: false,
           unique: true,
         },
-        name: {
+        name: { // 이름
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        password: {
+        password: { // 패스워드
           type: Sequelize.STRING(100),
           allowNull: true,
         },
-        ph_number: {
+        ph_number: { // 휴대폰 번호
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        department: {
+        department: { // 소속 대학
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        school_year: {
+        school_year: { // 학년
           type: Sequelize.INTEGER,
           allowNull: true,
         },
-        student_id: {
+        student_id: { // 학번 
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        auth_lv: {
+        auth_lv: { // 권한 
           type: Sequelize.INTEGER,
           allowNull: true, // 임시
         },
-        major: {
+        major: { // 전공
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        provider: {
+        provider: { // 카카오 로그인인지 로컬 로그인인지
           type: Sequelize.STRING(45),
           allowNull: false,
           defaultValue: "local",
         },
-        snsId: {
+        snsId: { // sns 아이디
           type: Sequelize.STRING(30),
           allowNull: true,
         },
-        accessible_club: {
+        accessible_club: { // 소속 동아리
           type: Sequelize.STRING(30),
           allowNull: true,
         },

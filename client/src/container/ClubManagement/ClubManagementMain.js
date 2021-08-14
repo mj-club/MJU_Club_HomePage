@@ -2,9 +2,10 @@ import React from 'react';
 import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import WhiteBox from '../../components/WhiteBox/WhiteBox';
 
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 
-export default function LogIn() {
+export default function ClubManagementMain() {
+  let { path } = useRouteMatch();
   return(
     <>
       <style>
@@ -29,7 +30,7 @@ export default function LogIn() {
               subTitle=""
             />
             <div className="Button_lnk">
-              <Link className="btn btn-primary btn-hover-secondary" to={process.env.PUBLIC_URL + "/logIn"}>바로가기</Link>
+              <Link className="btn btn-primary btn-hover-secondary" to={path + "/schedule"}>바로가기</Link>
             </div>
             <div className="LogInForm_hr"></div>
             <SectionTitle
@@ -39,7 +40,7 @@ export default function LogIn() {
               subTitle=""
             />
             <div className="Button_lnk">
-              <Link className="btn btn-primary btn-hover-secondary" to={process.env.PUBLIC_URL + "/logIn"}>바로가기</Link>
+              <Link className="btn btn-primary btn-hover-secondary" to={path + "/people"}>바로가기</Link>
             </div>
           </>
         }
