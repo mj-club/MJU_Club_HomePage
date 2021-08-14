@@ -80,7 +80,7 @@ router.post("/:keyword", async (req, res, next) => {
         },
         include: [{ model: ClubInfo, attributes: ["name"], required: false },
         { model: UnionInfo, attributes: ["name"], required: false }],
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -99,7 +99,7 @@ router.post("/:keyword", async (req, res, next) => {
             [Op.like]: "%" + keyword + "%",
           },
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -125,7 +125,7 @@ router.post("/:keyword", async (req, res, next) => {
           ],
         },
         include: { model: Club, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -150,7 +150,7 @@ router.post("/:keyword", async (req, res, next) => {
             },
           ],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -168,7 +168,7 @@ router.post("/:keyword", async (req, res, next) => {
         ],
         where: { id: user.id, club_id: clubId, category: categoryName },
         include: { model: User, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -244,7 +244,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
           club_id: clubId,
           category: categoryName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -275,7 +275,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
           club_id: club.id,
           category: categoryName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -296,7 +296,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
         ],
         where: { id: user.id, club_id: clubId, category: categoryName },
         include: { model: User, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -349,7 +349,7 @@ router.post("/event/:keyword", async (req, res, next) => {
             [Op.like]: "%" + keyword + "%",
           },
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -375,7 +375,7 @@ router.post("/event/:keyword", async (req, res, next) => {
             },
           ],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
