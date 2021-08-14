@@ -1,6 +1,17 @@
-import React from 'react';
+import React , {useState} from 'react';
+import {useDispatch, useSelector } from "react-redux";
+//Todo
+//club_union_noticeboard -> union_info
+
 
 const NoticeBoard = () => {
+
+  const dispatch = useDispatch();
+
+  dispatch(getUnionInfos());
+  
+  const Infos = useSelector(state => state.authReducer.union_infos);
+
   return (
     <>
     <style type="text/css">
@@ -20,23 +31,9 @@ const NoticeBoard = () => {
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td colSpan="2">Larry the Bird</td>
-        <td>@twitter</td>
-      </tr>
+      {
+        //infos를 돌면서 row를 달아줌
+      }
     </tbody>
   </table> 
 </>
