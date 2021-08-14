@@ -339,7 +339,7 @@ router.post("/resetPW/:token", multer().none(), async (req, res) => {
     const auth = await Auth.findOne({
       where: {
         token: req.params.token,
-        createdAt: {
+        created_at: {
           [Op.gt]: new Date(new Date() - 5 * 60 * 1000),
         },
       },
