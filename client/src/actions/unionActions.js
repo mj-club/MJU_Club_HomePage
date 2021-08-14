@@ -1,8 +1,12 @@
 import axios from "axios";
 
-const URL = "http://localhost:3001/union";
+const URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://13.209.214.244:8080/auth"
+    : "/auth";
 
-export function getUnioniInfos() {
+
+export function getUnionInfos() {
   return (dispatch) => {
     axios.get(URL + "/read")
     .then((data) => {
@@ -18,4 +22,4 @@ export function getUnioniInfos() {
       })
     });
   };
-};
+}

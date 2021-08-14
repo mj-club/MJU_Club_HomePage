@@ -14,4 +14,6 @@ const unionReducer = produce((state, action) => {
     case "SET_UNION_INFOS":
       state.union_infos = action.payload;
   }
-})
+}, initialState);
+
+export default unionReducer;

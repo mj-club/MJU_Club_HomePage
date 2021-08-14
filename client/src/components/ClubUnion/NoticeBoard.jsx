@@ -1,8 +1,10 @@
-import React , {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector } from "react-redux";
+import { getUnionInfos } from '../../actions';
+
 //Todo
 //club_union_noticeboard -> union_info
-
+//ClubUnion => Union
 
 const NoticeBoard = () => {
 
@@ -10,7 +12,11 @@ const NoticeBoard = () => {
 
   dispatch(getUnionInfos());
   
-  const Infos = useSelector(state => state.authReducer.union_infos);
+  const infos = useSelector(state => state.authReducer.union_infos);
+
+  const printRows = () => {
+    console.log(infos);
+  }
 
   return (
     <>
@@ -32,7 +38,7 @@ const NoticeBoard = () => {
     </thead>
     <tbody>
       {
-        //infos를 돌면서 row를 달아줌
+        printRows()
       }
     </tbody>
   </table> 
