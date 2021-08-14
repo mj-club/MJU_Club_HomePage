@@ -77,7 +77,7 @@ module.exports = {
       email: process.env.MAILER_MAIL,
       name: "총동아리연합회",
       password: unionPassword,
-      auth_lv: 1,
+      auth_lv: 2,
       ph_number: "01012345678",
       accessible_club: "union",
       createdAt: new Date(),

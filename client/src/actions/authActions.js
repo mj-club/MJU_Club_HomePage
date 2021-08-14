@@ -1,12 +1,11 @@
 import axios from "axios";
 
-const URL = "http://localhost:3001/auth";
+const URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://13.209.214.244:8080/auth"
+    : "/auth";
 
 export function kakaoLogin() {
-  // const URL =
-  //   process.env.REACT_APP_NODE_ENV === "production"
-  //     ? ""
-  //     : "http://13.209.214.244:8080";
   return (dispatch) => {
     dispatch({ type: "LOADING" });
     axios
@@ -18,7 +17,7 @@ export function kakaoLogin() {
           payload: data,
         });
       })
-      .then(() => { })
+      .then(() => {})
       .catch((error) => {
         dispatch({
           type: "ERROR",
@@ -29,20 +28,22 @@ export function kakaoLogin() {
 }
 
 export function join(body) {
-  console.log("redux join(body) body" ,body);
+  console.log("redux join(body) body", body);
   return (dispatch) => {
-    axios.post(URL + "/join", body)
-    .then((data) => {
-      dispatch({
-        type: "SET_USER_EMAIL", //그 뒤에 입력
-        payload: data.email,
+    axios
+      .post(URL + "/join", body)
+      .then((data) => {
+        dispatch({
+          type: "SET_USER_EMAIL", //그 뒤에 입력
+          payload: data.email,
+        });
       })
-    }).catch((error) => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
       });
-    });
   };
 }
 
@@ -90,13 +91,14 @@ export function phCheck(ph_number) {
   return (dispatch) => {
     axios
       .post(URL + "/checkPh", { ph_number })
-      .then(data => {
+      .then((data) => {
         console.log("redux__/checkPh data : ", data);
         dispatch({
           type: "SET_PH_MESSAGE",
           payload: data.data,
-        })
-      }).catch(error => {
+        });
+      })
+      .catch((error) => {
         dispatch({
           type: "ERROR",
           payload: error,
@@ -105,24 +107,24 @@ export function phCheck(ph_number) {
   };
 }
 
-export function studentIdCheck(student_id){
-  return(dispatch) => {
+export function studentIdCheck(student_id) {
+  return (dispatch) => {
     axios
-    .post(URL + "/checkId", {student_id})
-    .then(data => {
-      dispatch({
-        type: "SET_STUDENTID_MESSAGE",
-        payload: data.data,
+      .post(URL + "/checkId", { student_id })
+      .then((data) => {
+        dispatch({
+          type: "SET_STUDENTID_MESSAGE",
+          payload: data.data,
+        });
       })
-    }).catch(error => {
-      dispatch({
-        type: "ERROR",
-        payload: error,
+      .catch((error) => {
+        dispatch({
+          type: "ERROR",
+          payload: error,
+        });
       });
-    });
   };
 }
-
 
 export function nameCnpheck(name) {
   return (dispatch) => {
