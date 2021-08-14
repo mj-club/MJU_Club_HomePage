@@ -1,4 +1,5 @@
 "use strict";
+require("dotenv").config("../.env");
 const bcrypt = require("bcrypt");
 const clubs = require("../data/seeders");
 
@@ -71,6 +72,18 @@ module.exports = {
         clubAuthDatas.push(clubAuthObj);
       })
     );
+    let unionPassword = await bcrypt.hash(process.env.MAILER_PW, 12);
+    let unionUser = {
+      email: process.env.MAILER_MAIL,
+      name: "총동아리연합회",
+      password: unionPassword,
+      auth_lv: 1,
+      ph_number: "01012345678",
+      accessible_club: "union",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    userDatas.push(unionUser);
     await queryInterface.bulkInsert("users", userDatas, {});
     await queryInterface.bulkInsert("club_auth", clubAuthDatas, {});
   },
