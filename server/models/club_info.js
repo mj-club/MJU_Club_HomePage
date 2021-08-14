@@ -4,35 +4,35 @@ module.exports = class ClubInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        name: {
+        name: { // 동아리 이름
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        representation: {
+        representation: { // 회장이름
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        contact_number: {
+        contact_number: { // 연락처 
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        introduction: {
+        introduction: { // 소개글 
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        plan: {
+        plan: { // 활동 계획 (MT는 몇 월 등등)
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        recruit: {
+        recruit: { //
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        meeting: {
+        meeting: { // 정기모임 일정
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        recruitment: {
+        recruitment: { //
           type: Sequelize.TEXT,
           allowNull: true,
         },

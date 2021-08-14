@@ -84,6 +84,7 @@ async function checkPermissionForUpdateOrDelete(user, schedule) {
 }
 
 // -----------동아리, 개인 일정 모두 불러오기------------------
+// 전체 월별 일정 ( date param 에는 20210101 형식으로 접근)
 router.get("/readAll/:date", isLoggedIn, async (req, res, next) => {
   try {
     checkPermissionForReadAllUserSchedule(req.user);
@@ -251,7 +252,7 @@ router.get("/read/:clubName/:date", isLoggedIn, async (req, res, next) => {
 
 // Create
 router.post(
-  "/create/:clubName",
+  "/create/:clubName", // 동아리명
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -294,7 +295,7 @@ router.post(
 
 // Update
 router.post(
-  "/update/:scheduleId",
+  "/update/:scheduleId", // 스케줄 데이터 id
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -326,7 +327,8 @@ router.post(
 );
 
 // Delete
-router.delete("/delete/:scheduleId", isLoggedIn, async (req, res, next) => {
+router.delete("/delete/:scheduleId", // 스케줄 데이터 id
+ isLoggedIn, async (req, res, next) => {
   try {
     user = await User.findByPk(req.user.id);
     schedule = await Schedule.findByPk(req.params.scheduleId);
@@ -416,7 +418,7 @@ router.post(
 
 // Update
 router.post(
-  "/updateMy/:scheduleId",
+  "/updateMy/:scheduleId", // 스케줄 데이터 id
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -447,6 +449,7 @@ router.post(
 );
 
 // Delete
+// 스케줄 데이터 id
 router.delete("/deleteMy/:scheduleId", isLoggedIn, async (req, res, next) => {
   try {
     user = await User.findByPk(req.user.id);

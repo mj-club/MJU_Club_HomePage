@@ -198,7 +198,8 @@ router.post("/:keyword", async (req, res, next) => {
 // => 작성자 이름으로 검색할 경우 키워드에 작성자 이름 기입
 
 // searchOption (검색 옵션) - body
-// => 제목 : title, 제목 + 내용 : both , 작성자 : writer
+// => 제목 : title, 
+// => 제목 + 내용 : both , 작성자 : writer
 
 // fetchCount (페이지수) - body
 // => 검색 페이지 기입
@@ -315,7 +316,8 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
 // => 작성자 이름으로 검색할 경우 키워드에 작성자 이름 기입
 
 // searchOption (검색 옵션) - body
-// => 제목 : title, 제목 + 내용 : both , 작성자 : writer
+// => 제목 : title, 
+// => 제목 + 내용 : both , 작성자 : writer
 
 // fetchCount (페이지수) - body
 // => 검색 페이지 기입
