@@ -1,5 +1,6 @@
 "use strict";
 const bcrypt = require("bcrypt");
+const clubs = require("../data/seeders");
 
 //난수 생성
 function generateRandomCode(n) {
@@ -9,21 +10,6 @@ function generateRandomCode(n) {
   }
   return str;
 }
-
-const clubs = [
-  {
-    name: "ptpi",
-    code: "ptpi",
-  },
-  {
-    name: "명지서법",
-    code: "audwltjqjq",
-  },
-  {
-    name: "ptpi",
-    code: "ptpi",
-  },
-];
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -45,26 +31,48 @@ module.exports = {
     // 2. 코드상 노출 X
     // 3. 우리가 확인 가능해야 함
     // DB테이블 하나 더 만들어서 암호화 되지 않은 비번을 추가로 저장
-    // let datas = [];
-    // for (let i = 0; i < 41; i++) {
-    //   let obj = {
-    //     email: code + "@mjuclub.com",
-    //     name: name,
-    //     password: code + generateRandomCode(4),
-    //     auth_lv: 1,
-    //     ph_number: "01012345678",
-    //     createdAt: new Date()
-    //       .toISOString()
-    //       .replace(/T/, " ")
-    //       .replace(/\..+/, ""),
-    //     updatedAt: new Date()
-    //       .toISOString()
-    //       .replace(/T/, " ")
-    //       .replace(/\..+/, ""),
-    //   };
-    //   datas.push(obj);
-    // }
-    // return queryInterface.bulkInsert("users", datas, {});
+    let userDatas = [];
+    let clubAuthDatas = [];
+    await Promise.all(
+      clubs.map(async (club) => {
+        console.log(club.code, club.name);
+        const password = club.code + generateRandomCode(4);
+        const hash = await bcrypt.hash(password, 12);
+        let userObj = {
+          email: club.code + "@mjuclub.com",
+          name: club.name + "",
+          password: hash,
+          auth_lv: 1,
+          ph_number: "01012345678",
+          accessible_club: club.name,
+          createdAt: new Date(),
+          // .toISOString()
+          // .replace(/T/, " ")
+          // .replace(/\..+/, ""),
+          updatedAt: new Date(),
+          // .toISOString()
+          // .replace(/T/, " ")
+          // .replace(/\..+/, ""),
+        };
+        let clubAuthObj = {
+          email: club.code + "@mjuclub.com",
+          password: password,
+          createdAt: new Date(),
+          // .toISOString()
+          // .replace(/T/, " ")
+          // .replace(/\..+/, ""),
+          updatedAt: new Date(),
+          // .toISOString()
+          // .replace(/T/, " ")
+          // .replace(/\..+/, ""),
+        };
+        // console.log(userObj.password);
+        userDatas.push(userObj);
+        clubAuthDatas.push(clubAuthObj);
+      })
+    );
+    await queryInterface.bulkInsert("users", userDatas, {});
+    await queryInterface.bulkInsert("club_auth", clubAuthDatas, {});
   },
 
   down: async (queryInterface, Sequelize) => {
