@@ -4,31 +4,31 @@ module.exports = class RentalApply extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        room_name: {
+        room_name: { // 공간 및 물품명
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        rental_date: {
+        rental_date: { // 대여 날짜
           type: Sequelize.DATE,
           allowNull: false,
         },
-        start: {
+        start: { // 대여 시작일 
           type: Sequelize.DATE,
           allowNull: false,
         },
-        end: {
+        end: { // 대여 종료일
           type: Sequelize.DATE,
           allowNull: false,
         },
-        rental_time: {
+        rental_time: { // 대여 시간 
           type: Sequelize.INTEGER,
           allowNull: false,
         },
-        rep_member_name: {
+        rep_member_name: { // 대표자 명
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        member_count: {
+        member_count: { // 대표자를 포함한 이용인원수
           type: Sequelize.INTEGER,
           allowNull: false,
         },

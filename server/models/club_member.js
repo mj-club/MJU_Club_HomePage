@@ -4,7 +4,7 @@ module.exports = class ClubMember extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        position: {
+        position: { // 직급
           type: Sequelize.STRING(45),
           allowNull: true,
         },
