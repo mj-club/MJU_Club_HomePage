@@ -41,7 +41,7 @@ async function checkPermissionForDelete(user, comment, clubName) {
 //Read
 // 게시물별 전체 댓글
 router.get(
-  "/read/:postId", // category: announcement[공지사항],faq[문의게시판]
+  "/read/:postId", // 게시물 id
   async (req, res, next) => {
     try {
       const comments = await Comment.findAll({
@@ -59,7 +59,7 @@ router.get(
 
 // Create
 router.post(
-  "/create/:postId",
+  "/create/:postId", // 게시물 id
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -93,7 +93,7 @@ router.post(
 
 // Update
 router.post(
-  "/update/:commentId",
+  "/update/:commentId", // 댓글 id
   isLoggedIn,
   multer().none(),
   async (req, res, next) => {
@@ -121,6 +121,7 @@ router.post(
 );
 
 // Delete
+// 댓글 id
 router.delete("/delete/:commentId", isLoggedIn, async (req, res, next) => {
   let user, comment, club;
   try {

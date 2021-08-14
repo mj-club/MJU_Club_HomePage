@@ -34,9 +34,11 @@ async function checkPermissionForDelete(user) {
 }
 
 // -----------event------------
+// 총동연만 생성, 수정, 삭제 가능
 
 // Read
 // 개별 이벤트 상세
+// eventId에는 이벤트 id가 들어갑니다.
 router.get("/read/:eventId", async (req, res, next) => {
   try {
     let eventInfo = await EventInfo.findOne({
@@ -96,6 +98,7 @@ router.post(
 );
 
 // Update
+// eventId에는 이벤트 id가 들어갑니다.
 router.post(
   "/update/:eventId",
   isLoggedIn,
@@ -132,6 +135,7 @@ router.post(
 );
 
 // Delete
+// eventId에는 이벤트 id가 들어갑니다.
 router.delete(
   "/delete/:eventId",
   isLoggedIn,

@@ -12,6 +12,7 @@ const upload = multer();
 
 // Read
 // 개인 신청 내역 조회 (상세)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.get(
   "/my-application/read/:itemId",
   isLoggedIn,
@@ -46,6 +47,7 @@ router.get(
 
 // Read
 // 대여 공간 및 물품 상세 조회 (게시판에서)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.get(
   "/read/:itemId",
   isLoggedIn,
@@ -63,6 +65,7 @@ router.get(
 );
 
 // 대여 공간 및 물품 전체 조회 (게시판에서)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.get(
   "/readAll",
   async (req, res, next) => {
@@ -90,6 +93,7 @@ router.get(
 // 름 선택 후 신청인지, 신청페이지에서 룸 선택인지
 
 router.post(
+  // itemId에는 대여 품목의 id가 들어갑니다.
   "/application/:itemId",
   isLoggedIn,
   upload.none(),
@@ -127,6 +131,7 @@ router.post(
 
 // Update
 // 신청 수정 
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.post(
   "/application/update/:itemId",
   isLoggedIn,
@@ -158,6 +163,7 @@ router.post(
 
 // Delete
 // 신청 취소(사용자)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.delete(
   "/application/delete/:itemId",
   isLoggedIn,
@@ -200,6 +206,7 @@ router.post(
 
 // Update
 // 대여서비스 공간 또는 물품 수정(관리자)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.post(
   "/update/:itemId",
   isLoggedIn,
@@ -224,6 +231,7 @@ router.post(
 
 // Delete
 // 대여서비스 공간 또는 물품 삭제(관리자)
+// itemId에는 대여 품목의 id가 들어갑니다.
 router.delete(
   "/delete/:itemId",
   isLoggedIn,

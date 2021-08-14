@@ -4,31 +4,31 @@ module.exports = class UnionInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        name: {
+        name: { // 총동연
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        slogan: {
+        slogan: { // 슬로건
           type: Sequelize.STRING(100),
           allowNull: true,
         },
-        representative: {
+        representative: { // 회장명
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        deputy_representative: {
+        deputy_representative: { // 부회장명
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        organization_chart: {
+        organization_chart: { // 조직도 
           type: Sequelize.STRING(200),
           allowNull: true,
         },
-        logo: {
+        logo: { // 로고 이미지
           type: Sequelize.STRING(200),
           allowNull: true,
         },
-        th: {
+        th: { // n대 총동연인지
           type: Sequelize.INTEGER,
           allowNull: true,
         },
