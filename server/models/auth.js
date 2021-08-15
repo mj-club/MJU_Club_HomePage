@@ -20,7 +20,7 @@ module.exports = class Auth extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: "Auth",
         tableName: "auth",
         paranoid: false,

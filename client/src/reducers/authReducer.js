@@ -4,10 +4,10 @@ const initialState = {
   user: null,
   loading: false,
   error: null,
-  user_email: null,
-  check_email_message: null,
-  check_ph_message: null,
-  check_studentid_message: null,
+  user_email: null, // 로그인한 user_email
+  check_email_message: null, //joinForm에서 이메일 중복확인결과 메시지(ex_이미 있는 이메일입니다)
+  check_ph_message: null, //joinForm에서 핸드폰 중복확인결과 메시지
+  check_studentid_message: null, //joinForm에서 학번 중복확인결과 메시지
   find_email: null
 };
 

@@ -4,39 +4,39 @@ module.exports = class EventInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        event_name: {
+        event_name: { // 이벤트명
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        event_target: {
+        event_target: { // 이벤트 대상
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        title: {
+        title: { // 게시물 제목
           type: Sequelize.STRING(45),
           allowNull: false,
         },
-        content: {
+        content: { // 내용 
           type: Sequelize.TEXT,
           allowNull: true,
         },
-        event_term: {
+        event_term: { // 기간 
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        event_start: {
+        event_start: { // 이벤트 시작일
           type: Sequelize.DATE,
           allowNull: true,
         },
-        event_end: {
+        event_end: { // 이벤트 종료일
           type: Sequelize.DATE,
           allowNull: true,
         },
-        event_link: {
+        event_link: { // 링크
           type: Sequelize.STRING(45),
           allowNull: true,
         },
-        event_img: {
+        event_img: { // 이벤트 사진
           type: Sequelize.STRING(45),
           allowNull: true,
         },

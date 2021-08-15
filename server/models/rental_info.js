@@ -4,7 +4,7 @@ module.exports = class RentalInfo extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        room_name: {
+        room_name: { // 공간 및 물품명
           type: Sequelize.STRING(45),
           allowNull: false,
         },
@@ -12,7 +12,7 @@ module.exports = class RentalInfo extends Sequelize.Model {
           type: Sequelize.INTEGER, // 대여가능여부 0: 불가, 1:가능
           allowNull: false,
         },
-        room_img: {
+        room_img: { // 이미지 
           type: Sequelize.STRING(45),
           allowNull: false,
         },
