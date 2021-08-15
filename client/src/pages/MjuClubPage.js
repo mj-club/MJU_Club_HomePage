@@ -9,61 +9,31 @@ import WorkDetailsContainer from "../container/Work/WorkDetailsContainer";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 // import WorkDetails from './WorkDetails';
 
-import axios from "axios";
+import { useDispatch, useSelector } from 'react-redux';
+import { clubInfo } from '../actions/clubActions';
 
-const MjuClubPage = ({ match }) => {
-  // URL 수정
-  const URL =
-    process.env.NODE_ENV !== "production"
-      ? "http://13.209.214.244:8080/read"
-      : "/auth";
-  const clubName = match.params.clubName;
+const MjuClubPage = ({match}) => {
+    const dispatch = useDispatch();
+    dispatch(clubInfo(match.params.clubName));
+    
+    const clubName = useSelector(state => state.clubReducer.name);
 
-  async function getClubInfo() {
-    try {
-      const data = await axios.get(URL, {
-        params: {
-          clubName: clubName,
-        },
-      });
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // axios.get(URL, {
-  //     params: {
-  //         clubName: clubName
-  //     }
-  // })
-  // .then(function (response) {
-  //     console.log(response)
-  // }).catch(function(error) {
-  //     console.log("error")
-  // }).then(function(){
-  //     console.log("done")
-  // });
-
-  const data = getClubInfo();
-  // const workId = parseInt(id, 10)
-  // const data = WorkData.filter(work => work.id === workId);
-  return (
-    <React.Fragment>
-      <SEO title="Exomac || Work Details" />
-      <Header />
-      <Breadcrumb
-        image="images/bg/breadcrumb-bg-two.jpg"
-        title={data[0]?.name}
-        content="Home"
-        contentTwo="Work"
-      />
-      <WorkDetailsContainer data={WorkData[0]} />
-      <Footer />
-      <ScrollToTop />
-    </React.Fragment>
-  );
-};
+    return (
+        <React.Fragment>
+            <SEO title={clubName} />
+            <Header />
+            <Breadcrumb 
+                image="images/bg/breadcrumb-bg-two.jpg"
+                title={clubName}
+                content="Home"
+                contentTwo={clubName}
+            />
+            <WorkDetailsContainer data={WorkData[0]} />
+            <Footer />
+            <ScrollToTop />
+        </React.Fragment>
+    )
+}
 
 MjuClubPage.propTypes = {
   match: PropTypes.shape({

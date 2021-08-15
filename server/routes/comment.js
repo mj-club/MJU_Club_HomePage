@@ -46,7 +46,7 @@ router.get(
     try {
       const comments = await Comment.findAll({
         where: { post_id: req.params.postId },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
       });
 
       res.json(comments);

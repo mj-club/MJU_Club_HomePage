@@ -18,7 +18,7 @@ module.exports = class ClubAuth extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: "ClubAuth",
         tableName: "club_auth",
         paranoid: false,

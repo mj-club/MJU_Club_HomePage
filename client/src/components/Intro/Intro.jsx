@@ -4,6 +4,26 @@ import {Link} from "react-router-dom";
 
 const Intro =  ({data}) => {
     return (
+        <>
+        <style>
+            {`
+                .homeBtn{
+                    background-color: #A99371;
+                    border: none;
+                    border-radius: 4px;
+                }
+                .homeBtn:hover{
+                    background-color: #fff;
+                    border: none;
+                    border-radius: 4px;
+                    color: #A99371;
+                }
+
+                .homeBtn2{
+                    border-radius: 4px;
+                }
+            `}
+        </style>
         
         <div className="intro-section overlay section" style={{backgroundImage: `url(${process.env.PUBLIC_URL + data.backgroundImage})`}}>
 
@@ -16,8 +36,8 @@ const Intro =  ({data}) => {
                             <div className="desc">
                                 <p>{data.desc}</p>
                             </div>
-                            <Link to={process.env.PUBLIC_URL + "/"} className="btn btn-primary btn-hover-secondary">Get Started</Link>
-                            <Link to={process.env.PUBLIC_URL + "/"} className="btn btn-outline-white btn-hover-primary"> Learn More </Link>
+                            <Link to={process.env.PUBLIC_URL + "/"} className="btn btn-primary btn-hover-secondary homeBtn">Get Started</Link>
+                            <Link to={process.env.PUBLIC_URL + "/"} className="btn btn-outline-white btn-hover-primary homeBtn2"> Learn More </Link>
                         </div>
                     </div>
 
@@ -25,7 +45,7 @@ const Intro =  ({data}) => {
             </div>
 
         </div>
-        
+        </>
     )
 }
 

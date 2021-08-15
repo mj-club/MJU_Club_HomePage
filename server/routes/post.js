@@ -113,7 +113,7 @@ router.get(
             "comment_count",
             "thumb_count",
           ],
-          order: [["createdAt", "DESC"]],
+          order: [["created_at", "DESC"]],
         });
         res.json(postList);
       } catch (error) {
@@ -138,7 +138,7 @@ router.get(
             "comment_count",
             "thumb_count",
           ],
-          order: [["createdAt", "DESC"]],
+          order: [["created_at", "DESC"]],
         });
         res.json(postList);
       } catch (error) {
