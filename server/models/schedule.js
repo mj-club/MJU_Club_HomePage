@@ -4,19 +4,19 @@ module.exports = class Schedule extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        title: {
+        title: { // 일정명
           type: Sequelize.STRING(100),
           allowNull: false,
         },
-        description: {
+        description: { // 일정 설명
           type: Sequelize.TEXT,
           allowNull: false,
         },
-        start: {
+        start: { // 시작일
           type: Sequelize.DATE,
           allowNull: false,
         },
-        end: {
+        end: { // 종료일
           type: Sequelize.DATE,
           allowNull: false,
         },

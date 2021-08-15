@@ -80,7 +80,7 @@ router.post("/:keyword", async (req, res, next) => {
         },
         include: [{ model: ClubInfo, attributes: ["name"], required: false },
         { model: UnionInfo, attributes: ["name"], required: false }],
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -99,7 +99,7 @@ router.post("/:keyword", async (req, res, next) => {
             [Op.like]: "%" + keyword + "%",
           },
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -125,7 +125,7 @@ router.post("/:keyword", async (req, res, next) => {
           ],
         },
         include: { model: Club, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -150,7 +150,7 @@ router.post("/:keyword", async (req, res, next) => {
             },
           ],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -168,7 +168,7 @@ router.post("/:keyword", async (req, res, next) => {
         ],
         where: { id: user.id, club_id: clubId, category: categoryName },
         include: { model: User, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -198,7 +198,8 @@ router.post("/:keyword", async (req, res, next) => {
 // => 작성자 이름으로 검색할 경우 키워드에 작성자 이름 기입
 
 // searchOption (검색 옵션) - body
-// => 제목 : title, 제목 + 내용 : both , 작성자 : writer
+// => 제목 : title, 
+// => 제목 + 내용 : both , 작성자 : writer
 
 // fetchCount (페이지수) - body
 // => 검색 페이지 기입
@@ -243,7 +244,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
           club_id: clubId,
           category: categoryName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -274,7 +275,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
           club_id: club.id,
           category: categoryName,
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -295,7 +296,7 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
         ],
         where: { id: user.id, club_id: clubId, category: categoryName },
         include: { model: User, attributes: ["name"] },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -315,7 +316,8 @@ router.post("/:clubName/:category/:keyword", async (req, res, next) => {
 // => 작성자 이름으로 검색할 경우 키워드에 작성자 이름 기입
 
 // searchOption (검색 옵션) - body
-// => 제목 : title, 제목 + 내용 : both , 작성자 : writer
+// => 제목 : title, 
+// => 제목 + 내용 : both , 작성자 : writer
 
 // fetchCount (페이지수) - body
 // => 검색 페이지 기입
@@ -347,7 +349,7 @@ router.post("/event/:keyword", async (req, res, next) => {
             [Op.like]: "%" + keyword + "%",
           },
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });
@@ -373,7 +375,7 @@ router.post("/event/:keyword", async (req, res, next) => {
             },
           ],
         },
-        order: [["createdAt", "DESC"]],
+        order: [["created_at", "DESC"]],
         offset: skip,
         limit: limit,
       });

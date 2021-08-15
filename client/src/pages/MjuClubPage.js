@@ -1,12 +1,12 @@
-import React from 'react';
-import SEO from '../components/SEO';
+import React from "react";
+import SEO from "../components/SEO";
 import PropTypes from "prop-types";
 import Header from "../partials/header/Header";
-import Breadcrumb from '../container/Breadcrumb/Breadcrumb';
-import Footer from '../container/Footer/Footer';
+import Breadcrumb from "../container/Breadcrumb/Breadcrumb";
+import Footer from "../container/Footer/Footer";
 import WorkData from "../data/work/workDetails.json";
-import WorkDetailsContainer from '../container/Work/WorkDetailsContainer';
-import ScrollToTop from '../components/ScrollToTop.jsx';
+import WorkDetailsContainer from "../container/Work/WorkDetailsContainer";
+import ScrollToTop from "../components/ScrollToTop.jsx";
 // import WorkDetails from './WorkDetails';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,16 +36,13 @@ const MjuClubPage = ({match}) => {
 }
 
 MjuClubPage.propTypes = {
-    match: PropTypes.shape({
-        params: PropTypes.shape({
-            clubName: PropTypes.string,
-            id: PropTypes.oneOfType([    
-                PropTypes.string,
-                PropTypes.number
-            ])
-        })
-    })
-}
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      clubName: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+  }),
+};
 
 export default MjuClubPage;
 

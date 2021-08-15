@@ -4,13 +4,13 @@ module.exports = class ClubAuth extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
-        email: {
+        email: { // 이메일
           type: Sequelize.STRING(45),
           allowNull: false,
           unique: true,
         },
 
-        password: {
+        password: { // 패스워드
           type: Sequelize.STRING(100),
           allowNull: true,
         },
@@ -18,7 +18,7 @@ module.exports = class ClubAuth extends Sequelize.Model {
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        underscored: true,
         modelName: "ClubAuth",
         tableName: "club_auth",
         paranoid: false,

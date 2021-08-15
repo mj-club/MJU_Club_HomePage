@@ -70,9 +70,12 @@ async function checkPermissionForDelete(user, post, clubName) {
   }
 }
 // -----------post------------
+// 총동연, 동아리
+// announcement[공지사항], questions[문의게시판], freeBoard[자유게시판], petitions[청원게시판]
 
 // Read
 // 게시물 상세
+// postId에는 게시물 id가 들어갑니다.
 router.get("/read/:postId", async (req, res, next) => {
   try {
     let post = await Post.findOne({
@@ -89,8 +92,10 @@ router.get("/read/:postId", async (req, res, next) => {
   }
 });
 // 동아리별 전체 게시물
+// readAll/동아리명(총동연포함-총동연은 union으로 접근)/카테고리
+// category: announcement[공지사항], questions[문의게시판], freeBoard[자유게시판], petitions[청원게시판]
 router.get(
-  "/readAll/:clubName/:category", // category: announcement[공지사항],faq[문의게시판]
+  "/readAll/:clubName/:category",
   // upload.none(),
   async (req, res, next) => {
     if (req.params.clubName === "union") {
@@ -108,7 +113,7 @@ router.get(
             "comment_count",
             "thumb_count",
           ],
-          order: [["createdAt", "DESC"]],
+          order: [["created_at", "DESC"]],
         });
         res.json(postList);
       } catch (error) {
@@ -133,7 +138,7 @@ router.get(
             "comment_count",
             "thumb_count",
           ],
-          order: [["createdAt", "DESC"]],
+          order: [["created_at", "DESC"]],
         });
         res.json(postList);
       } catch (error) {
@@ -145,8 +150,10 @@ router.get(
 );
 
 // Create
+// create/동아리명(총동연포함-총동연은 union으로 접근)/카테고리
+// category: announcement[공지사항], questions[문의게시판], freeBoard[자유게시판], petitions[청원게시판]
 router.post(
-  "/create/:clubName/:category", // category: announcement[공지사항], questions[문의게시판], freeBoard[자유게시판]
+  "/create/:clubName/:category",
   isLoggedIn,
   // isClubManager,
   upload.none(),
@@ -197,10 +204,6 @@ router.post(
           comment_count: 0,
           visit_count: 0,
           thumb_count: 0,
-          // writer_id: req.user.id,
-          // writer: req.user.name,
-          // writer_id: 1,
-          // writer: "봉현수",
         });
         clubInfo.addPost(post);
         const user = await User.findByPk(req.user.id);
@@ -215,6 +218,7 @@ router.post(
 );
 
 // Update
+// postId에는 게시물 id가 들어갑니다.
 router.post(
   "/update/:postId",
   isLoggedIn,
@@ -247,6 +251,7 @@ router.post(
 );
 
 // Delete
+// postId에는 게시물 id가 들어갑니다.
 router.delete(
   "/delete/:postId",
   isLoggedIn,

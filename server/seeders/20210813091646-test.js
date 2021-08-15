@@ -46,7 +46,7 @@ module.exports = {
           auth_lv: 1,
           ph_number: "01012345678",
           accessible_club: club.name,
-          createdAt: new Date(),
+          created_at: new Date(),
           // .toISOString()
           // .replace(/T/, " ")
           // .replace(/\..+/, ""),
@@ -58,7 +58,7 @@ module.exports = {
         let clubAuthObj = {
           email: club.code + "@mjuclub.com",
           password: password,
-          createdAt: new Date(),
+          created_at: new Date(),
           // .toISOString()
           // .replace(/T/, " ")
           // .replace(/\..+/, ""),
@@ -77,10 +77,10 @@ module.exports = {
       email: process.env.MAILER_MAIL,
       name: "총동아리연합회",
       password: unionPassword,
-      auth_lv: 1,
+      auth_lv: 2,
       ph_number: "01012345678",
       accessible_club: "union",
-      createdAt: new Date(),
+      created_at: new Date(),
       updatedAt: new Date(),
     };
     userDatas.push(unionUser);
