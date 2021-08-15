@@ -50,7 +50,7 @@ module.exports = {
           // .toISOString()
           // .replace(/T/, " ")
           // .replace(/\..+/, ""),
-          updatedAt: new Date(),
+          updated_at: new Date(),
           // .toISOString()
           // .replace(/T/, " ")
           // .replace(/\..+/, ""),
