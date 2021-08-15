@@ -80,8 +80,8 @@ module.exports = {
       auth_lv: 2,
       ph_number: "01012345678",
       accessible_club: "union",
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      created_at: new Date(),
+      updated_at: new Date(),
     };
     userDatas.push(unionUser);
     await queryInterface.bulkInsert("users", userDatas, {});
