@@ -9,52 +9,24 @@ import WorkDetailsContainer from '../container/Work/WorkDetailsContainer';
 import ScrollToTop from '../components/ScrollToTop.jsx';
 // import WorkDetails from './WorkDetails';
 
-import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { clubInfo } from '../actions/clubActions';
 
 const MjuClubPage = ({match}) => {
-
-    const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080/read" : ""; 
-    const clubName = match.params.clubName
-
-    async function getClubInfo() {
-        try {
-          const data = await axios.get(URL, {
-              params: { 
-                  clubName: clubName 
-                }
-          })
-          console.log(data);
-        } catch (error) {
-          console.error(error);
-        }
-      }
+    const dispatch = useDispatch();
+    dispatch(clubInfo(match.params.clubName));
     
-    // axios.get(URL, {
-    //     params: {
-    //         clubName: clubName
-    //     }
-    // })
-    // .then(function (response) {
-    //     console.log(response)
-    // }).catch(function(error) {
-    //     console.log("error")
-    // }).then(function(){
-    //     console.log("done")
-    // });
+    const clubName = useSelector(state => state.clubReducer.name);
 
-    const data = getClubInfo();
-    // const workId = parseInt(id, 10)
-    // const data = WorkData.filter(work => work.id === workId);
     return (
         <React.Fragment>
-            <SEO title="Exomac || Work Details" />
+            <SEO title={clubName} />
             <Header />
             <Breadcrumb 
                 image="images/bg/breadcrumb-bg-two.jpg"
-                title={data[0]?.name}
+                title={clubName}
                 content="Home"
-                contentTwo="Work"
+                contentTwo={clubName}
             />
             <WorkDetailsContainer data={WorkData[0]} />
             <Footer />
