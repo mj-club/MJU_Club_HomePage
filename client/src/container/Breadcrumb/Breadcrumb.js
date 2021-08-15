@@ -2,9 +2,17 @@ import PropTypes from "prop-types";
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const Breadcrumb = ({title, content, contentTwo, image}) => {
+const Breadcrumb = ({title, content, contentTwo,  image}) => {
     const publicUrl = process.env.PUBLIC_URL;
     return (
+        <>
+        <style>
+            {`
+                .breadcrumb li a:hover{
+                    color: #A99371;
+                }
+            `}
+        </style>
         <div className="page-title-section section section-padding-top overlay-two" style={{backgroundImage: `url(${publicUrl}/${image})`}}>
             <div className="page-title">
                 <div className="container">
@@ -20,6 +28,7 @@ const Breadcrumb = ({title, content, contentTwo, image}) => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 
