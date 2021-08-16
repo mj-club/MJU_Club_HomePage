@@ -32,14 +32,14 @@ const FindEmailForm = () => {
               {errors.name && <p>{errors.name.message}</p>}
             </div>
             <div className="col-md-12 col-12 mb-4">
-              <input type = "text" placeholder="Student Id *" name="student_id" ref={register({ 
-                required: 'Student Id is required',
+              <input type = "text" placeholder="phone number *" name="phone_number" ref={register({ 
+                required: 'Phone Number is required',
                 pattern: {
-                  value:/[0-9]{8}/,
-                  message: "invalid student Id"
+                  value:/^\d{3}-\d{3,4}-\d{4}$/,
+                  message: "invalid phone numver"
                 }
              })} />
-              {errors.student_id && <p>{errors.student_id.message}</p>}
+              {errors.phone_number && <p>{errors.phone_number.message}</p>}
             </div>
             {!loading &&
               <div className="col-12 text-center mb-4">
@@ -62,3 +62,4 @@ const FindEmailForm = () => {
 }
 
 export default FindEmailForm;
+

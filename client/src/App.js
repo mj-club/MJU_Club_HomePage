@@ -26,6 +26,8 @@ import findEmail from "./pages/Find/FindEmail";
 import Join from './pages/Join';
 import UnionNotice from './pages/ClubUnion/UnionNotice';
 import ClubManagement from "./pages/ClubManagement";
+import Post from './pages/Post/Post';
+
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -82,8 +84,10 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
             <Route path={`${process.env.PUBLIC_URL + "/resetPW/:token"}`} component ={ResetPassword} />
-            <Route path="/notice" component={UnionNotice} />
-            <Route path={`${process.env.PUBLIC_URL + "/clubManagement"}`} component ={ClubManagement} />
+            <Route path={`${process.env.PUBLIC_URL + "/unionNotice"}`} component={UnionNotice} />
+            <Route path={`${process.env.PUBLIC_URL + "/clubManagment"}`} component ={ClubManagement} />
+            <Route path={`${process.env.PUBLIC_URL + "/post"}`} component ={Post} />
+            
           </Switch>
         </NavScrollTop>
       </Router>
