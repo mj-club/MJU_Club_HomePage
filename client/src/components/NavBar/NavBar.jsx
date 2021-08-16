@@ -33,7 +33,7 @@ const NavBar = () => {
                     </ul>
                 </li>
                 <li>
-                    <NavLink to={process.env.PUBLIC_URL + "/service"}><span className="menu-text">청원게시판</span></NavLink>
+                    <NavLink to={process.env.PUBLIC_URL + "/work"}><span className="menu-text">청원게시판</span></NavLink>
                 </li>
                 <li className="has-children">
                     <NavLink to={process.env.PUBLIC_URL + "/work"}><span className="menu-text">키움 이모저모</span></NavLink>
