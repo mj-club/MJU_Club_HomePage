@@ -21,7 +21,7 @@ module.exports = {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PW,
     database: "mju_club",
-    host: process.env.DB_HOST,
+    host: process.env.DB_HOST,   
     dialect: "mysql",
     logging: false,
     timezone: "+09:00",
