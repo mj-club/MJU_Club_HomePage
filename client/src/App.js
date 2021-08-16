@@ -28,6 +28,7 @@ import UnionNotice from './pages/ClubUnion/UnionNotice';
 import ClubManagement from "./pages/ClubManagement";
 import Post from './pages/Post/Post';
 
+
 // CSS File Here
 import "aos/dist/aos.css";
 import 'react-modal-video/scss/modal-video.scss';
@@ -86,6 +87,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/unionNotice"}`} component={UnionNotice} />
             <Route path={`${process.env.PUBLIC_URL + "/clubManagment"}`} component ={ClubManagement} />
             <Route path={`${process.env.PUBLIC_URL + "/post"}`} component ={Post} />
+            
           </Switch>
         </NavScrollTop>
       </Router>

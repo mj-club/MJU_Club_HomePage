@@ -101,8 +101,13 @@ const JoinForm = () => {
     }
 
     if(body){
-      dispatch(join(body));
-      window.location.href="/welcome";
+      try{
+        dispatch(join(body));
+      } catch (err) {
+        console.log(err);
+      }
+      // window.location.href="/welcome";
+      
     } else {
       console.log("onJoin(body) body :", body);
     }
@@ -136,7 +141,7 @@ const JoinForm = () => {
         width: 100%;
         min-height: 56px;
         padding: 3px 20px;
-        color: #748494;
+        color: #9F9F9F;
         border: 1px solid #F5F5F5;
         border-radius: 5px;
         outline: none;
