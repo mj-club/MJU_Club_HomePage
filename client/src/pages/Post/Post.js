@@ -2,27 +2,27 @@ import React from 'react';
 import SEO from '../../components/SEO';
 import Header from "../../partials/header/Header";
 import Breadcrumb from '../../container/Breadcrumb/Breadcrumb';
-import UnionNoticeContainer from "../../container/Union/UnionNotice";
+import PostContainer from '../../container/Post/Post';
 import Footer from '../../container/Footer/Footer';
 import ScrollToTop from '../../components/ScrollToTop.jsx';
 
 
-const UnionNotice = () => {
+const Post = () => {
     return (
         <React.Fragment>
-            <SEO title="Exomac || UnionNotice" />
+            <SEO title="Exomac || Work" />
             <Header />
             <Breadcrumb 
                 image="images/bg/breadcrumb-bg-two.jpg"
                 title="We work with bold brands that we believe in"
                 content="Home"
-                contentTwo="UnionNotice"
+                contentTwo="Work"
             />
-            <UnionNoticeContainer />
+            <PostContainer />
             <Footer />
             <ScrollToTop />
         </React.Fragment>
     )
 }
 
-export default UnionNotice;
+export default Post;
