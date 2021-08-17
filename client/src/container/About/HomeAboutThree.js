@@ -3,7 +3,8 @@ import {Link} from "react-router-dom";
 import Parallax from 'parallax-js';
 import ModalVideo from "react-modal-video";
 
-const HomeAboutThree = () => {
+const HomeAboutThree = ({name, representation, contactNum, introduction, plan, recruit, meeting, recruitment, sns, joins }) => {
+    // const publicUrl = process.env.PUBLIC_URL;
     const [isOpen, setOpen] = useState(false)
     const sceneEl = useRef(null);
     useEffect(() => {
