@@ -18,6 +18,7 @@ const MjuClubPage = ({match}) => {
     dispatch(clubInfo(match.params.clubName));
     
     const clubName = useSelector(state => state.clubReducer.name);
+    const introduction = useSelector(state => state.clubReducer.introduction);
 
     return (
         <React.Fragment>
@@ -30,7 +31,7 @@ const MjuClubPage = ({match}) => {
                 contentTwo={clubName}
             />
             <HomeAboutThree
-                name="" />
+                introduction={introduction} />
             <WorkDetailsContainer data={WorkData[0]} />
             <Footer />
             <ScrollToTop />
