@@ -11,6 +11,7 @@ import ScrollToTop from "../components/ScrollToTop.jsx";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { clubInfo } from '../actions/clubActions';
+import HomeAboutThree from "../container/About/HomeAboutThree";
 
 const MjuClubPage = ({match}) => {
     const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const MjuClubPage = ({match}) => {
                 content="Home"
                 contentTwo={clubName}
             />
+            <HomeAboutThree
+                name="" />
             <WorkDetailsContainer data={WorkData[0]} />
             <Footer />
             <ScrollToTop />
