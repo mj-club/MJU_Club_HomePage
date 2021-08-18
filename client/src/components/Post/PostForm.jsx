@@ -1,16 +1,22 @@
-import React, { 
-  useState 
-} from "react"
-// import MyQuill from "./MyQuill";
+import React, {  useState } from "react";
+import { useForm } from "react-hook-form";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useForm } from "react-hook-form";
+import MyQuill from "./MyQuill";
 
 
-const ContentEditor = () => {
+const PostForm = () => {
   const [content, setContent] = useState('');
+  
 
-  const {  register, handleSubmit } = useForm({
+
+  // useEffect(() => {
+  //   var text = document.getElementById('text')
+  //   text.innerHTML = content;
+  //   console.log(content);
+  // },[content]);
+
+  const {  register, handleSubmit , formState: {errors}} = useForm({
     mode: "onBlur"
   });
   const onSubmit = (data) => {
@@ -18,19 +24,19 @@ const ContentEditor = () => {
     console.log(data);
   }
 
-  
-
   const modules = {
     toolbar: [
       [{ 'header': [1, 2, 3, 4, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline','strike', 'blockquote', { 'align': [] }],
+      [{ 'color': [] }, { 'background': [] }],
       [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
       ['link', 'image'],
       ['clean']
     ],
   }
-  return (
 
+  return(
     <>
     <style type="text/css">
       {`
@@ -39,7 +45,6 @@ const ContentEditor = () => {
           background-color : #fff;
           border-color : #ccc;
         }
-
         .form-select{
           width: 100%;
           min-height: 56px;
@@ -48,41 +53,47 @@ const ContentEditor = () => {
           border-radius: 5px;
           outline: none;
         }
-
-        .my-editing-area {
+        .ql-container.ql-snow{
           height: 30rem;
           border-radius: 0px 0px 5px 5px;
         }
         .ql-toolbar.ql-snow{
           border-radius: 5px 5px 0px 0px;
         }
-
       `}
     </style>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        
-        <select className="mb-2 form-select" name="category" ref={register({
-          required: "카테고리를 선택해주세요"
-        })}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+    <select className="mb-2 form-select" name="category" {...register("category") }>
           <option value="공지사항">공지사항</option>
         </select>
        
-        <input className="mb-2 postform" type="text" placeholder="제목" name="title" ref={register()}/>
-        {/* <MyQuill/> */}
+        <input className="mb-2 postform" type="text" placeholder="제목" name="title" 
+        {...register("title", {required: "제목을 입력해주세요"})}
+        />
+        {errors.title && <p>{errors.title.message}</p>}
         <ReactQuill className="mb-2 editor" theme="snow"
                   modules={modules}
                   value={content} onChange={setContent}
                   >
-                    <div className="my-editing-area"  name="content"/>
         </ReactQuill>
-        <p className="text-right"><input type="checkbox" name="isTop" ref={register()}/>상단 고정</p>
+        <p className="text-right"><input type="checkbox" name="isTop" {...register("isTop")}/>상단 고정</p>
         
         <div className="text-center">
-          <button className="btn btn-primary btn-hover-secondary">글쓰기</button>
+          <button className="btn btn-primary btn-hover-secondary"
+          // onClick={() => {
+          //   const editor = this.reactQuillRef.getEditor();
+          //   const unprivilegedEditor = this.reactQuillRef.makeUnprivilegedEditor(editor);
+          //   // You may now use the unprivilegedEditor proxy methods
+          //   const text = unprivilegedEditor.getContent();
+          //   console.log(text);
+          // }
+          // }
+          >글쓰기</button>
         </div>
-      </form>
+        <MyQuill />
+    </form>
     </>
   );
 }
 
-export default ContentEditor;
+export default PostForm;

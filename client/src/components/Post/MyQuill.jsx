@@ -1,54 +1,57 @@
 import React from "react";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useForm } from "react-hook-form";
 
-const MyQuill = () => {
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, 4, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
-      ['clean']
-    ],
+
+class Editor extends React.Component {
+  constructor(props) {
+    super(props)
+    this.quillRef = null;      // Quill instance
+    this.reactQuillRef = null; // ReactQuill component
   }
 
-  const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-  ]
-  const {  register } = useForm({
-    mode: "onBlur"
-  });
-
-  return (
-    <>
-    <style type="text/css">
-      {`
-        .my-editing-area {
-          height: 30rem;
-          border-radius: 0px 0px 5px 5px;
-        }
-        .ql-toolbar.ql-snow{
-          border-radius: 5px 5px 0px 0px;
-        }
-      `}
-    </style>
-    <div className="text-editor">
-      <ReactQuill className="mb-2 editor" theme="snow"
-                  modules={modules}
-                  formats={formats}>
-                    <div className="my-editing-area"  name="content" ref={register()} />
-      </ReactQuill>
-    </div>
-    </>
- 
- 
-    );
+  componentDidMount() {
+    this.attachQuillRefs()
   }
 
+  componentDidUpdate() {
+    this.attachQuillRefs()
+  }
 
-export default MyQuill;
+  attachQuillRefs = () => {
+    if (typeof this.reactQuillRef.getEditor !== 'function') return;
+    const editor = this.reactQuillRef.getEditor();
+    this.quillRef  = this.reactQuillRef.makeUnprivilegedEditor(editor);
+    
+  }
+
+  // insertText = () => {
+  //   var range = this.quillRef.getSelection();
+  //   let position = range ? range.index : 0;
+  //   this.quillRef.insertText(position, 'Hello, World! ')
+  // }
+
+  getText = () => {
+    // unprivilegedEditor.getContent();
+    const text = this.quillRef.getContents();
+    console.log(text);
+  }
+
+  render() {
+    // const editor = this.reactQuillRef.getEditor();
+    // const unprivilegedEditor = this.reactQuillRef.makeUnprivilegedEditsor(editor);
+    // You may now use the unprivilegedEditor proxy methods
+    // unprivilegedEditor.getContent();
+
+    return (
+      <div>
+        <ReactQuill
+          ref={(el) => { this.reactQuillRef = el }}
+          theme={'snow'} />
+        <button onClick={this.getText}>Insert Text</button>
+      </div>
+    )
+  }
+}
+
+export default Editor;
