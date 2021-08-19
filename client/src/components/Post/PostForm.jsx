@@ -1,27 +1,40 @@
-import React, {  useState } from "react";
+import React, {
+  useState, 
+  // useEffect 
+} from "react";
 import { useForm } from "react-hook-form";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import MyQuill from "./MyQuill";
+// import { useDispatch } from "react-redux";
+// import MyQuill from "./MyQuill";
 
 
 const PostForm = () => {
-  const [content, setContent] = useState('');
-  
 
+  // const dispatch = useDispatch();
+
+  const [content, setContent] = useState('');
+
+  // let quillRef = null;      // Quill instance
+  // let reactQuillRef = null; // ReactQuill component
 
   // useEffect(() => {
-  //   var text = document.getElementById('text')
-  //   text.innerHTML = content;
-  //   console.log(content);
-  // },[content]);
+  //   attachQuillRefs()
+  // },);
 
-  const {  register, handleSubmit , formState: {errors}} = useForm({
+  // const attachQuillRefs = () => {
+  //   if (typeof reactQuillRef.getEditor !== 'function') return;
+  //   const editor = reactQuillRef.getEditor();
+  //   quillRef  = reactQuillRef.makeUnprivilegedEditor(editor);
+  // }
+
+  const { register, handleSubmit, errors } = useForm({
     mode: "onBlur"
   });
-  const onSubmit = (data) => {
-    console.log(content);
-    console.log(data);
+
+  const onSubmit = (InputData) => {
+    const fullData = Object.assign(InputData, {content});
+    console.log(fullData);
   }
 
   const modules = {
@@ -30,16 +43,16 @@ const PostForm = () => {
       [{ 'size': ['small', false, 'large', 'huge'] }],
       ['bold', 'italic', 'underline','strike', 'blockquote', { 'align': [] }],
       [{ 'color': [] }, { 'background': [] }],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+      [{'list': 'ordered'}, {'list': 'bullet'}],
       ['link', 'image'],
       ['clean']
     ],
   }
 
-  return(
+  return (
     <>
-    <style type="text/css">
-      {`
+      <style type="text/css">
+        {`
         input.postform{
           background : #fff;
           background-color : #fff;
@@ -61,37 +74,43 @@ const PostForm = () => {
           border-radius: 5px 5px 0px 0px;
         }
       `}
-    </style>
-    <form onSubmit={handleSubmit(onSubmit)}>
-    <select className="mb-2 form-select" name="category" {...register("category") }>
+      </style>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <select className="mb-2 form-select" name="category" ref={register({required:true})}>
           <option value="공지사항">공지사항</option>
         </select>
-       
-        <input className="mb-2 postform" type="text" placeholder="제목" name="title" 
-        {...register("title", {required: "제목을 입력해주세요"})}
+
+        <input className="mb-2 postform" type="text" placeholder="제목" name="title"
+          ref={register({required:"제목을 입력해주세요"})}
         />
-        {errors.title && <p>{errors.title.message}</p>}
+
+
         <ReactQuill className="mb-2 editor" theme="snow"
                   modules={modules}
                   value={content} onChange={setContent}
+                  // ref={(el) => { reactQuillRef = el }}
                   >
         </ReactQuill>
-        <p className="text-right"><input type="checkbox" name="isTop" {...register("isTop")}/>상단 고정</p>
-        
+
+        <p className="text-right"><input type="checkbox" name="isTop" ref={register()} />상단 고정</p>
+
+
+        {errors.title && <p>{errors.title.message}</p>}
+
+
         <div className="text-center">
-          <button className="btn btn-primary btn-hover-secondary"
-          // onClick={() => {
-          //   const editor = this.reactQuillRef.getEditor();
-          //   const unprivilegedEditor = this.reactQuillRef.makeUnprivilegedEditor(editor);
-          //   // You may now use the unprivilegedEditor proxy methods
-          //   const text = unprivilegedEditor.getContent();
-          //   console.log(text);
-          // }
-          // }
-          >글쓰기</button>
+          <input type="submit" className="btn btn-primary btn-hover-secondary" value="글쓰기"
+          />
         </div>
-        <MyQuill />
-    </form>
+
+
+
+          
+        {/* <div dangerouslySetInnerHTML={{__html: content}}></div>
+        {content} */}
+        {/* <MyQuill /> */}
+      </form>
     </>
   );
 }
