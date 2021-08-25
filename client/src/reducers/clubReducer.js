@@ -1,18 +1,7 @@
 import produce from "immer";
 
 const initialState = {
-    name: null,
-    loading: false,
-    error: null,
-    representation: null,
-    contact_number :null,
-    introduction : null,
-    plan : null,
-    recruit : null,
-    meeting : null,
-    recruitment : null,
-    sns : [],
-    joins : []
+    clubInfo: {}
 }
 
 const clubReducer = produce((state, action) => {
@@ -20,7 +9,7 @@ const clubReducer = produce((state, action) => {
     switch (action.type) {
       case "CLUB":
         state.loading = false;
-        state.name = action.payload;
+        state.clubInfo = action.payload;
         state.error = null;
         break;
       case "LOADING":
@@ -34,30 +23,30 @@ const clubReducer = produce((state, action) => {
         state.error = null;
         break;
   
-      case "REPRESENTATION":
-        state.representation = action.payload;
-        break;
-      case "CONTACT":
-        state.contact_number = action.payload;
-        break;
-      case "PLAN":
-        state.plan = action.payload;
-        break;
-      case "RECRUIT":
-        state.recruit = action.payload;
-        break;
-      case "MEETING":
-        state.meeting = action.payload;
-        break;
-      case "RECRUITMENT":
-        state.recruitment = action.payload;
-        break;
-      case "SNS":
-        state.sns = action.payload;
-        break;
-      case "JOIN":
-        state.joins = action.payload;
-        break;
+      // case "REPRESENTATION":
+      //   state.representation = action.payload;
+      //   break;
+      // case "CONTACT":
+      //   state.contact_number = action.payload;
+      //   break;
+      // case "PLAN":
+      //   state.plan = action.payload;
+      //   break;
+      // case "RECRUIT":
+      //   state.recruit = action.payload;
+      //   break;
+      // case "MEETING":
+      //   state.meeting = action.payload;
+      //   break;
+      // case "RECRUITMENT":
+      //   state.recruitment = action.payload;
+      //   break;
+      // case "SNS":
+      //   state.sns = action.payload;
+      //   break;
+      // case "JOIN":
+      //   state.joins = action.payload;
+      //   break;
   
       default:
         return state;

@@ -1,54 +1,56 @@
 import axios from "axios";
 
-const URL = process.env.REACT_APP_NODE_ENV === "development" ? "http://13.209.214.244:8080/read" : "";
+const URL =
+  process.env.NODE_ENV !== "production"
+    ? "http://13.209.214.244:8080/club"
+    : "/club";
 
-export function clubInfo(clubName) {
+export function clubInform(clubName) {
     return (dispatch) => {
         dispatch({ type: "LOADING" });
         axios
-          // .get(URL + "/auth/kakao")
-          .get(URL, {
-              params: {
-                  clubName: clubName
-              }
-          })
+          .get(URL+clubName)
           .then(({ data }) => {
             dispatch({
-              type: "CLUB",
-              payload: data.name,
-            }),
-            dispatch({
-              type: "REPRESENTATION",
-              payload: data.representation,
-            }),
-            dispatch({
-              type: "CONTACT",
-              payload: data.contact_number,
-            }),
-            dispatch({
-              type: "PLAN",
-              payload: data.plan,
-            }),
-            dispatch({
-              type: "RECRUIT",
-              payload: data.recruit,
-            }),
-            dispatch({
-              type: "MEETING",
-              payload: data.meeting,
-            }),
-            dispatch({
-              type: "RECRUITMENT",
-              payload: data.recruitment,
-            }),
-            dispatch({
-              type: "SNS",
-              payload: data.sns,
-            }),
-            dispatch({
-              type: "JOIN",
-              payload: data.joins,
-            });
+              type: "CLUBINFO",
+              payload: data.clubInfo
+            })
+            // dispatch({
+            //   type: "CLUB",
+            //   payload: data.name,
+            // }),
+            // dispatch({
+            //   type: "REPRESENTATION",
+            //   payload: data.representation,
+            // }),
+            // dispatch({
+            //   type: "CONTACT",
+            //   payload: data.contact_number,
+            // }),
+            // dispatch({
+            //   type: "PLAN",
+            //   payload: data.plan,
+            // }),
+            // dispatch({
+            //   type: "RECRUIT",
+            //   payload: data.recruit,
+            // }),
+            // dispatch({
+            //   type: "MEETING",
+            //   payload: data.meeting,
+            // }),
+            // dispatch({
+            //   type: "RECRUITMENT",
+            //   payload: data.recruitment,
+            // }),
+            // dispatch({
+            //   type: "SNS",
+            //   payload: data.sns,
+            // }),
+            // dispatch({
+            //   type: "JOIN",
+            //   payload: data.joins,
+            // });
           })
           .then(() => { })
           .catch((error) => {
