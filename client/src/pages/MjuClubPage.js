@@ -7,32 +7,33 @@ import Footer from "../container/Footer/Footer";
 import WorkData from "../data/work/workDetails.json";
 import WorkDetailsContainer from "../container/Work/WorkDetailsContainer";
 import ScrollToTop from "../components/ScrollToTop.jsx";
+import ContactInformation from '../container/ContactInformation/ContactInformation';
 // import WorkDetails from './WorkDetails';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { clubInfo } from '../actions/clubActions';
+import { clubInform } from '../actions/clubActions';
 import HomeAboutThree from "../container/About/HomeAboutThree";
 
 const MjuClubPage = ({match}) => {
     const dispatch = useDispatch();
-    dispatch(clubInfo(match.params.clubName));
+    dispatch(clubInform(match.params.clubName));
     
-    const clubName = useSelector(state => state.clubReducer.name);
-    const introduction = useSelector(state => state.clubReducer.introduction);
+    const clubInfo = useSelector(state => state.clubReducer.clubInfo);
 
     return (
         <React.Fragment>
-            <SEO title={clubName} />
+            <SEO title={clubInfo.name} />
             <Header />
             <Breadcrumb 
                 image="images/bg/breadcrumb-bg-two.jpg"
-                title={clubName}
+                title={clubInfo.name}
                 content="Home"
-                contentTwo={clubName}
+                contentTwo={clubInfo.name}
             />
             <HomeAboutThree
-                introduction={introduction} />
+                introduction={clubInfo.introduction} />
             <WorkDetailsContainer data={WorkData[0]} />
+            <ContactInformation />
             <Footer />
             <ScrollToTop />
         </React.Fragment>

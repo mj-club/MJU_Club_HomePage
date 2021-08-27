@@ -5,8 +5,14 @@ import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import ContactInfoItem from '../../components/ContactInfo/ContactInfoItem.jsx';
 import Parallax from 'parallax-js';
 
+// import { useDispatch, useSelector } from 'react-redux';
+// import { clubInfo } from '../../actions/clubActions';
 
-const ContactInformation = ({ classOption }) => {
+
+const ContactInformation = ({ classOption }) => { //match
+    // const dispatch = useDispatch();
+    // dispatch(clubInfo(match.params.clubName));
+    
     const sceneEl = useRef(null);
     useEffect(() => {
         const parallaxInstance = new Parallax(sceneEl.current, {
@@ -18,14 +24,16 @@ const ContactInformation = ({ classOption }) => {
         return () => parallaxInstance.disable();
 
     }, [])
+
+    // const sns = useSelector(state => state.clubReducer.sns);
+
     return (
         <div className={`section section-padding-t90-b100 ${classOption}`}>
             <div className="container shape-animate">
                 <SectionTitle
                     titleOption="section-title text-center mb-lg-12 mb-sm-8 mb-xs-8"
-                    title="We are a full-service creative agency"
-                    subTitle="Our team of designers, developers and creatives are perfectionists
-                    who love what they do and love where they work"
+                    title="동아리 SNS를 둘러보세요!"
+                    subTitle="동아리 활동 기록 | 동아리 활동 사진"
                 />
 
                 <div className="row row-cols-lg-3 row-cols-md-2 row-cols-sm-2 row-cols-1 mb-n6">
@@ -48,7 +56,12 @@ const ContactInformation = ({ classOption }) => {
 }
 
 ContactInformation.propTypes = {
-    classOption: PropTypes.string
+    classOption: PropTypes.string,
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            clubName: PropTypes.string
+        })
+    })
 };
 ContactInformation.defaultProps = {
     classOption: "section section-padding-t90-b100"

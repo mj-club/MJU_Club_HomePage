@@ -1,0 +1,23 @@
+
+/* Custom dropdown */
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px; /* demo only */
+  background: #A99371;
+  color: bisque;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+.custom-button{
+  float: right;
+  vertical-align: middle;
+  margin: 10px; 
+  background: #A99371;
+  color: #A99371;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+

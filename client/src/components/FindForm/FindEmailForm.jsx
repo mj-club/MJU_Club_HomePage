@@ -35,7 +35,7 @@ const FindEmailForm = () => {
               <input type = "text" placeholder="phone number *" name="phone_number" ref={register({ 
                 required: 'Phone Number is required',
                 pattern: {
-                  value:/^\d{3}-\d{3,4}-\d{4}$/,
+                  value:/^\d{3}\d{3,4}\d{4}$/,
                   message: "invalid phone numver"
                 }
              })} />

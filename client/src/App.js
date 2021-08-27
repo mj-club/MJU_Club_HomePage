@@ -27,7 +27,7 @@ import Join from './pages/Join';
 import UnionNotice from './pages/ClubUnion/UnionNotice';
 import ClubManagement from "./pages/ClubManagement";
 import Post from './pages/Post/Post';
-
+import Question from "./pages/Question";
 
 // CSS File Here
 import "aos/dist/aos.css";
@@ -80,6 +80,7 @@ function App() {
             <Route path={`${process.env.PUBLIC_URL + "/logIn"}`} component ={LogIn} />
             <Route path={`${process.env.PUBLIC_URL + "/findPassword"}`} component ={FindPassword} />
             <Route path={`${process.env.PUBLIC_URL + "/mjuclubpage/:clubName"}`} component ={MjuClubPage} />
+            <Route path={`${process.env.PUBLIC_URL + "/question"}`} component ={Question} />
             {/* <Route component ={NotFound} /> */}
             <Route path={`${process.env.PUBLIC_URL + "/join"}`} component={Join} />
             <Route path={`${process.env.PUBLIC_URL + "/findEmail"}`} component ={findEmail} />
