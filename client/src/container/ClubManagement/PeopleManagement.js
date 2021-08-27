@@ -3,9 +3,12 @@ import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import WhiteBox_Col1 from '../../components/WhiteBox/WhiteBox_Col1';
 
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function PeopleManagement() {
   let { path } = useRouteMatch();
+  const members = useSelector((state) => state.manageReducer.club_members);
+
   return(
     <>
       <style>
@@ -69,27 +72,25 @@ export default function PeopleManagement() {
                           <th scope="col" className="th-name">이름</th>
                         </tr>
                       </thead>
+                      
                       <tbody>
-                        <tr>
-                          <td>60181642</td>
-                          <td>융합소프트웨어학부</td>
-                          <td>박지원</td>
-                        </tr>
-                        <tr>
-                          <td>60181642</td>
-                          <td>융합소프트웨어학부</td>
-                          <td>박지원</td>
-                        </tr>
-                        <tr>
-                          <td>60181642</td>
-                          <td>융합소프트웨어학부</td>
-                          <td>박지원</td>
-                        </tr>
-                        <tr>
-                          <td>60181642</td>
-                          <td>융합소프트웨어학부</td>
-                          <td>박지원</td>
-                        </tr>
+                        { members &&
+                          members.map((member) => {
+                            <tr>
+                              <td>{member.student_id}</td>
+                              <td>{member.department}</td>
+                              <td>{member.name}</td>
+                            </tr>
+                          })
+
+                        }
+                        { !members &&
+                          <tr>
+                            <td>-</td>
+                            <td>동아리 인원이 없습니다.</td>
+                            <td>-</td>
+                          </tr>
+                        }
                       </tbody>
                   </table>
               </div>

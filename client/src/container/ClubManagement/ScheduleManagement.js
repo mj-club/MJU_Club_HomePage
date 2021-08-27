@@ -3,9 +3,12 @@ import SectionTitle from '../../components/SectionTitles/SectionTitle';
 import WhiteBox_Col1 from '../../components/WhiteBox/WhiteBox_Col1';
 
 import { Link, useRouteMatch } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function ScheduleManagement() {
   let { path } = useRouteMatch();
+  const schedules = useSelector((state) => state.manageReducer.club_schedules);
+
   return(
     <>
       <style>
@@ -66,17 +69,26 @@ export default function ScheduleManagement() {
                     <tr>
                       <th scope="col" className="th-num">시작 날짜</th>
                       <th scope="col" className="th-num">종료 날짜</th>
-                      <th scope="col" className="th-title">내용</th>
-                      <th scope="col" className="th-name">?</th>
+                      <th scope="col" className="th-title">타이틀</th>
+                      <th scope="col" className="th-name">내용</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>2021-08-15</td>
-                      <td>2021-08-16</td>
-                      <td>동아리 관리 페이지 개발 완료하기</td>
-                      <td>?</td>
-                    </tr>
+                    {schedules && 
+                      schedules.map((schedule) => {
+                        <tr>
+                          <td>{schedule.start}</td>
+                          <td>{schedule.end}</td>
+                          <td>{schedule.title}</td>
+                          <td>{schedule.description}</td>
+                        </tr>
+                      })
+                    }
+                    {!schedules && 
+                      <tr>
+                        <p>등록된 일정이 없습니다.</p>
+                      </tr>
+                    }
                   </tbody>
                 </table>
               </div>
